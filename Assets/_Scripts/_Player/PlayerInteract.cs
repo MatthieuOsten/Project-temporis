@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] GameUI _gameUI;
+    [SerializeField] NoteBookDrawer _noteBook;
     [SerializeField] EngravingInventoryScriptable _engravingInventory;
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
@@ -22,11 +23,9 @@ public class PlayerInteract : MonoBehaviour
         {
             if (hitInfo.collider.GetComponent<Engraving>() != null)
             {
-                Debug.Log("gravure touché");
                 Engraving engravingToCheck = hitInfo.collider.GetComponent<Engraving>();
-                if(!engravingToCheck.EngravingScriptable.HasBeenStudied)
+                if (!engravingToCheck.EngravingScriptable.HasBeenStudied)
                 {
-                    Debug.Log("gravure non'etudie");
                     _gameUI.SetInteractText(true);
                 }
             }
@@ -44,13 +43,14 @@ public class PlayerInteract : MonoBehaviour
             RaycastHit hitInfo; // var to store our coll info.
             if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
             {
-                if(hitInfo.collider.GetComponent<Engraving>() != null)
+                if (hitInfo.collider.GetComponent<Engraving>() != null)
                 {
                     Engraving engravingToAdd = hitInfo.collider.GetComponent<Engraving>();
                     EngravingScriptable engravingScriptableToAdd = engravingToAdd.EngravingScriptable;
-                    if(!engravingScriptableToAdd.hasBeenStudied)
+                    if (!engravingScriptableToAdd.hasBeenStudied)
                     {
                         _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
+                        _noteBook.ShowInventory();
                         engravingToAdd.EngravingScriptable.HasBeenStudied = true;
                     }
                 }

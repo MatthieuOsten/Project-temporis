@@ -5,6 +5,7 @@ using UnityEngine;
 public class NoteBookDrawer : MonoBehaviour
 {
     [SerializeField] GameObject _noteBookContent;
+    [SerializeField] PagesList _pages;
     [SerializeField] EngravingUI _noteBookPage;
     [SerializeField] EngravingInventoryScriptable _inventory;
 
@@ -20,6 +21,7 @@ public class NoteBookDrawer : MonoBehaviour
             EngravingUI obj = Instantiate(_noteBookPage, _noteBookContent.transform);
 
             obj.Set(item);
+            _pages.GetPages();
         }
     }
 }

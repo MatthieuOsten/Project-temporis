@@ -17,12 +17,19 @@ public class PlayerInteract : MonoBehaviour
         // create a ray at the center of the camera shooting outwards
         Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
         Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
-
         RaycastHit hitInfo; // var to store our coll info.
         if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
         {
-            Debug.Log("gravure touché");
-            _gameUI.SetInteractText(true);
+            if (hitInfo.collider.GetComponent<Engraving>() != null)
+            {
+                Debug.Log("gravure touché");
+                Engraving engravingToCheck = hitInfo.collider.GetComponent<Engraving>();
+                if(!engravingToCheck.EngravingScriptable.HasBeenStudied)
+                {
+                    Debug.Log("gravure non'etudie");
+                    _gameUI.SetInteractText(true);
+                }
+            }
         }
         else
             _gameUI.SetInteractText(false);
@@ -34,16 +41,18 @@ public class PlayerInteract : MonoBehaviour
         {
             // create a ray at the center of the camera shooting outwards
             Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
-
             RaycastHit hitInfo; // var to store our coll info.
             if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
             {
-                //affiche le message du l'objet selectionne
                 if(hitInfo.collider.GetComponent<Engraving>() != null)
                 {
-                    Engraving engravingToAdd = hitInfo.collider.gameObject.GetComponent<Engraving>();
+                    Engraving engravingToAdd = hitInfo.collider.GetComponent<Engraving>();
                     EngravingScriptable engravingScriptableToAdd = engravingToAdd.EngravingScriptable;
-                    _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
+                    if(!engravingScriptableToAdd.hasBeenStudied)
+                    {
+                        _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
+                        engravingToAdd.EngravingScriptable.HasBeenStudied = true;
+                    }
                 }
             }
         }

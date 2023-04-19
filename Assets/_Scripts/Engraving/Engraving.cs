@@ -10,4 +10,9 @@ public class Engraving : MonoBehaviour
     {
         get { return _engravingScriptable; }
     }
+
+    private void Start()
+    {
+        EngravingScriptable.hasBeenStudied = false;
+    }
 }

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] GameUI _gameUI;
+    [SerializeField] EngravingInventoryScriptable _engravingInventory;
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
 
@@ -20,6 +21,7 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit hitInfo; // var to store our coll info.
         if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
         {
+            Debug.Log("gravure touché");
             _gameUI.SetInteractText(true);
         }
         else
@@ -37,10 +39,11 @@ public class PlayerInteract : MonoBehaviour
             if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
             {
                 //affiche le message du l'objet selectionne
-                if(hitInfo.collider.GetComponent<Interactable>() != null)
+                if(hitInfo.collider.GetComponent<Engraving>() != null)
                 {
-                    Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
-                    interactable.BaseInteract();
+                    Engraving engravingToAdd = hitInfo.collider.gameObject.GetComponent<Engraving>();
+                    EngravingScriptable engravingScriptableToAdd = engravingToAdd.EngravingScriptable;
+                    _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
                 }
             }
         }

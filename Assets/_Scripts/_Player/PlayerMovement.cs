@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
         _playerRigidbody.freezeRotation = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed);
     }

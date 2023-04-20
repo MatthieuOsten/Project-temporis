@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] GameUI _gameUI;
-    [SerializeField] NoteBookDrawer _noteBook;
+    [SerializeField] EngravingUI _noteBook;
     [SerializeField] EngravingInventoryScriptable _engravingInventory;
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
@@ -50,7 +50,7 @@ public class PlayerInteract : MonoBehaviour
                     if (!engravingScriptableToAdd.hasBeenStudied)
                     {
                         _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
-                        _noteBook.ShowInventory();
+                        _noteBook.Set(engravingScriptableToAdd);
                         engravingToAdd.EngravingScriptable.HasBeenStudied = true;
                     }
                 }

@@ -17,12 +17,16 @@ public class PlayerMovement : MonoBehaviour
         _playerRigidbody.freezeRotation = true;
     }
 
+    private void FixedUpdate()
+    {
+        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         _currentMovementInput = context.ReadValue<Vector2>();
         _currentMovement.x = _currentMovementInput.x;
         _currentMovement.y = 0;
         _currentMovement.z = _currentMovementInput.y;
-        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed); 
     }
 }

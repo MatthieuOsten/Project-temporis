@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3940946566132734664}
   - component: {fileID: 4774648361093006575}
   - component: {fileID: 211733955430278802}
+  - component: {fileID: 2229460226446744374}
   - component: {fileID: 7834182048427306079}
   m_Layer: 0
   m_Name: PlayerView
@@ -119,6 +120,23 @@ MonoBehaviour:
   _xRotation: 0
   _xSens: 30
   _ySens: 30
+--- !u!114 &2229460226446744374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035543586828799537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0cb8f311e3f6844806fc5d42031578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameUI: {fileID: 0}
+  _rayDistance: 10
+  _layer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &7834182048427306079
 Rigidbody:
   m_ObjectHideFlags: 0

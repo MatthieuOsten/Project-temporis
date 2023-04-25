@@ -34,7 +34,7 @@ public class PlayerCamera : MonoBehaviour
         _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
 
         // apply this to our camera transform
-        //CameraUtility.Camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
+        CameraUtility.Camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
 
         // rotate player to look left and right
         gameObject.transform.Rotate(Vector3.up * (_mouseX * Time.deltaTime) * _xSens);

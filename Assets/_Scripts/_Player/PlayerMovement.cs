@@ -19,13 +19,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed);
+        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed); 
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _currentMovement.x = _currentMovementInput.x;
+        _currentMovementInput = context.ReadValue<Vector2>(); // Store Input info 
+        _currentMovement.x = _currentMovementInput.x; // Set Input value in var
         _currentMovement.y = 0;
         _currentMovement.z = _currentMovementInput.y;
     }

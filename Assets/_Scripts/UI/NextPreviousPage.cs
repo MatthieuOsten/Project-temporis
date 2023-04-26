@@ -1,35 +1,42 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class NextPreviousPage : MonoBehaviour
-//{
-//    private int _currentPage;
-//    [SerializeField] PageList _pages;
+public class NextPreviousPage : MonoBehaviour
+{
+    private int _currentPage;
+    [SerializeField] EngravingUI _noteBook;
+    [SerializeField] PageList _pages;
 
-//    public void NextPage()
-//    {
-//        Debug.Log("next page");
-//        //Affichera la page suivante
-//        if(_currentPage < _pages._allPage.Count-1)
-//        {
-//            _pages._allPage[_currentPage].SetActive(false);
-//            _currentPage++;
-//            Debug.Log(_currentPage);
-//            _pages._allPage[_currentPage].SetActive(true);
-//        }
-//    }
+    private void Update()
+    {
+        Debug.Log(_pages._allPage.Count);
+        Debug.Log(_currentPage);
+    }
 
-//    public void PreviousPage()
-//    {
-//        Debug.Log("prev page");
-//        //affichera la page précédente
-//        if (_currentPage > 0)
-//        {
-//            _pages._allPage[_currentPage].SetActive(false);
-//            _currentPage--;
-//            Debug.Log(_currentPage);
-//            _pages._allPage[_currentPage].SetActive(true);
-//        }
-//    }
-//}
+    public void NextPage()
+    {
+        //Affichera la page suivante
+        if (_currentPage < _pages._allPage.Count - 1)
+        {
+            if (_pages._allPage[_currentPage]._activate)
+            {
+                _currentPage++;
+                _noteBook.Set(_pages, _currentPage);
+            }
+        }
+    }
+
+    public void PreviousPage()
+    {
+        //affichera la page précédente
+        if (_currentPage > 0)
+        {
+            if (_pages._allPage[_currentPage]._activate)
+            {
+                _currentPage--;
+                _noteBook.Set(_pages, _currentPage);
+            }
+        }
+    }
+}

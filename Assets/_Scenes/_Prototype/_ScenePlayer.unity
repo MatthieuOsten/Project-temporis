@@ -848,6 +848,7 @@ GameObject:
   - component: {fileID: 1722501897}
   - component: {fileID: 1722501898}
   - component: {fileID: 1722501899}
+  - component: {fileID: 1722501900}
   - component: {fileID: 1722501896}
   - component: {fileID: 1722501895}
   - component: {fileID: 1722501894}
@@ -967,6 +968,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _noteBook: {fileID: 2113604496}
+--- !u!114 &1722501900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722501893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59caf42746fc804bab7863e57ef8eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noteBook: {fileID: 2113604494}
+  _pages: {fileID: 11400000, guid: 831536e7546feab48a5486d5fc15d6ba, type: 2}
 --- !u!1 &2000753552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1192,10 @@ PrefabInstance:
       propertyPath: _noteBook
       value: 
       objectReference: {fileID: 2113604494}
+    - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+      propertyPath: _pageInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: 831536e7546feab48a5486d5fc15d6ba, type: 2}
     - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _engravingInventory
       value: 

@@ -8,7 +8,7 @@ public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] GameUI _gameUI;
     [SerializeField] EngravingUI _noteBook;
-    [SerializeField] EngravingInventoryScriptable _engravingInventory;
+    [SerializeField] PageList _pageInventory;
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
 
@@ -23,7 +23,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (hitInfo.collider.GetComponent<Engraving>() != null)
             {
-                Engraving engravingToCheck = hitInfo.collider.GetComponent<Engraving>();
+                Engraving engravingToCheck = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info
                 if (!engravingToCheck.EngravingScriptable.HasBeenStudied)
                 {
                     _gameUI.SetInteractText(true);
@@ -45,13 +45,13 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (hitInfo.collider.GetComponent<Engraving>() != null)
                 {
-                    Engraving engravingToAdd = hitInfo.collider.GetComponent<Engraving>();
+                    Engraving engravingToAdd = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info
                     EngravingScriptable engravingScriptableToAdd = engravingToAdd.EngravingScriptable;
                     if (!engravingScriptableToAdd.hasBeenStudied)
                     {
-                        _engravingInventory.AddEngravingToNoteBook(engravingScriptableToAdd);
                         _noteBook.Set(engravingScriptableToAdd);
                         engravingToAdd.EngravingScriptable.HasBeenStudied = true;
+                        _pageInventory.SetPageInfo(engravingScriptableToAdd); //ajoute la page à la liste
                     }
                 }
             }

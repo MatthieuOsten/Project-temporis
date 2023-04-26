@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 280c36ec40d07bd4f9520946f3b3c166, type: 3}
-  m_Name: NoteBookData
+  m_Script: {fileID: 11500000, guid: 2960ecc134552884c94878d1be642d64, type: 3}
+  m_Name: EventTriggerScriptableTest
   m_EditorClassIdentifier: 
-  _allPage: []
+  _description: "Je suis rentr\xE9 dans cette porte"
+  _activate: 1
+  _draw: {fileID: 530685706, guid: 455c91634e173874f9c7250dcc58f21d, type: 3}

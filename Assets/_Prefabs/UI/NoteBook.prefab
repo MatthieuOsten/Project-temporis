@@ -275,7 +275,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 167626535937325022}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NextPreviousPage, Assembly-CSharp
         m_MethodName: PreviousPage
         m_Mode: 1
@@ -543,7 +543,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 167626535937325022}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NextPreviousPage, Assembly-CSharp
         m_MethodName: NextPage
         m_Mode: 1
@@ -641,7 +641,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1705595991460441898}
   - component: {fileID: 5970040725389567346}
-  - component: {fileID: 167626535937325022}
   m_Layer: 5
   m_Name: NoteBook
   m_TagString: Untagged
@@ -687,15 +686,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _engravingTranslate: {fileID: 7725586572038399538}
   _engravingIcon: {fileID: 5576446657145036188}
---- !u!114 &167626535937325022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7429734618271614851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59caf42746fc804bab7863e57ef8eea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

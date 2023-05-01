@@ -8,12 +8,6 @@ public class NextPreviousPage : MonoBehaviour
     [SerializeField] EngravingUI _noteBook;
     [SerializeField] PageList _pages;
 
-    private void Update()
-    {
-        Debug.Log(_pages._allPage.Count);
-        Debug.Log(_currentPage);
-    }
-
     public void NextPage()
     {
         //Affichera la page suivante

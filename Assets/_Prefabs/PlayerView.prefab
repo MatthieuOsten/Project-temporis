@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 211733955430278802}
   - component: {fileID: 2229460226446744374}
   - component: {fileID: 7834182048427306079}
+  - component: {fileID: 8191016442075075047}
   m_Layer: 0
   m_Name: PlayerView
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,6 +88,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 69ee703d-eae4-4381-910d-2a78665f7d02
     m_ActionName: Game/Camera[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1b1ac39-99a5-4190-9bd0-e63ffe843fbf
+    m_ActionName: Game/OpenNoteBook[/Keyboard/space,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game
@@ -133,6 +138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameUI: {fileID: 0}
+  _noteBook: {fileID: 0}
+  _pageInventory: {fileID: 0}
   _rayDistance: 10
   _layer:
     serializedVersion: 2
@@ -153,6 +160,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &8191016442075075047
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3035543586828799537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3249492483581391785
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +184,6 @@ GameObject:
   - component: {fileID: 4407789056329138850}
   - component: {fileID: 8829990893346963436}
   - component: {fileID: 5101789061727860534}
-  - component: {fileID: 3319090409979745110}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -237,19 +256,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3319090409979745110
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3249492483581391785}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4588321080175299592
 GameObject:
   m_ObjectHideFlags: 0

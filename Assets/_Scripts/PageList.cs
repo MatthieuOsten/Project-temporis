@@ -41,4 +41,14 @@ public class PageList : ScriptableObject
         newPage._image = engraving.engravingSprite;
         AddPage(newPage);
     }
+
+    public void SetPageInfo(EventTriggerScriptable trigger)
+    {
+        Page newPage = new Page();
+        newPage._activate = trigger._activate;
+        newPage._text = trigger._description;
+        newPage._image = trigger._draw;
+        AddPage(newPage);
+        Debug.Log(_allPage.Count + "page ajouté");
+    }
 }

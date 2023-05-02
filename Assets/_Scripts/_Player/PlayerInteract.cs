@@ -12,6 +12,10 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
 
+    private void Start()
+    {
+        InputManager.Instance.InteractStarted += TranslatePrint;
+    }
     // Update is called once per frame
     void Update()
     {

@@ -12,10 +12,8 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _layer;
 
-    private void Start()
-    {
-        InputManager.Instance.InteractStarted += TranslatePrint;
-    }
+    private Engraving _engravingInfo;
+
     // Update is called once per frame
     void Update()
     {
@@ -25,12 +23,16 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit hitInfo; // var to store our coll info.
         if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
         {
-            if (hitInfo.collider.GetComponent<Engraving>() != null)
+            if(hitInfo.transform.gameObject.layer == 6)
             {
-                Engraving engravingToCheck = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info
-                if (!engravingToCheck.EngravingScriptable.HasBeenStudied)
+                if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
                 {
-                    _gameUI.SetInteractText(true);
+                    /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
+                    if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
+                    {
+                        _gameUI.SetInteractText(true);
+                        InputManager.Instance.InteractStarted += TranslatePrint;
+                    }
                 }
             }
         }
@@ -40,7 +42,7 @@ public class PlayerInteract : MonoBehaviour
 
     public void TranslatePrint(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton())
+        /*if (context.ReadValueAsButton())
         {
             // create a ray at the center of the camera shooting outwards
             Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
@@ -59,6 +61,12 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
+
+        EngravingScriptable engravingScriptableToAdd = _engravingInfo.EngravingScriptable;
+        _noteBook.Set(engravingScriptableToAdd);
+        _engravingInfo.EngravingScriptable.HasBeenStudied = true;
+        _pageInventory.SetPageInfo(engravingScriptableToAdd); //ajoute la page à la liste
+        InputManager.Instance.InteractStarted -= TranslatePrint;
     }
 }

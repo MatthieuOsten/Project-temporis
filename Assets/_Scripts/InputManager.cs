@@ -44,7 +44,7 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        _instance = this;
         if(_playerInput == null )
         {
             _playerInput = GetComponent<PlayerInput>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,31 +14,48 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private LayerMask _layer;
 
     private Engraving _engravingInfo;
+    private Transform _mirrorInfo;
+
+    bool canDetect = true;
 
     // Update is called once per frame
     void Update()
     {
-        // create a ray at the center of the camera shooting outwards
-        Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
-        Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
-        RaycastHit hitInfo; // var to store our coll info.
-        if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
+        if(canDetect)
         {
-            if(hitInfo.transform.gameObject.layer == 6)
+            // create a ray at the center of the camera shooting outwards
+            Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
+            Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
+            RaycastHit hitInfo; // var to store our coll info.
+            if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
             {
-                if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
+                if (hitInfo.transform.gameObject.layer == 6)
                 {
-                    /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
-                    if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
+                    if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
                     {
-                        _gameUI.SetInteractText(true);
-                        InputManager.Instance.InteractStarted += TranslatePrint;
+                        /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
+                        if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
+                        {
+                            _gameUI.ShowInteractText("Press E to interact");
+                            InputManager.Instance.InteractStarted = TranslatePrint;
+                        }
                     }
                 }
+                else if (hitInfo.transform.gameObject.layer == 8)
+                {
+                    _gameUI.ShowInteractText("Press E to grab");
+                    InputManager.Instance.InteractStarted = GrabMirror;
+                    InputManager.Instance.InteractCancelled = LetOffMirror;
+                    _mirrorInfo = hitInfo.transform;
+                }
+            }
+            else
+            {
+                _gameUI.HideInteractText();
+                InputManager.Instance.InteractStarted = null;
+                InputManager.Instance.InteractCancelled = null;
             }
         }
-        else
-            _gameUI.SetInteractText(false);
     }
 
     public void TranslatePrint(InputAction.CallbackContext context)
@@ -68,5 +86,36 @@ public class PlayerInteract : MonoBehaviour
         _engravingInfo.EngravingScriptable.HasBeenStudied = true;
         _pageInventory.SetPageInfo(engravingScriptableToAdd); //ajoute la page à la liste
         InputManager.Instance.InteractStarted -= TranslatePrint;
+    }
+
+    public void GrabMirror(InputAction.CallbackContext context)
+    {
+        canDetect = false;
+        _gameUI.HideInteractText();
+        StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + _mirrorInfo.forward * -0.8f), _mirrorInfo.rotation));
+        InputManager.Instance.DisableActions(true, false, true, false);
+        LightReflector parent = _mirrorInfo.GetComponentInParent<LightReflector>();
+        InputManager.Instance.MoveChanged = parent.RotateReflector; 
+        transform.parent = parent.transform;
+        parent.direction = int.Parse(_mirrorInfo.name);
+    }
+    public void LetOffMirror(InputAction.CallbackContext context)
+    {
+        transform.parent = null;
+        InputManager.Instance.EnableActions(false, false, true, false);
+        InputManager.Instance.MoveChanged = GetComponent<PlayerMovement>().OnMove;
+        _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
+        canDetect = true;
+    }
+
+    IEnumerator LookToward(Vector3 pos, Quaternion rot)
+    {
+        while ((transform.position != pos) || (transform.rotation != rot))
+        {
+            transform.position = Vector3.MoveTowards(transform.position, pos, 2f * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 80f * Time.deltaTime);
+            yield return null;
+        }
+        InputManager.Instance.EnableActions(true, false, false, false);
     }
 }

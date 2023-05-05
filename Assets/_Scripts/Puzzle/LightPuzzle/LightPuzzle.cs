@@ -33,7 +33,7 @@ public class LightPuzzle : MonoBehaviour
     void DrawRayLeft()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_rayL.origin, _rayL.direction, out hit))
+        if (Physics.Raycast(_rayL.origin, _rayL.direction, out hit, mirrorLayerMask))
         {
             if (hit.transform.gameObject.layer == 7)
             {
@@ -41,11 +41,11 @@ public class LightPuzzle : MonoBehaviour
                 _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
                 //remainingLength -= Vector3.Distance(_ray.origin, hit.point);
                 _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
-                LightReflector newMirror = hit.transform.GetComponent<LightReflector>();
+                LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
                 if (!mirrorsL.Contains(newMirror))
                 {
-                    mirrorsL.Add(newMirror);
                     newMirror.rotModified += OnMirrorRotModifiedL;
+                    mirrorsL.Add(newMirror);
                 }
             }
             else if(_lightRayL.GetPosition(_lightRayL.positionCount - 1) != hit.point)
@@ -75,11 +75,11 @@ public class LightPuzzle : MonoBehaviour
                 _lightRayR.SetPosition(_lightRayR.positionCount - 1, hit.point);
                 //remainingLength -= Vector3.Distance(_ray.origin, hit.point);
                 _rayR = new Ray(hit.point, Vector3.Reflect(_rayR.direction, hit.normal));
-                LightReflector newMirror = hit.transform.GetComponent<LightReflector>();
+                LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
                 if (!mirrorsR.Contains(newMirror))
                 {
-                    mirrorsR.Add(newMirror);
                     newMirror.rotModified += OnMirrorRotModifiedR;
+                    mirrorsR.Add(newMirror);
                 }
             }
             else if(_lightRayR.GetPosition(_lightRayR.positionCount - 1) != hit.point)
@@ -100,6 +100,7 @@ public class LightPuzzle : MonoBehaviour
 
     void OnMirrorRotModifiedL(LightReflector mirror)
     {
+        Debug.Log("modified");
         int id = mirrorsL.IndexOf(mirror);
         for(int i = mirrorsL.Count - 1; i > id; i--)
         {
@@ -114,6 +115,7 @@ public class LightPuzzle : MonoBehaviour
 
     void OnMirrorRotModifiedR(LightReflector mirror)
     {
+        Debug.Log("modified");
         int id = mirrorsR.IndexOf(mirror);
         for (int i = mirrorsR.Count - 1; i > id; i--)
         {

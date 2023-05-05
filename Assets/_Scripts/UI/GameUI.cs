@@ -11,8 +11,14 @@ public class GameUI : MonoBehaviour
     /// Set the visibility of the interact text
     /// </summary>
     /// <param name="set"></param>
-    public void SetInteractText(bool set)
+    public void ShowInteractText(string text)
     {
-        _interact.gameObject.SetActive(set);
+        _interact.gameObject.SetActive(true);
+        _interact.text = text;
+    }
+
+    public void HideInteractText()
+    {
+        _interact.gameObject.SetActive(false);
     }
 }

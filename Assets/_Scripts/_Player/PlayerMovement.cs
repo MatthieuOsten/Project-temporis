@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
         _playerRigidbody.freezeRotation = true;
     }
 
+    private void Start()
+    {
+        InputManager.Instance.MoveChanged += OnMove;
+    }
+
     private void FixedUpdate()
     {
         _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed); 

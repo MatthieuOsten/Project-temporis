@@ -21,7 +21,6 @@ public class InteractRotate : Interactive
     public override void StartedUse(InputAction.CallbackContext context)
     {
 
-
         base.StartedUse(context);
     }
 

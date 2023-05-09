@@ -32,65 +32,81 @@ public class PlayerInteract : MonoBehaviour
             // create a ray at the center of the camera shooting outwards
             Ray ray = new Ray(CameraUtility.Camera.transform.position, CameraUtility.Camera.transform.forward);
             Debug.DrawRay(ray.origin, ray.direction * _rayDistance);
-            RaycastHit hitInfo; // var to store our coll info.
+
             if (!isHoldingItem)
             {
-                if (Physics.Raycast(ray, out hitInfo, _rayDistance, _interactLayers))
-                {
-                    if (hitInfo.transform.gameObject.layer == 6)
-                    {
-                        if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
-                        {
-                            /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
-                            if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
-                            {
-                                _gameUI.ShowInteractText("Press E to interact");
-                                InputManager.Instance.InteractStarted = TranslatePrint;
-                            }
-                        }
-                    }
-                    else if (hitInfo.transform.gameObject.layer == 8)
-                    {
-                        _gameUI.ShowInteractText("Press E to grab");
-                        InputManager.Instance.InteractStarted = GrabMirror;
-                        InputManager.Instance.InteractCancelled = LetOffMirror;
-                        _mirrorInfo = hitInfo.transform;
-                    }
-                    else if (hitInfo.transform.gameObject.layer == 9)
-                    {
-                        _gameUI.ShowInteractText("Press E to pick");
-                        _pickUpInfo = hitInfo.transform;
-                        InputManager.Instance.InteractStarted = PickUpItem;
-                    }
-                }
-                else
-                {
-                    Reset();
-                }
+                DetectInteract(ray);
             }
             else
             {
-                if (Physics.Raycast(ray, out hitInfo, _rayDistance, _itemReceiverLayer))
-                {
-                    _gameUI.ShowInteractText("Press E to use");
-                    _itemReceiverInfo = hitInfo.transform.GetComponent<ItemReceiver>();
-                    InputManager.Instance.InteractStarted = UseItem;
-                }
-                else
-                {
-                    _gameUI.HideInteractText();
-                    InputManager.Instance.InteractStarted = DropItem;
-                }
+                DetectItemReceiver(ray);
             }
         }
     }
 
+    #region RAYCAST UTILITIES
     private void Reset()
     {
         _gameUI.HideInteractText();
         InputManager.Instance.InteractStarted = null;
         InputManager.Instance.InteractCancelled = null;
     }
+
+    private void DetectInteract(Ray ray)
+    {
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, _rayDistance, _interactLayers))
+        {
+            if (hitInfo.transform.gameObject.layer == 6)
+            {
+                if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
+                {
+                    /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
+                    if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
+                    {
+                        _gameUI.ShowInteractText("Press E to interact");
+                        InputManager.Instance.InteractStarted = TranslatePrint;
+                    }
+                }
+            }
+            else if (hitInfo.transform.gameObject.layer == 8)
+            {
+                _gameUI.ShowInteractText("Press E to grab");
+                InputManager.Instance.InteractStarted = GrabMirror;
+                InputManager.Instance.InteractCancelled = LetOffMirror;
+                _mirrorInfo = hitInfo.transform;
+            }
+            else if (hitInfo.transform.gameObject.layer == 9)
+            {
+                _gameUI.ShowInteractText("Press E to pick");
+                _pickUpInfo = hitInfo.transform;
+                InputManager.Instance.InteractStarted = PickUpItem;
+            }
+        }
+        else
+        {
+            Reset();
+        }
+    }
+
+    private void DetectItemReceiver(Ray ray)
+    {
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, _rayDistance, _itemReceiverLayer))
+        {
+            _gameUI.ShowInteractText("Press E to use");
+            _itemReceiverInfo = hitInfo.transform.GetComponent<ItemReceiver>();
+            InputManager.Instance.InteractStarted = UseItem;
+        }
+        else
+        {
+            _gameUI.HideInteractText();
+            InputManager.Instance.InteractStarted = DropItem;
+        }
+    }
+    #endregion
 
     #region PRINT
     public void TranslatePrint(InputAction.CallbackContext context)
@@ -123,6 +139,7 @@ public class PlayerInteract : MonoBehaviour
         InputManager.Instance.MoveChanged = GetComponent<PlayerMovement>().OnMove;
         _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
         canDetect = true;
+        transform.GetComponent<PlayerCamera>().isXRotClamped = false;
     }
     IEnumerator LookToward(Vector3 pos, Quaternion rot)
     {
@@ -133,6 +150,7 @@ public class PlayerInteract : MonoBehaviour
             yield return null;
         }
         InputManager.Instance.EnableActions(true, false, true, false);
+        transform.GetComponent<PlayerCamera>().isXRotClamped = true;
     }
     #endregion
 

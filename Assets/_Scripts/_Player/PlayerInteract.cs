@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -47,6 +48,17 @@ public class PlayerInteract : MonoBehaviour
                     InputManager.Instance.InteractStarted = GrabMirror;
                     InputManager.Instance.InteractCancelled = LetOffMirror;
                     _mirrorInfo = hitInfo.transform;
+                }
+                else if (hitInfo.transform.gameObject.layer == 9)
+                {
+                    Interactive obj = null;
+
+                    if (hitInfo.transform.TryGetComponent<Interactive>(out obj)) {
+                        _gameUI.ShowInteractText("Press E to interact");
+                        InputManager.Instance.InteractStarted = obj.StartedUse;
+                        InputManager.Instance.InteractCancelled = obj.CancelledUse;
+                    }
+
                 }
             }
             else

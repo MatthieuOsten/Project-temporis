@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _interact;
+    [SerializeField] Image _holdItem;
 
     /// <summary>
     /// Set the visibility of the interact text
@@ -20,5 +22,16 @@ public class GameUI : MonoBehaviour
     public void HideInteractText()
     {
         _interact.gameObject.SetActive(false);
+    }
+
+    public void ShowItem(Sprite itemToShow)
+    {
+        _holdItem.gameObject.SetActive(true);
+        _holdItem.sprite = itemToShow;
+    }
+    public void HideItem()
+    {
+        _holdItem.gameObject.SetActive(false);
+        _holdItem.sprite = null;
     }
 }

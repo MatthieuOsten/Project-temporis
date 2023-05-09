@@ -100,7 +100,6 @@ public class LightPuzzle : MonoBehaviour
 
     void OnMirrorRotModifiedL(LightReflector mirror)
     {
-        Debug.Log("modified");
         int id = mirrorsL.IndexOf(mirror);
         for(int i = mirrorsL.Count - 1; i > id; i--)
         {
@@ -115,7 +114,6 @@ public class LightPuzzle : MonoBehaviour
 
     void OnMirrorRotModifiedR(LightReflector mirror)
     {
-        Debug.Log("modified");
         int id = mirrorsR.IndexOf(mirror);
         for (int i = mirrorsR.Count - 1; i > id; i--)
         {

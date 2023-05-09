@@ -11,11 +11,6 @@ public class LightReflector : MonoBehaviour
     float moveY;
     [HideInInspector] public float direction;
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         if (moveY != 0)

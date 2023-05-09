@@ -17,6 +17,7 @@ public class PlayerCamera : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        InputManager.Instance.CameraChanged += RotatePlayer;
     }
 
     public void RotatePlayer(InputAction.CallbackContext context)

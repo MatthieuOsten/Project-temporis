@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 293008025609602584}
   - component: {fileID: 816759319737477096}
   - component: {fileID: 2066022106197480931}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,14 +75,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4364713365185172784}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
   m_LocalPosition: {x: -0.64, y: 0.8, z: 0}
   m_LocalScale: {x: 0.1, y: 0.25, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9197928568377067717}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
 --- !u!33 &293008025609602584
 MeshFilter:
   m_ObjectHideFlags: 0

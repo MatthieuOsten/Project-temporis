@@ -16,18 +16,18 @@ public class LightPuzzle : MonoBehaviour
     void Start()
     {
         _lightRayL.positionCount = 1;
-        _lightRayR.positionCount = 1;
+        //_lightRayR.positionCount = 1;
         _lightRayL.SetPosition(0, rayOriginL.position);
-        _lightRayR.SetPosition(0, rayOriginR.position);
+        //_lightRayR.SetPosition(0, rayOriginR.position);
         _rayL = new Ray(rayOriginL.position, rayOriginL.forward);
-        _rayR = new Ray(rayOriginR.position, rayOriginR.forward);
+        //_rayR = new Ray(rayOriginR.position, rayOriginR.forward);
     }
 
     // Update is called once per frame
     void Update()
     {
         DrawRayLeft();
-        DrawRayRight();
+        //DrawRayRight();
     }
 
     void DrawRayLeft()

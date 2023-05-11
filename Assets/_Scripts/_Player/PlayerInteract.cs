@@ -133,13 +133,13 @@ public class PlayerInteract : MonoBehaviour
         {
             Quaternion rot = Quaternion.LookRotation(_mirrorInfo.forward, transform.up);
             StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + _mirrorInfo.forward * -0.8f), rot));
-            parent.direction = 1;
+            parent.direction = -1;
         }
         else
         {
             Quaternion rot = Quaternion.LookRotation(-_mirrorInfo.forward, transform.up);
             StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + -_mirrorInfo.forward * -0.8f), rot));
-            parent.direction = -1;
+            parent.direction = 1;
         }
     }
     public void LetOffMirror(InputAction.CallbackContext context)
@@ -149,7 +149,7 @@ public class PlayerInteract : MonoBehaviour
         InputManager.Instance.MoveChanged = GetComponent<PlayerMovement>().OnMove;
         _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
         canDetect = true;
-        transform.GetComponent<PlayerCamera>().isXRotClamped = false;
+        transform.GetComponent<PlayerCamera>().IsXRotClamped = false;
     }
     IEnumerator LookToward(Vector3 pos, Quaternion rot)
     {
@@ -160,7 +160,7 @@ public class PlayerInteract : MonoBehaviour
             yield return null;
         }
         InputManager.Instance.EnableActions(true, false, true, false);
-        transform.GetComponent<PlayerCamera>().isXRotClamped = true;
+        transform.GetComponent<PlayerCamera>().IsXRotClamped = true;
     }
     #endregion
 

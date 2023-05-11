@@ -14,7 +14,16 @@ public class PlayerCamera : MonoBehaviour
     private float _mouseX;
     private float _mouseY;
 
-    [HideInInspector] public bool isXRotClamped;
+    private bool isXRotClamped;
+    public bool IsXRotClamped
+    {
+        get { return isXRotClamped; }
+        set
+        {
+            _yRotation = 0;
+            isXRotClamped = value;
+        }
+    }
 
     private void Start()
     {

@@ -72,10 +72,10 @@ public class PlayerInteract : MonoBehaviour
             }
             else if (hitInfo.transform.gameObject.layer == 8)
             {
+                _mirrorInfo = hitInfo.transform;
                 _gameUI.ShowInteractText("Press E to grab");
                 InputManager.Instance.InteractStarted = GrabMirror;
                 InputManager.Instance.InteractCancelled = LetOffMirror;
-                _mirrorInfo = hitInfo.transform;
             }
             else if (hitInfo.transform.gameObject.layer == 9)
             {
@@ -125,17 +125,27 @@ public class PlayerInteract : MonoBehaviour
         canDetect = false;
         _gameUI.HideInteractText();
         InputManager.Instance.InteractStarted = null;
-        StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + _mirrorInfo.forward * -0.8f), _mirrorInfo.rotation));
         InputManager.Instance.DisableActions(true, false, true, false);
         LightReflector parent = _mirrorInfo.GetComponentInParent<LightReflector>();
-        InputManager.Instance.MoveChanged = parent.RotateReflector; 
+        InputManager.Instance.MoveChanged = parent.RotateReflector;
         transform.parent = parent.transform;
-        parent.direction = int.Parse(_mirrorInfo.name);
+        if (Vector3.Angle(_mirrorInfo.forward, transform.forward) <= 90)
+        {
+            Quaternion rot = Quaternion.LookRotation(_mirrorInfo.forward, transform.up);
+            StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + _mirrorInfo.forward * -0.8f), rot));
+            parent.direction = 1;
+        }
+        else
+        {
+            Quaternion rot = Quaternion.LookRotation(-_mirrorInfo.forward, transform.up);
+            StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + -_mirrorInfo.forward * -0.8f), rot));
+            parent.direction = -1;
+        }
     }
     public void LetOffMirror(InputAction.CallbackContext context)
     {
         transform.parent = null;
-        //InputManager.Instance.EnableActions(false, false, true, false);
+        InputManager.Instance.EnableActions(false, false, true, false);
         InputManager.Instance.MoveChanged = GetComponent<PlayerMovement>().OnMove;
         _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
         canDetect = true;

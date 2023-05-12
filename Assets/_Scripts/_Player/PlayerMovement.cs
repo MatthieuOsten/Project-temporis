@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         while (_currentMoveSpeed < _moveSpeed && _isMoving)
         {
-            _currentMoveSpeed += Time.deltaTime * 300;
+            _currentMoveSpeed += Time.deltaTime * 400;
             yield return null;
         }
     }

@@ -20,16 +20,14 @@ public class LightReflector : MonoBehaviour
         }
     }
 
-    public void RotateReflector(InputAction.CallbackContext context)
+    public void RotateReflectorStarted(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            moveY = context.ReadValue<Vector2>().y * direction;
-        }
-        if(context.canceled)
-        {
-            moveY = 0;
-        }
+        moveY = context.ReadValue<Vector2>().y * direction;
+    }
+
+    public void RotateReflectorCanceled(InputAction.CallbackContext context)
+    {
+        moveY = 0;
     }
 
     public void Reset()

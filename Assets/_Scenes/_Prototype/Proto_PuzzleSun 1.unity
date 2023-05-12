@@ -418,6 +418,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 1.7, z: -8.6}
+  - {x: 0, y: 1.7, z: -8.6}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -2691,7 +2692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4774648361093006575, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _moveSpeed
-      value: 6
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4980522831933158288, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: m_Layer
@@ -2703,7 +2704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7834182048427306079, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: m_Constraints
-      value: 80
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 7834182048427306079, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: m_IsKinematic

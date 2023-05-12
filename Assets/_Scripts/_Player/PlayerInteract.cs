@@ -65,7 +65,7 @@ public class PlayerInteract : MonoBehaviour
                     /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
                     if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
                     {
-                        _gameUI.ShowInteractText("Press E to interact");
+                        _gameUI.ShowInteractText("Left click to interact");
                         InputManager.Instance.InteractStarted = TranslatePrint;
                     }
                 }
@@ -73,13 +73,13 @@ public class PlayerInteract : MonoBehaviour
             else if (hitInfo.transform.gameObject.layer == 8)
             {
                 _mirrorInfo = hitInfo.transform;
-                _gameUI.ShowInteractText("Press E to grab");
+                _gameUI.ShowInteractText("Hold left click to grab");
                 InputManager.Instance.InteractStarted = GrabMirror;
                 InputManager.Instance.InteractCancelled = LetOffMirror;
             }
             else if (hitInfo.transform.gameObject.layer == 9)
             {
-                _gameUI.ShowInteractText("Press E to pick");
+                _gameUI.ShowInteractText("Hold left click to pick");
                 _pickUpInfo = hitInfo.transform;
                 InputManager.Instance.InteractStarted = PickUpItem;
             }
@@ -96,7 +96,7 @@ public class PlayerInteract : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, _rayDistance, _itemReceiverLayer))
         {
-            _gameUI.ShowInteractText("Press E to use");
+            _gameUI.ShowInteractText("Left click to use");
             _itemReceiverInfo = hitInfo.transform.GetComponent<ItemReceiver>();
             InputManager.Instance.InteractStarted = UseItem;
         }
@@ -127,7 +127,9 @@ public class PlayerInteract : MonoBehaviour
         InputManager.Instance.InteractStarted = null;
         InputManager.Instance.DisableActions(true, false, true, false);
         LightReflector parent = _mirrorInfo.GetComponentInParent<LightReflector>();
-        InputManager.Instance.MoveChanged = parent.RotateReflector;
+        InputManager.Instance.MoveStarted = parent.RotateReflectorStarted;
+        InputManager.Instance.MovePerformed = null;
+        InputManager.Instance.MoveCanceled = parent.RotateReflectorCanceled;
         transform.parent = parent.transform;
         if (Vector3.Angle(_mirrorInfo.forward, transform.forward) <= 90)
         {
@@ -146,7 +148,9 @@ public class PlayerInteract : MonoBehaviour
     {
         transform.parent = null;
         InputManager.Instance.EnableActions(false, false, true, false);
-        InputManager.Instance.MoveChanged = GetComponent<PlayerMovement>().OnMove;
+        InputManager.Instance.MoveStarted = GetComponent<PlayerMovement>().OnMoveStarted;
+        InputManager.Instance.MovePerformed = GetComponent<PlayerMovement>().OnMovePerformed;
+        InputManager.Instance.MoveCanceled = GetComponent<PlayerMovement>().OnMoveCanceled;
         _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
         canDetect = true;
         transform.GetComponent<PlayerCamera>().IsXRotClamped = false;

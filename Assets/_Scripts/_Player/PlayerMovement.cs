@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
     [SerializeField] float _moveSpeed;
+    private float _currentMoveSpeed = 10;
+    bool _isMoving = false;
 
     private void Awake()
     {
@@ -19,19 +21,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        InputManager.Instance.MoveChanged += OnMove;
+        InputManager.Instance.MoveStarted += OnMoveStarted;
+        InputManager.Instance.MovePerformed += OnMovePerformed;
+        InputManager.Instance.MoveCanceled += OnMoveCanceled;
     }
 
     private void FixedUpdate()
     {
-        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _moveSpeed); 
+        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _currentMoveSpeed * Time.deltaTime);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMoveStarted(InputAction.CallbackContext context)
+    {
+        Debug.Log("Started");
+        _isMoving = true;
+        _currentMoveSpeed = 10;
+        StartCoroutine(SmoothStart());
+    }
+    public void OnMovePerformed(InputAction.CallbackContext context)
     {
         _currentMovementInput = context.ReadValue<Vector2>(); // Store Input info 
         _currentMovement.x = _currentMovementInput.x; // Set Input value in var
         _currentMovement.y = 0;
         _currentMovement.z = _currentMovementInput.y;
+    }
+    public void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        Debug.Log("Canceled");
+        _isMoving = false;
+        _currentMoveSpeed = 0;
+    }
+
+    IEnumerator SmoothStart()
+    {
+        while (_currentMoveSpeed < _moveSpeed && _isMoving)
+        {
+            _currentMoveSpeed += Time.deltaTime * 300;
+            yield return null;
+        }
     }
 }

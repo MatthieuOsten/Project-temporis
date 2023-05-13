@@ -276,6 +276,44 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!1 &792656370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4588321080175299592, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+  m_PrefabInstance: {fileID: 1958970408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &792656374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792656370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1001 &817775645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -943,7 +981,8 @@ GameObject:
   - component: {fileID: 1694040392}
   - component: {fileID: 1694040391}
   - component: {fileID: 1694040390}
-  m_Layer: 0
+  - component: {fileID: 1694040394}
+  m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1028,6 +1067,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1694040394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694040389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _faces: 8
+  _speed: 30
+  _rotationTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &1699668175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _layer.m_Bits
-      value: 320
+      value: 832
       objectReference: {fileID: 0}
     - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _pageInventory
@@ -1559,7 +1617,8 @@ GameObject:
   - component: {fileID: 1982425930}
   - component: {fileID: 1982425929}
   - component: {fileID: 1982425928}
-  m_Layer: 0
+  - component: {fileID: 1982425932}
+  m_Layer: 9
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1644,6 +1703,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982425932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982425927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _faces: 8
+  _speed: 30
+  _rotationTarget: {x: 0, y: 0, z: 0}
 --- !u!1 &2087450930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1656,7 +1734,8 @@ GameObject:
   - component: {fileID: 2087450933}
   - component: {fileID: 2087450932}
   - component: {fileID: 2087450931}
-  m_Layer: 0
+  - component: {fileID: 2087450935}
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1741,3 +1820,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2087450935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087450930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _faces: 8
+  _speed: 30
+  _rotationTarget: {x: 0, y: 0, z: 0}

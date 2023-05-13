@@ -5,16 +5,22 @@ using UnityEngine.InputSystem;
 
 public abstract class Interactive : MonoBehaviour
 {
-    private int nbrBeenUsed = 0;
-
+    private int _nbrBeenUsed = 0;
+    protected bool _isUsable = false;
     private InputAction.CallbackContext actualContext;
 
-    public virtual void StartedUse(InputAction.CallbackContext context) {}
+    public bool IsUsable { get { return _isUsable; } }
 
-    public virtual void CancelledUse(InputAction.CallbackContext context) {}
+    public virtual void StartedUse(InputAction.CallbackContext context) {
+        actualContext = context;
+    }
+
+    public virtual void CancelledUse(InputAction.CallbackContext context) {
+        actualContext = context;
+    }
 
     public override string ToString()
     {
-        return "Used " + nbrBeenUsed.ToString() + " | context -> " + actualContext.ToString();
+        return "Used " + _nbrBeenUsed.ToString() + " | context -> " + actualContext.ToString();
     }
 }

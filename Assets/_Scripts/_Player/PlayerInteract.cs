@@ -15,9 +15,13 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private LayerMask _layer;
 
     private Engraving _engravingInfo;
+    private Interactive obj;
     private Transform _mirrorInfo;
 
     bool canDetect = true;
+
+    [Header("DEBUG")]
+    [SerializeField] private bool _debugRaycastCollider;
 
     // Update is called once per frame
     void Update()
@@ -30,8 +34,11 @@ public class PlayerInteract : MonoBehaviour
             RaycastHit hitInfo; // var to store our coll info.
             if (Physics.Raycast(ray, out hitInfo, _rayDistance, _layer))
             {
+                if (_debugRaycastCollider) { Debug.Log("see object with layer " + hitInfo.transform.gameObject.layer + " -> " + hitInfo.transform.name); }
+
                 if (hitInfo.transform.gameObject.layer == 6)
                 {
+
                     if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
                     {
                         /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
@@ -44,6 +51,7 @@ public class PlayerInteract : MonoBehaviour
                 }
                 else if (hitInfo.transform.gameObject.layer == 8)
                 {
+
                     _gameUI.ShowInteractText("Press E to grab");
                     InputManager.Instance.InteractStarted = GrabMirror;
                     InputManager.Instance.InteractCancelled = LetOffMirror;
@@ -51,10 +59,10 @@ public class PlayerInteract : MonoBehaviour
                 }
                 else if (hitInfo.transform.gameObject.layer == 9)
                 {
-                    Interactive obj = null;
 
-                    if (hitInfo.transform.TryGetComponent<Interactive>(out obj)) {
+                    if (hitInfo.collider.TryGetComponent<Interactive>(out obj)) {
                         _gameUI.ShowInteractText("Press E to interact");
+
                         InputManager.Instance.InteractStarted = obj.StartedUse;
                         InputManager.Instance.InteractCancelled = obj.CancelledUse;
                     }

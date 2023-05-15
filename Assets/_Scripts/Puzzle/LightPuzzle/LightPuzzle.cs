@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LightPuzzle : MonoBehaviour
@@ -43,10 +44,21 @@ public class LightPuzzle : MonoBehaviour
                 _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
                 _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
                 LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
-                if (!mirrorsL.Contains(newMirror))
+                if (mirrorsL.Count == 0)
                 {
                     newMirror.rotModified += OnMirrorRotModifiedL;
                     mirrorsL.Add(newMirror);
+                }
+                else
+                {
+                    if (!mirrorsL.Contains(newMirror))
+                    {
+                        newMirror.rotModified += OnMirrorRotModifiedL;
+                    }
+                    if (mirrorsL[mirrorsL.Count - 1] != newMirror)
+                    {
+                        mirrorsL.Add(newMirror);
+                    }
                 }
             }
             else if(_lightRayL.GetPosition(_lightRayL.positionCount - 1) != hit.point)
@@ -97,8 +109,12 @@ public class LightPuzzle : MonoBehaviour
         {
             for (int i = mirrorsL.Count - 1; i > id; i--)
             {
-                mirrorsL[i].rotModified -= OnMirrorRotModifiedL;
+                LightReflector lastMirror = mirrorsL[i];
                 mirrorsL.RemoveAt(i);
+                if (!mirrorsL.Contains(lastMirror))
+                {
+                    lastMirror.rotModified -= OnMirrorRotModifiedL;
+                }
             }
         }
         _lightRayL.positionCount = id + 2;
@@ -116,6 +132,7 @@ public class LightPuzzle : MonoBehaviour
                 _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
             }
         }
+        DrawRayLeft();
     }
 
     void OnMirrorRotModifiedR(LightReflector mirror)

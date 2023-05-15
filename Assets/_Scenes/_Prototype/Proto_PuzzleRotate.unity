@@ -1079,13 +1079,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
   _rotationAxe: 1
   _rotationPositive: 1
   _rotationInstant: 0
   _rotationIsMove: 0
+  _rotateDegrees: 0
   _faces: 8
   _speed: 30
   _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}
 --- !u!1 &1699668175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,13 +1719,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
   _rotationAxe: 1
   _rotationPositive: 1
   _rotationInstant: 0
   _rotationIsMove: 0
+  _rotateDegrees: 0
   _faces: 8
   _speed: 30
   _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}
 --- !u!1 &2087450930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,10 +1840,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
   _rotationAxe: 1
   _rotationPositive: 1
   _rotationInstant: 0
   _rotationIsMove: 0
+  _rotateDegrees: 0
   _faces: 8
   _speed: 30
   _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}

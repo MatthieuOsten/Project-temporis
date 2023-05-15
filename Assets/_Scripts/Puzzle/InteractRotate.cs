@@ -13,6 +13,7 @@ public class InteractRotate : Interactive
     [SerializeField] private bool _rotationPositive = true;
     [SerializeField] private bool _rotationInstant = false;
     [SerializeField] private bool _rotationIsMove = false;
+    [SerializeField] private float _rotateDegrees = 0;
     [SerializeField] private int _faces = 4;
     [SerializeField] private float _speed = 1.0f;
 
@@ -26,19 +27,24 @@ public class InteractRotate : Interactive
     {
         base.StartedUse(context);
 
-        float rotateDegrees = 360 / _faces;
+        if (!IsUsable) { return; }
+
+        _rotateDegrees = 360 / _faces;
 
         // En fonction de l'axe de rotation la valeur cibler est differente
         switch (_rotationAxe)
         {
             case axes.x:
-                _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + rotateDegrees : _rotationTarget.x - rotateDegrees;
+                _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + _rotateDegrees : _rotationTarget.x - _rotateDegrees;
+                _nbrBeenUsed++;
                 break;
             case axes.y:
-                _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + rotateDegrees : _rotationTarget.y - rotateDegrees;
+                _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + _rotateDegrees : _rotationTarget.y - _rotateDegrees;
+                _nbrBeenUsed++;
                 break;
             case axes.z:
-                _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + rotateDegrees : _rotationTarget.z - rotateDegrees;
+                _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + _rotateDegrees : _rotationTarget.z - _rotateDegrees;
+                _nbrBeenUsed++;
                 break;
             default:
                 ErrorEnumAxes();
@@ -89,14 +95,14 @@ public class InteractRotate : Interactive
         {
             case axes.x:
 
-                if (_rotationTarget.x == 360 && transform.eulerAngles.x == _rotationTarget.x)
+                if ((transform.eulerAngles.x + (Time.deltaTime * _speed)) > 360)
                 {
                     transform.eulerAngles = new Vector3(
                         0,
                         transform.eulerAngles.y,
                         transform.eulerAngles.z
                     );
-                    _rotationTarget.x = 0;
+                    _rotationTarget.x -= 360;
                 }
                 else
                 {
@@ -110,14 +116,14 @@ public class InteractRotate : Interactive
 
             case axes.y:
 
-                if (transform.eulerAngles.y == 360 && transform.eulerAngles.y == _rotationTarget.y)
+                if ((transform.eulerAngles.y + (Time.deltaTime * _speed)) > 360)
                 {
                     transform.eulerAngles = new Vector3(
                         transform.eulerAngles.x,
                         0,
                         transform.eulerAngles.z
                     );
-                    _rotationTarget.y = 0;
+                    _rotationTarget.y -= 360;
                 }
                 else
                 {
@@ -131,14 +137,14 @@ public class InteractRotate : Interactive
 
             case axes.z:
 
-                if (transform.eulerAngles.z == 360 && transform.eulerAngles.z == _rotationTarget.z)
+                if ((transform.eulerAngles.z + (Time.deltaTime * _speed)) > 360)
                 {
                     transform.eulerAngles = new Vector3(
                         transform.eulerAngles.x,
                         transform.eulerAngles.y,
                         0
                     );
-                    _rotationTarget.z = 0;
+                    _rotationTarget.z -= 360;
                 }
                 else
                 {
@@ -162,14 +168,14 @@ public class InteractRotate : Interactive
         {
             case axes.x:
 
-                if (transform.eulerAngles.x == 0 && transform.eulerAngles.x == _rotationTarget.x)
+                if ((transform.eulerAngles.x - (Time.deltaTime * _speed)) < 0)
                 {
                     transform.eulerAngles = new Vector3(
                         360,
                         transform.eulerAngles.y,
                         transform.eulerAngles.z
                     );
-                    _rotationTarget.x = 360;
+                    _rotationTarget.x += 360;
                 }
                 else
                 {
@@ -183,14 +189,14 @@ public class InteractRotate : Interactive
                 break;
             case axes.y:
 
-                if (transform.eulerAngles.y == 0 && transform.eulerAngles.y == _rotationTarget.y)
+                if ((transform.eulerAngles.y - (Time.deltaTime * _speed)) < 0)
                 {
                     transform.eulerAngles = new Vector3(
                         transform.eulerAngles.x,
                         360,
                         transform.eulerAngles.z
                     );
-                    _rotationTarget.y = 360;
+                    _rotationTarget.y += 360;
                 }
                 else
                 {
@@ -204,14 +210,14 @@ public class InteractRotate : Interactive
 
             case axes.z:
 
-                if (transform.eulerAngles.z == 0 && transform.eulerAngles.z == _rotationTarget.z)
+                if ((transform.eulerAngles.z - (Time.deltaTime * _speed)) < 0)
                 {
                     transform.eulerAngles = new Vector3(
                         transform.eulerAngles.x,
                         transform.eulerAngles.y,
                         360
                     );
-                    _rotationTarget.z = 360;
+                    _rotationTarget.z += 360;
                 }
                 else
                 {
@@ -240,28 +246,34 @@ public class InteractRotate : Interactive
             case axes.x:
                 if (_rotationPositive)
                 {
+                    //if (_rotationTarget.x == 360 && transform.eulerAngles.x < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.x > _rotationTarget.x) { return true; } else { return false; }
                 }
                 else
                 {
+                    //if (_rotationTarget.x == 0 && transform.eulerAngles.x > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.x < _rotationTarget.x) { return true; } else { return false; }
                 }
             case axes.y:
                 if (_rotationPositive)
                 {
+                    //if (_rotationTarget.y == 360 && transform.eulerAngles.y < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.y > _rotationTarget.y) { return true; } else { return false; }
                 }
                 else
                 {
+                    //if (_rotationTarget.y == 0 && transform.eulerAngles.y > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.y < _rotationTarget.y) { return true; } else { return false; }
                 }
             case axes.z:
                 if (_rotationPositive)
                 {
+                    //if (_rotationTarget.z == 360 && transform.eulerAngles.z < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.z > _rotationTarget.z) { return true; } else { return false; }
                 }
                 else
                 {
+                    //if (_rotationTarget.z == 0 && transform.eulerAngles.z > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.z < _rotationTarget.z) { return true; } else { return false; }
                 }
             default:

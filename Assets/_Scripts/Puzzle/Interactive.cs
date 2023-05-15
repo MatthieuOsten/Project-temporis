@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public abstract class Interactive : MonoBehaviour
 {
-    private int _nbrBeenUsed = 0;
-    protected bool _isUsable = false;
-    private InputAction.CallbackContext actualContext;
+    [SerializeField] protected int _nbrBeenUsed = 0;
+    [SerializeField] protected bool _isUsable = false;
+    [SerializeField] private InputAction.CallbackContext actualContext;
 
     public bool IsUsable { get { return _isUsable; } }
 

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
+    private Camera _mainCamera;
     [SerializeField] private float _xRotation = 0f;
     [SerializeField] float _yRotation = 0f;
 
@@ -22,13 +23,18 @@ public class PlayerCamera : MonoBehaviour
         {
             _yRotation = 0;
             isXRotClamped = value;
+            if(!value)
+            {
+                transform.forward = _mainCamera.transform.parent.forward;
+                _mainCamera.transform.parent.forward = transform.forward;
+            }
         }
     }
 
     private void Start()
     {
+        _mainCamera = CameraUtility.Camera;
         isXRotClamped = false;
-        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Locked;
         InputManager.Instance.CameraChanged += RotatePlayer;
     }
@@ -50,17 +56,16 @@ public class PlayerCamera : MonoBehaviour
         if(isXRotClamped)
         {
             _yRotation += (_mouseX * Time.deltaTime) * _xSens;
-            _yRotation = Mathf.Clamp(_yRotation, -110, 110);
-            CameraUtility.Camera.transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0);
+            _yRotation = Mathf.Clamp(_yRotation, -90, 90);
+            _mainCamera.transform.parent.localRotation = Quaternion.Euler(0, _yRotation, 0);
         }
         else
         {
-            // apply this to our camera transform
-            CameraUtility.Camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
-
             // rotate player to look left and right
             gameObject.transform.Rotate(Vector3.up * (_mouseX * Time.deltaTime) * _xSens);
         }
+        // apply this to our camera transform
+        _mainCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
     }
 }
 

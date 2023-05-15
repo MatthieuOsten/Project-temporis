@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnMoveStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("Started");
         _isMoving = true;
         _currentMoveSpeed = 10;
         StartCoroutine(SmoothStart());
@@ -47,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        Debug.Log("Canceled");
         _isMoving = false;
         _currentMoveSpeed = 0;
     }

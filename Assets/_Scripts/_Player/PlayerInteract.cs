@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +22,8 @@ public class PlayerInteract : MonoBehaviour
 
     bool canDetect = true;
     bool isHoldingItem = false;
+
+    [SerializeField] GameObject arm;
 
     // Update is called once per frame
     void Update()
@@ -122,6 +123,7 @@ public class PlayerInteract : MonoBehaviour
     #region MIRROR    
     public void GrabMirror(InputAction.CallbackContext context)
     {
+        arm.SetActive(true);
         canDetect = false;
         _gameUI.HideInteractText();
         InputManager.Instance.InteractStarted = null;
@@ -131,6 +133,7 @@ public class PlayerInteract : MonoBehaviour
         InputManager.Instance.MovePerformed = null;
         InputManager.Instance.MoveCanceled = parent.RotateReflectorCanceled;
         transform.parent = parent.transform;
+        transform.GetComponent<PlayerCamera>().IsXRotClamped = true;
         if (Vector3.Angle(_mirrorInfo.forward, transform.forward) <= 90)
         {
             Quaternion rot = Quaternion.LookRotation(_mirrorInfo.forward, transform.up);
@@ -146,6 +149,7 @@ public class PlayerInteract : MonoBehaviour
     }
     public void LetOffMirror(InputAction.CallbackContext context)
     {
+        arm.SetActive(false);
         transform.parent = null;
         InputManager.Instance.EnableActions(false, false, true, false);
         InputManager.Instance.MoveStarted = GetComponent<PlayerMovement>().OnMoveStarted;
@@ -164,7 +168,6 @@ public class PlayerInteract : MonoBehaviour
             yield return null;
         }
         InputManager.Instance.EnableActions(true, false, true, false);
-        transform.GetComponent<PlayerCamera>().IsXRotClamped = true;
     }
     #endregion
 

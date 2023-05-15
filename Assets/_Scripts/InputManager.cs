@@ -51,6 +51,13 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public Action<InputAction.CallbackContext> GameRestarted;
+
+    public void OnGameRestarted(InputAction.CallbackContext context)
+    {
+        GameRestarted?.Invoke(context);
+    }
+
     #region MOVE
 
     public Action<InputAction.CallbackContext> MoveStarted;

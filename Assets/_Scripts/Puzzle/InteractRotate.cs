@@ -246,34 +246,28 @@ public class InteractRotate : Interactive
             case axes.x:
                 if (_rotationPositive)
                 {
-                    //if (_rotationTarget.x == 360 && transform.eulerAngles.x < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.x > _rotationTarget.x) { return true; } else { return false; }
                 }
                 else
                 {
-                    //if (_rotationTarget.x == 0 && transform.eulerAngles.x > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.x < _rotationTarget.x) { return true; } else { return false; }
                 }
             case axes.y:
                 if (_rotationPositive)
                 {
-                    //if (_rotationTarget.y == 360 && transform.eulerAngles.y < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.y > _rotationTarget.y) { return true; } else { return false; }
                 }
                 else
                 {
-                    //if (_rotationTarget.y == 0 && transform.eulerAngles.y > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.y < _rotationTarget.y) { return true; } else { return false; }
                 }
             case axes.z:
                 if (_rotationPositive)
                 {
-                    //if (_rotationTarget.z == 360 && transform.eulerAngles.z < _rotateDegrees) { return true; }
                     if (transform.eulerAngles.z > _rotationTarget.z) { return true; } else { return false; }
                 }
                 else
                 {
-                    //if (_rotationTarget.z == 0 && transform.eulerAngles.z > _rotateDegrees) { return true; }
                     if (transform.eulerAngles.z < _rotationTarget.z) { return true; } else { return false; }
                 }
             default:

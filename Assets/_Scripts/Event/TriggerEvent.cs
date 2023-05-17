@@ -24,7 +24,7 @@ public class TriggerEvent : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             _triggerEvent._activate = true;
-            TriggerEventTest(other);
+            //TriggerEventTest(other);
         }
     }
 }

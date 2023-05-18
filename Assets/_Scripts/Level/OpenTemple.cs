@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class OpenTemple : MonoBehaviour
 {
+    [SerializeField] GameObject[] _waterLvl1;
+    [SerializeField] GameObject[] _waterLvl2;
+    [SerializeField] GameObject[] _waterLvl3;
+    [SerializeField] GameObject[] _waterLvl4;
     private int _damOpen;
     private float _speed;
     private float _distance = 5f;
@@ -32,6 +36,43 @@ public class OpenTemple : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed);
         }
         else
+        {
             _damOpen++;
+            ShowWaterInTemple();
+        }
+    }
+
+    private void ShowWaterInTemple()
+    {
+        switch (_damOpen)
+        {
+            case 1:
+                for (int i = 0; i < _waterLvl1.Length; i++)
+                {
+                    _waterLvl1[i].SetActive(!_waterLvl1[i].activeInHierarchy);
+                }
+                break;
+
+            case 3:
+                for (int i = 0; i < _waterLvl2.Length; i++)
+                {
+                    _waterLvl2[i].SetActive(!_waterLvl2[i].activeInHierarchy);
+                }
+                break;
+
+            case 5:
+                for (int i = 0; i < _waterLvl3.Length; i++)
+                {
+                    _waterLvl3[i].SetActive(!_waterLvl3[i].activeInHierarchy);
+                }
+                break;
+
+            case 6:
+                for (int i = 0; i < _waterLvl4.Length; i++)
+                {
+                    _waterLvl4[i].SetActive(!_waterLvl4[i].activeInHierarchy);
+                }
+                break;
+        }
     }
 }

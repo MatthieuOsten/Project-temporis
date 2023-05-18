@@ -25,6 +25,7 @@ public class RotateManager : MonoBehaviour
         if (IsCompleted() && !_isFinish)
         {
             _eventCompleted.Invoke();
+            _isFinish = true;
         }
     }
 

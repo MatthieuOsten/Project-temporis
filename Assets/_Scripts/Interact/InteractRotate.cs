@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +13,29 @@ public class InteractRotate : Interactive
     [SerializeField] private bool _rotationInstant = false;
     [SerializeField] private bool _rotationIsMove = false;
     [SerializeField] private float _rotateDegrees = 0;
-    [SerializeField] private int _faces = 4;
+    [SerializeField] private int _faces = 4, _actualFace = 0;
     [SerializeField] private float _speed = 1.0f;
 
     [SerializeField] private Vector3 _rotationTarget = Vector3.zero;
+
+    public int ActualFace
+    {
+        get { return _actualFace; }
+        private set { 
+            if (value > _faces)
+            {
+                _actualFace = 0;
+            } 
+            else if (value < 0)
+            {
+                _actualFace = _faces;
+            }
+            else
+            {
+                _actualFace = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Lorsque le joueur interagit avec l'objet ce dernier modifie la rotation qu'il cible puis bouge dans Update()
@@ -37,14 +55,17 @@ public class InteractRotate : Interactive
             case axes.x:
                 _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + _rotateDegrees : _rotationTarget.x - _rotateDegrees;
                 _nbrBeenUsed++;
+                ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.y:
                 _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + _rotateDegrees : _rotationTarget.y - _rotateDegrees;
                 _nbrBeenUsed++;
+                ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.z:
                 _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + _rotateDegrees : _rotationTarget.z - _rotateDegrees;
                 _nbrBeenUsed++;
+                ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             default:
                 ErrorEnumAxes();

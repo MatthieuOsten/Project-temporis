@@ -13,7 +13,7 @@ public class InteractRotate : Interactive
     [SerializeField] private bool _rotationInstant = false;
     [SerializeField] private bool _rotationIsMove = false;
     [SerializeField] private float _rotateDegrees = 0;
-    [SerializeField] private int _faces = 4, _actualFace = 0;
+    [SerializeField] private int _faces = 4, _actualFace = 1;
     [SerializeField] private float _speed = 1.0f;
 
     [SerializeField] private Vector3 _rotationTarget = Vector3.zero;
@@ -24,9 +24,9 @@ public class InteractRotate : Interactive
         private set { 
             if (value > _faces)
             {
-                _actualFace = 0;
+                _actualFace = 1;
             } 
-            else if (value < 0)
+            else if (value < 1)
             {
                 _actualFace = _faces;
             }

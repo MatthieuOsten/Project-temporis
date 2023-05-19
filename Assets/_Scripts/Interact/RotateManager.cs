@@ -9,7 +9,7 @@ public class RotateManager : MonoBehaviour
     struct rotateElement
     {
         [SerializeField] private InteractRotate _element;
-        [SerializeField] private int _objectifFace;
+        [SerializeField, Min(1)] private int _objectifFace;
 
         public InteractRotate Element { get { return _element; } }
         public int objectifFace { get { return _objectifFace; } }

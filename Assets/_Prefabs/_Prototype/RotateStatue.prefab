@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3781079881578026401}
-  - component: {fileID: 3781079881578026400}
+  - component: {fileID: 4981236655044288553}
   m_Layer: 10
   m_Name: RotateStatue
   m_TagString: Untagged
@@ -174,7 +174,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3781079881578026400
+--- !u!114 &4981236655044288553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,13 +190,11 @@ MonoBehaviour:
   - _element: {fileID: 3781079881669127420}
     _objectifFace: 3
   - _element: {fileID: 3781079881812628609}
-    _objectifFace: 4
+    _objectifFace: 5
   - _element: {fileID: 3781079881497001607}
-    _objectifFace: 1
+    _objectifFace: 2
   _isFinish: 0
-  _eventCompleted:
-    m_PersistentCalls:
-      m_Calls: []
+  _eventCompleted: {fileID: 0}
 --- !u!1 &3781079881669127417
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-ublic class RotateManager : MonoBehaviour
+public class RotateManager : MonoBehaviour
 {
     [System.Serializable]
     struct rotateElement

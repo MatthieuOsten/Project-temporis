@@ -25,6 +25,10 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] GameObject arm;
 
+    [SerializeField] private PlayerMovement _playerMov;
+    [SerializeField] private HeadBobbing _headBobbing;
+    [SerializeField] private PlayerCamera _playerCam;
+
     // Update is called once per frame
     void Update()
     {
@@ -132,8 +136,11 @@ public class PlayerInteract : MonoBehaviour
         InputManager.Instance.MoveStarted = parent.RotateReflectorStarted;
         InputManager.Instance.MovePerformed = null;
         InputManager.Instance.MoveCanceled = parent.RotateReflectorCanceled;
+        InputManager.Instance.MoveStarted += _headBobbing.OnMoveWhilePushingStarted;
+        InputManager.Instance.MoveCanceled += _headBobbing.OnMoveWhilePushingCanceled;
+        _headBobbing.isPushing = true;
         transform.parent = parent.transform;
-        transform.GetComponent<PlayerCamera>().IsXRotClamped = true;
+        _playerCam.IsXRotClamped = true;
         if (Vector3.Angle(_mirrorInfo.forward, transform.forward) <= 90)
         {
             Quaternion rot = Quaternion.LookRotation(_mirrorInfo.forward, transform.up);
@@ -152,12 +159,15 @@ public class PlayerInteract : MonoBehaviour
         arm.SetActive(false);
         transform.parent = null;
         InputManager.Instance.EnableActions(false, false, true, false);
-        InputManager.Instance.MoveStarted = GetComponent<PlayerMovement>().OnMoveStarted;
-        InputManager.Instance.MovePerformed = GetComponent<PlayerMovement>().OnMovePerformed;
-        InputManager.Instance.MoveCanceled = GetComponent<PlayerMovement>().OnMoveCanceled;
+        InputManager.Instance.MoveStarted = _playerMov.OnMoveStarted;
+        InputManager.Instance.MoveStarted += _headBobbing.OnMoveStarted;
+        InputManager.Instance.MovePerformed = _playerMov.OnMovePerformed;
+        InputManager.Instance.MoveCanceled = _playerMov.OnMoveCanceled;
+        InputManager.Instance.MoveCanceled += _headBobbing.OnMoveCanceled;
+        _headBobbing.isPushing = false;
         _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
         canDetect = true;
-        transform.GetComponent<PlayerCamera>().IsXRotClamped = false;
+        _playerCam.IsXRotClamped = false;
     }
     IEnumerator LookToward(Vector3 pos, Quaternion rot)
     {

@@ -2620,6 +2620,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 36950095}
     - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+      propertyPath: _playerCam
+      value: 
+      objectReference: {fileID: 848999441}
+    - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+      propertyPath: _playerMov
+      value: 
+      objectReference: {fileID: 848999443}
+    - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+      propertyPath: _headBobbing
+      value: 
+      objectReference: {fileID: 848999445}
+    - target: {fileID: 2229460226446744374, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _pickUpPoint
       value: 
       objectReference: {fileID: 566093010}
@@ -3055,9 +3067,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walkingEffectSpeed: 5
-  _idleEffectSpeed: 0.7
+  _idleEffectSpeed: 1
+  _pushingEffectSpeed: 0.5
   _walkingEffectIntensity: 0.15
-  _idleEffectIntensity: 0.05
+  _idleEffectIntensity: 0.025
+  _pushingEffectIntensity: 0.2
+  isPushing: 0
+  _animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.75
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.85
+      value: 0.5
+      inSlope: -6.141115
+      outSlope: -6.141115
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06667685
+      outWeight: 0.096624315
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.0580066
+      outSlope: -0.0580066
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1872565
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!136 &848999449
 CapsuleCollider:
   m_ObjectHideFlags: 0

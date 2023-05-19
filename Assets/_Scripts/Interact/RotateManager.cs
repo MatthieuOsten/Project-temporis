@@ -5,19 +5,19 @@ using UnityEngine.Events;
 
 public class RotateManager : MonoBehaviour
 {
-
+    [System.Serializable]
     struct rotateElement
     {
-        private InteractRotate _element;
-        private int _objectifFace;
+        [SerializeField] private InteractRotate _element;
+        [SerializeField] private int _objectifFace;
 
         public InteractRotate Element { get { return _element; } }
         public int objectifFace { get { return _objectifFace; } }
     };
 
-    private rotateElement[] _tabInteract;
-    private bool _isFinish = false;
-    private UnityEvent _eventCompleted = new UnityEvent();
+    [SerializeField] private rotateElement[] _tabInteract;
+    [SerializeField] private bool _isFinish = false;
+    [SerializeField] private UnityEvent _eventCompleted = new UnityEvent();
 
     // Update is called once per frame
     void Update()

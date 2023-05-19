@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class RotateManager : MonoBehaviour
+ublic class RotateManager : MonoBehaviour
 {
     [System.Serializable]
     struct rotateElement
@@ -17,15 +14,15 @@ public class RotateManager : MonoBehaviour
 
     [SerializeField] private rotateElement[] _tabInteract;
     [SerializeField] private bool _isFinish = false;
-    [SerializeField] private UnityEvent _eventCompleted = new UnityEvent();
+    [SerializeField] private EventDamScriptable _eventCompleted;
 
     // Update is called once per frame
     void Update()
     {
         if (IsCompleted() && !_isFinish)
         {
-            _eventCompleted.Invoke();
             _isFinish = true;
+            _eventCompleted.EventInvoke(_isFinish);
         }
     }
 

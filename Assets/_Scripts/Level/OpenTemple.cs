@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OpenTemple : MonoBehaviour
 {
+    [SerializeField] Animator _animator;
+    [SerializeField] DamSceneUI _DamUI;
     [SerializeField] GameObject[] _waterLvl1;
     [SerializeField] GameObject[] _waterLvl2;
     [SerializeField] GameObject[] _waterLvl3;
@@ -23,23 +25,21 @@ public class OpenTemple : MonoBehaviour
         _targetPosition = _initialPosition + (_direction.normalized * _distance);
     }
 
-    private void Update()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed);
-    }
-
-    public void OpenTempleDoor()
+    private void OpenTempleDoor()
     {
         if (_damOpen == 6)
         {
             //va bouger la porte
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed);
+            _animator.SetBool("PuzzleCompleted", true);
+            _DamUI.ShowEndUI();
         }
-        else
-        {
-            _damOpen++;
-            ShowWaterInTemple();
-        }
+    }
+
+    public void IncreaseDamOpenCunt()
+    {
+        _damOpen++;
+        OpenTempleDoor();
+        ShowWaterInTemple();
     }
 
     private void ShowWaterInTemple()

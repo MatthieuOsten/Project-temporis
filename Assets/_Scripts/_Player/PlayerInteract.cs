@@ -18,6 +18,7 @@ public class PlayerInteract : MonoBehaviour
     private Transform _mirrorInfo;
     private Transform _pickUpInfo;
     private ItemInfoScriptable _currentItemInfo;
+    private Interactive obj;
     private ItemReceiver _itemReceiverInfo;
 
     bool canDetect = true;
@@ -81,6 +82,16 @@ public class PlayerInteract : MonoBehaviour
                 _gameUI.ShowInteractText("Hold left click to grab");
                 InputManager.Instance.InteractStarted = GrabMirror;
                 InputManager.Instance.InteractCancelled = LetOffMirror;
+            }
+            else if(hitInfo.transform.gameObject.layer == 9)
+            {
+                if(hitInfo.collider.TryGetComponent<Interactive>(out obj))
+                {
+                    _gameUI.ShowInteractText("Press LeftClick to interact");
+
+                    InputManager.Instance.InteractStarted = obj.StartedUse;
+                    InputManager.Instance.InteractCancelled = obj.CancelledUse;
+                }
             }
             else if (hitInfo.transform.gameObject.layer == 11)
             {

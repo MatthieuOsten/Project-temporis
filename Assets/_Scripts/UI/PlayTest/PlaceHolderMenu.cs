@@ -13,12 +13,12 @@ public class PlaceHolderMenu : MonoBehaviour
     }
     public void MirorPuzzle()
     {
-        SceneManager.LoadScene("Proto_PuzzleSun");
+        SceneManager.LoadScene(2);
     }
 
     public void DamPuzzle()
     {
-        SceneManager.LoadScene("Proto_SceneBlockOut");
+        SceneManager.LoadScene(1);
     }
 
     public void Quit()

@@ -82,7 +82,7 @@ public class PlayerInteract : MonoBehaviour
                 InputManager.Instance.InteractStarted = GrabMirror;
                 InputManager.Instance.InteractCancelled = LetOffMirror;
             }
-            else if (hitInfo.transform.gameObject.layer == 9)
+            else if (hitInfo.transform.gameObject.layer == 11)
             {
                 _gameUI.ShowInteractText("Hold left click to pick");
                 _pickUpInfo = hitInfo.transform;

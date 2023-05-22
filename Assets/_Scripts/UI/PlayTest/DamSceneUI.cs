@@ -24,11 +24,11 @@ public class DamSceneUI : MonoBehaviour
     IEnumerator BackToMenu()
     {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("Proto_MainMenu");
+        SceneManager.LoadScene(0);
     }
 
     public void Back()
     {
-        SceneManager.LoadScene("Proto_MainMenu");
+        SceneManager.LoadScene(0);
     }
 }

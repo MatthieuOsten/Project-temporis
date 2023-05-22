@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LightPuzzle : MonoBehaviour
@@ -15,19 +16,19 @@ public class LightPuzzle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _lightRayL.positionCount = 1;
-        _lightRayR.positionCount = 1;
+        _lightRayL.positionCount = 2;
+        //_lightRayR.positionCount = 1;
         _lightRayL.SetPosition(0, rayOriginL.position);
-        _lightRayR.SetPosition(0, rayOriginR.position);
+        //_lightRayR.SetPosition(0, rayOriginR.position);
         _rayL = new Ray(rayOriginL.position, rayOriginL.forward);
-        _rayR = new Ray(rayOriginR.position, rayOriginR.forward);
+        //_rayR = new Ray(rayOriginR.position, rayOriginR.forward);
     }
 
     // Update is called once per frame
     void Update()
     {
         DrawRayLeft();
-        DrawRayRight();
+        //DrawRayRight();
     }
 
     void DrawRayLeft()
@@ -37,29 +38,32 @@ public class LightPuzzle : MonoBehaviour
         {
             if (hit.transform.gameObject.layer == 7)
             {
-                _lightRayL.positionCount++;
                 _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
+                _lightRayL.positionCount++;
                 //remainingLength -= Vector3.Distance(_ray.origin, hit.point);
                 _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
+                _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
                 LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
-                if (!mirrorsL.Contains(newMirror))
+                if (mirrorsL.Count == 0)
                 {
                     newMirror.rotModified += OnMirrorRotModifiedL;
                     mirrorsL.Add(newMirror);
                 }
+                else
+                {
+                    if (!mirrorsL.Contains(newMirror))
+                    {
+                        newMirror.rotModified += OnMirrorRotModifiedL;
+                    }
+                    if (mirrorsL[mirrorsL.Count - 1] != newMirror)
+                    {
+                        mirrorsL.Add(newMirror);
+                    }
+                }
             }
             else if(_lightRayL.GetPosition(_lightRayL.positionCount - 1) != hit.point)
             {
-                _lightRayL.positionCount++;
                 _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
-            }
-        }
-        else
-        {
-            if (!(_lightRayL.GetPosition(_lightRayL.positionCount - 1) == _rayL.origin + _rayL.direction * 100))
-            {
-                _lightRayL.positionCount++;
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
             }
         }
     }
@@ -101,15 +105,34 @@ public class LightPuzzle : MonoBehaviour
     void OnMirrorRotModifiedL(LightReflector mirror)
     {
         int id = mirrorsL.IndexOf(mirror);
-        for(int i = mirrorsL.Count - 1; i > id; i--)
+        if (mirrorsL[mirrorsL.Count-1] != mirror)
         {
-            mirrorsL[i].rotModified -= OnMirrorRotModifiedL;
-            mirrorsL.RemoveAt(i);
+            for (int i = mirrorsL.Count - 1; i > id; i--)
+            {
+                LightReflector lastMirror = mirrorsL[i];
+                mirrorsL.RemoveAt(i);
+                if (!mirrorsL.Contains(lastMirror))
+                {
+                    lastMirror.rotModified -= OnMirrorRotModifiedL;
+                }
+            }
         }
-        Vector3 directionPoint = _lightRayL.GetPosition(id+1);
-        _lightRayL.positionCount = id+1;
+        _lightRayL.positionCount = id + 2;
+        Vector3 directionPoint = _lightRayL.GetPosition(id + 1);
         Vector3 lastPoint = _lightRayL.GetPosition(id);
         _rayL = new Ray(lastPoint, new Vector3(directionPoint.x - lastPoint.x, directionPoint.y - lastPoint.y, directionPoint.z - lastPoint.z));
+        RaycastHit hit;
+        if (Physics.Raycast(_rayL.origin, _rayL.direction, out hit, mirrorLayerMask))
+        {
+            if (hit.transform.gameObject.layer == 7)
+            {
+                _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
+                _lightRayL.positionCount++;
+                _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
+                _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
+            }
+        }
+        DrawRayLeft();
     }
 
     void OnMirrorRotModifiedR(LightReflector mirror)

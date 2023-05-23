@@ -67,7 +67,6 @@ MonoBehaviour:
   _yRotation: 0
   _xSens: 30
   _ySens: 30
-  isXRotClamped: 0
 --- !u!114 &2229460226446744374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,10 +83,17 @@ MonoBehaviour:
   _noteBook: {fileID: 0}
   _pageInventory: {fileID: 0}
   _rayDistance: 10
-  _layer:
+  _interactLayers:
     serializedVersion: 2
-    m_Bits: 64
-  _debugRaycastCollider: 0
+    m_Bits: 0
+  _itemReceiverLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _pickUpPoint: {fileID: 0}
+  arm: {fileID: 0}
+  _playerMov: {fileID: 0}
+  _headBobbing: {fileID: 0}
+  _playerCam: {fileID: 0}
 --- !u!54 &7834182048427306079
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,7 +184,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d155cea91e16af341a495fa7975f9222, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

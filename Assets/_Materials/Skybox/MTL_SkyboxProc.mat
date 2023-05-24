@@ -23,6 +23,7 @@ Material:
   m_Name: MTL_SkyboxProc
   m_Shader: {fileID: 4800000, guid: 48aaeab8920bcb24098f5853cf715539, type: 3}
   m_ValidKeywords:
+  - CLOUDS
   - FUZZY
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -111,9 +112,9 @@ Material:
     - _AlphaClip: 0
     - _BaseNoiseScale: 0.143
     - _Blend: 0
-    - _Brightness: 1.56
+    - _Brightness: 6.22
     - _BumpScale: 1
-    - _CLOUDS: 0
+    - _CLOUDS: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CloudCutoff: 1
@@ -167,12 +168,12 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HorizonColorDay: {r: 0, g: 0.8, b: 1, a: 1}
     - _HorizonColorNight: {r: 0, g: 0.016905675, b: 0.047169805, a: 1}
-    - _MoonColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MoonColor: {r: 0.5518868, g: 0.9236843, b: 1, a: 1}
     - _NightBottomColor: {r: 0, g: 0, b: 0.19999996, a: 1}
     - _NightTopColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _StarsSkyColor: {r: 0.007884763, g: 0, b: 0.1509434, a: 1}
-    - _SunColor: {r: 0.998721, g: 1, b: 0.8443396, a: 1}
+    - _SunColor: {r: 1, g: 0.6811296, b: 0.3726415, a: 1}
     - _SunSet: {r: 1, g: 0.8, b: 1, a: 1}
     - _WorldSpaceLight: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

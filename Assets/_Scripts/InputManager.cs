@@ -81,6 +81,25 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
+    #region SPRINT
+
+    public Action<InputAction.CallbackContext> SprintStarted;
+    public Action<InputAction.CallbackContext> SprintCanceled;
+
+    public void OnSprintChanged(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SprintStarted?.Invoke(context);
+        }
+        else if (context.canceled)
+        {
+            SprintCanceled?.Invoke(context);
+        }
+    }
+
+    #endregion
+
     #region INTERACT
 
     public Action<InputAction.CallbackContext> InteractStarted;

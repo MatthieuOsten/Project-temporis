@@ -1197,6 +1197,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 04f0eb27-f81e-4a24-bf52-e3e906c2a363
     m_ActionName: Game/RestartGame[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 229957017}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnSprintChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8ec4534a-9889-4be4-96da-1f6c09fce4ae
+    m_ActionName: Game/Sprint[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game
@@ -2982,6 +2998,10 @@ PrefabInstance:
     - target: {fileID: 4774648361093006575, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: _moveSpeed
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774648361093006575, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
+      propertyPath: _sprintSpeed
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4980522831933158288, guid: 9ce39d46062fafa4a9cff46deaa31c28, type: 3}
       propertyPath: m_Layer

@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _playerRigidbody;
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
-    [SerializeField] float _moveSpeed;
+    [SerializeField] float _moveSpeed, _sprintSpeed;
     private float _currentMoveSpeed = 10;
     bool _isMoving = false;
 
@@ -35,7 +35,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = true;
         _currentMoveSpeed = 10;
-        StartCoroutine(SmoothStart());
+        StartCoroutine(SmoothStart(_moveSpeed));
+        InputManager.Instance.SprintStarted += OnSprintStarted;
+        InputManager.Instance.SprintCanceled += OnSprintCanceled;
     }
     public void OnMovePerformed(InputAction.CallbackContext context)
     {
@@ -48,14 +50,26 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = false;
         _currentMoveSpeed = 0;
+        InputManager.Instance.SprintStarted -= OnSprintStarted;
+        InputManager.Instance.SprintCanceled -= OnSprintCanceled;
     }
 
-    IEnumerator SmoothStart()
+    IEnumerator SmoothStart(float speed)
     {
-        while (_currentMoveSpeed < _moveSpeed && _isMoving)
+        while (_currentMoveSpeed < speed && _isMoving)
         {
             _currentMoveSpeed += Time.deltaTime * 400;
             yield return null;
         }
+    }
+
+    public void OnSprintStarted(InputAction.CallbackContext context)
+    {
+        StartCoroutine(SmoothStart(_sprintSpeed));
+    }
+
+    public void OnSprintCanceled(InputAction.CallbackContext context)
+    {
+        _currentMoveSpeed = _moveSpeed;
     }
 }

@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _moveSpeed, _sprintSpeed;
     private float _currentMoveSpeed = 10;
     bool _isMoving = false;
+    bool _isSprinting = false;
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         InputManager.Instance.MoveStarted += OnMoveStarted;
         InputManager.Instance.MovePerformed += OnMovePerformed;
         InputManager.Instance.MoveCanceled += OnMoveCanceled;
+        InputManager.Instance.SprintStarted += OnSprintStarted;
+        InputManager.Instance.SprintCanceled += OnSprintCanceled;
     }
 
     private void FixedUpdate()
@@ -35,9 +38,14 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = true;
         _currentMoveSpeed = 10;
-        StartCoroutine(SmoothStart(_moveSpeed));
-        InputManager.Instance.SprintStarted += OnSprintStarted;
-        InputManager.Instance.SprintCanceled += OnSprintCanceled;
+        if (_isSprinting)
+        {
+            StartCoroutine(SmoothStart(_sprintSpeed));
+        }
+        else
+        {
+            StartCoroutine(SmoothStart(_moveSpeed));
+        }
     }
     public void OnMovePerformed(InputAction.CallbackContext context)
     {
@@ -50,8 +58,6 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = false;
         _currentMoveSpeed = 0;
-        InputManager.Instance.SprintStarted -= OnSprintStarted;
-        InputManager.Instance.SprintCanceled -= OnSprintCanceled;
     }
 
     IEnumerator SmoothStart(float speed)
@@ -65,11 +71,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnSprintStarted(InputAction.CallbackContext context)
     {
-        StartCoroutine(SmoothStart(_sprintSpeed));
+        _isSprinting = true;
+        if(_isMoving)
+        {
+            StartCoroutine(SmoothStart(_sprintSpeed));
+        }
     }
 
     public void OnSprintCanceled(InputAction.CallbackContext context)
     {
-        _currentMoveSpeed = _moveSpeed;
+        _isSprinting = false;
+        if(_isMoving)
+        {
+            _currentMoveSpeed = _moveSpeed;
+        }
     }
 }

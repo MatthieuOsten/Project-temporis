@@ -9,10 +9,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _playerRigidbody;
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
-    [SerializeField] float _moveSpeed, _sprintSpeed;
+    [SerializeField] float _moveSpeed;
     private float _currentMoveSpeed = 10;
     bool _isMoving = false;
-    bool _isSprinting = false;
 
     private void Awake()
     {
@@ -25,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
         InputManager.Instance.MoveStarted += OnMoveStarted;
         InputManager.Instance.MovePerformed += OnMovePerformed;
         InputManager.Instance.MoveCanceled += OnMoveCanceled;
-        InputManager.Instance.SprintStarted += OnSprintStarted;
-        InputManager.Instance.SprintCanceled += OnSprintCanceled;
     }
 
     private void FixedUpdate()
@@ -38,14 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = true;
         _currentMoveSpeed = 10;
-        if (_isSprinting)
-        {
-            StartCoroutine(SmoothStart(_sprintSpeed));
-        }
-        else
-        {
-            StartCoroutine(SmoothStart(_moveSpeed));
-        }
+        StartCoroutine(SmoothStart());
     }
     public void OnMovePerformed(InputAction.CallbackContext context)
     {
@@ -60,30 +50,12 @@ public class PlayerMovement : MonoBehaviour
         _currentMoveSpeed = 0;
     }
 
-    IEnumerator SmoothStart(float speed)
+    IEnumerator SmoothStart()
     {
-        while (_currentMoveSpeed < speed && _isMoving)
+        while (_currentMoveSpeed < _moveSpeed && _isMoving)
         {
             _currentMoveSpeed += Time.deltaTime * 400;
             yield return null;
-        }
-    }
-
-    public void OnSprintStarted(InputAction.CallbackContext context)
-    {
-        _isSprinting = true;
-        if(_isMoving)
-        {
-            StartCoroutine(SmoothStart(_sprintSpeed));
-        }
-    }
-
-    public void OnSprintCanceled(InputAction.CallbackContext context)
-    {
-        _isSprinting = false;
-        if(_isMoving)
-        {
-            _currentMoveSpeed = _moveSpeed;
         }
     }
 }

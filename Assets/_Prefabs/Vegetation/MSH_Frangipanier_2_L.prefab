@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2104994612867751270
+--- !u!1 &6281967464439329845
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1620629415789037532}
-  - component: {fileID: 2437144812087445625}
-  - component: {fileID: 447700255597165747}
+  - component: {fileID: 6657965722943614607}
+  - component: {fileID: 7767023917369712938}
+  - component: {fileID: 5489593620763252192}
   m_Layer: 0
-  m_Name: Frangipanier_1V7
+  m_Name: MSH_Frangipanier_2_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1620629415789037532
+--- !u!4 &6657965722943614607
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104994612867751270}
+  m_GameObject: {fileID: 6281967464439329845}
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.066826, y: -0.000002861023, z: 155.08847}
+  m_LocalPosition: {x: 2.928833, y: -0.0000009536743, z: 137.86414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2437144812087445625
+--- !u!33 &7767023917369712938
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104994612867751270}
-  m_Mesh: {fileID: 3278003152894809091, guid: 966926114a125e743a60b75a9e755940, type: 3}
---- !u!23 &447700255597165747
+  m_GameObject: {fileID: 6281967464439329845}
+  m_Mesh: {fileID: 5668788170693331272, guid: 33f965c3ec143304799775fd4ec1e747, type: 3}
+--- !u!23 &5489593620763252192
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104994612867751270}
+  m_GameObject: {fileID: 6281967464439329845}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

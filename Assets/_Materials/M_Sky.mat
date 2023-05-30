@@ -88,18 +88,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AtenuationAtmosphere: 0.3
@@ -130,8 +118,6 @@ Material:
     - _Noise_Rotation_Speed: 5.18
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _QueueControl: 0
-    - _QueueOffset: 0
     - _Realistic_Distance: 1
     - _Realistic_NoiseScale: 18.9
     - _Realistic_PowerMultiply: 2
@@ -183,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 0
---- !u!114 &9171257141983723546
+--- !u!114 &6896327442829991322
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

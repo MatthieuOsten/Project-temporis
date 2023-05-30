@@ -51,13 +51,33 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public Action<InputAction.CallbackContext> GameRestarted;
+
+    public void OnGameRestarted(InputAction.CallbackContext context)
+    {
+        GameRestarted?.Invoke(context);
+    }
+
     #region MOVE
 
-    public Action<InputAction.CallbackContext> MoveChanged;
+    public Action<InputAction.CallbackContext> MoveStarted;
+    public Action<InputAction.CallbackContext> MovePerformed;
+    public Action<InputAction.CallbackContext> MoveCanceled;
 
     public void OnMoveChanged(InputAction.CallbackContext context)
     {
-        MoveChanged?.Invoke(context);
+        if(context.started)
+        {
+            MoveStarted?.Invoke(context);
+        }
+        else if (context.performed)
+        {
+            MovePerformed?.Invoke(context);
+        }
+        else if (context.canceled)
+        {
+            MoveCanceled?.Invoke(context);
+        }
     }
     #endregion
 

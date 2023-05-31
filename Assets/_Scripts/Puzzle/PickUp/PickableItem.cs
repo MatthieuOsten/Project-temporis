@@ -1,43 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PickableItem : MonoBehaviour
 {
     [SerializeField] ItemInfoScriptable _info;
     public ItemInfoScriptable Info { get { return _info; } private set { _info = value; } }
     Collider _collider;
-    Rigidbody _rb;
+    [SerializeField] GameObject _pickedView, _droppedView;
 
     // Start is called before the first frame update
     void Start()
     {
         _collider = GetComponent<Collider>();
-        _rb = GetComponent<Rigidbody>();
+        _info.itemPicked += OnItemPicked;
+        _info.itemPickedUp += OnItemPickedUp;
+        _info.itemUsed += OnItemUsed;
+        _info.itemStored += OnItemStored;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void PickItem()
+    public void OnItemPicked()
     {
         _collider.isTrigger = true;
         gameObject.layer = 2;
-        _rb.isKinematic = true;
+        transform.tag = "Picked";
+        _droppedView.SetActive(false);
+        _pickedView.SetActive(false);
     }
 
-    public void DropItem()
+    public void OnItemPickedUp(ItemInfoScriptable itemInfo)
     {
-        _collider.isTrigger = false;
-        gameObject.layer = 9;
-        _rb.isKinematic = false;
+        _pickedView.SetActive(true);
+        InputManager.Instance.InventoryStarted?.Invoke(new InputAction.CallbackContext());
     }
 
-    public void UseItem()
+    public void OnItemStored()
     {
-        gameObject.layer = 9;
+        _pickedView.SetActive(false);
+    }
+
+    public void OnItemUsed(Transform target)
+    {
+        gameObject.layer = 11;
+        transform.parent = target;
+        StartCoroutine(MoveTo(target.position, transform));
+    }
+
+    IEnumerator MoveTo(Vector3 pos, Transform target)
+    {
+        while (target.position != pos)
+        {
+            target.position = Vector3.MoveTowards(target.position, pos, 8f * Time.deltaTime);
+            yield return null;
+        }
     }
 }

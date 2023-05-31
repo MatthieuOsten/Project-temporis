@@ -16,8 +16,8 @@ public class PlayerInteract : MonoBehaviour
 
     private Engraving _engravingInfo;
     private Transform _mirrorInfo;
-    private Transform _pickUpInfo;
-    private ItemInfoScriptable _currentItemInfo;
+    private PickableItem _itemInfo;
+    private ItemInfoScriptable _currentHeldItemInfo;
     private Interactive obj;
     private ItemReceiver _itemReceiverInfo;
 
@@ -29,6 +29,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMov;
     [SerializeField] private HeadBobbing _headBobbing;
     [SerializeField] private PlayerCamera _playerCam;
+    [SerializeField] private InventoryScriptable _inventoryScriptable;
 
     // Update is called once per frame
     void Update()
@@ -87,7 +88,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if(hitInfo.collider.TryGetComponent<Interactive>(out obj))
                 {
-                    _gameUI.ShowInteractText("Press LeftClick to interact");
+                    _gameUI.ShowInteractText("Left Click to interact");
 
                     InputManager.Instance.InteractStarted = obj.StartedUse;
                     InputManager.Instance.InteractCancelled = obj.CancelledUse;
@@ -95,9 +96,12 @@ public class PlayerInteract : MonoBehaviour
             }
             else if (hitInfo.transform.gameObject.layer == 11)
             {
-                _gameUI.ShowInteractText("Hold left click to pick");
-                _pickUpInfo = hitInfo.transform;
-                InputManager.Instance.InteractStarted = PickUpItem;
+                _itemInfo = hitInfo.transform.GetComponent<PickableItem>();
+                if (!_inventoryScriptable.AlreadyContained(_itemInfo.Info) || _itemInfo.tag == "Picked")
+                {
+                    _gameUI.ShowInteractText("Left Click to pick");
+                    InputManager.Instance.InteractStarted = OnItemPicked;
+                }
             }
         }
         else
@@ -119,7 +123,6 @@ public class PlayerInteract : MonoBehaviour
         else
         {
             _gameUI.HideInteractText();
-            InputManager.Instance.InteractStarted = DropItem;
         }
     }
     #endregion
@@ -192,44 +195,39 @@ public class PlayerInteract : MonoBehaviour
     }
     #endregion
 
-    #region PICKUP
-    void PickUpItem(InputAction.CallbackContext context)
+    #region ITEM
+    void OnItemPicked(InputAction.CallbackContext context)
+    {
+        Reset();
+        _inventoryScriptable.AddItem(_itemInfo.Info);
+        _itemInfo.transform.parent = _pickUpPoint;
+        _itemInfo.transform.position = _pickUpPoint.position;
+        _itemInfo.Info.itemPickedUp += OnItemPickedUp;
+        _itemInfo.Info.itemStored += OnItemStored;
+    }
+    public void OnItemPickedUp(ItemInfoScriptable itemInfo)
     {
         isHoldingItem = true;
-        Reset();
-        StartCoroutine(MoveTo(_pickUpPoint.position, _pickUpInfo));
-        PickableItem itemScript = _pickUpInfo.GetComponent<PickableItem>();
-        itemScript.PickItem();
-        _currentItemInfo = itemScript.Info;
-        _gameUI.ShowItem(_currentItemInfo.View);
-        _pickUpInfo.parent = _pickUpPoint;
-        InputManager.Instance.InteractStarted = DropItem;
+        _currentHeldItemInfo = itemInfo;
+        _gameUI.ShowItem(itemInfo.View);
     }
-    void DropItem(InputAction.CallbackContext context)
+    public void OnItemStored()
     {
         isHoldingItem = false;
-        PickableItem itemScript = _pickUpInfo.GetComponent<PickableItem>();
-        itemScript.DropItem();
-        _pickUpInfo.parent = null;
+        _currentHeldItemInfo = null;
         _gameUI.HideItem();
     }
     void UseItem(InputAction.CallbackContext context)
     {
-        StartCoroutine(MoveTo(_itemReceiverInfo.itemPosition.position, _pickUpInfo));
+        /*StartCoroutine(MoveTo(_itemReceiverInfo.itemPosition.position, _pickUpInfo));
         PickableItem itemScript = _pickUpInfo.GetComponent<PickableItem>();
         itemScript.UseItem();
-        _pickUpInfo.parent = null;
+        _pickUpInfo.parent = null;*/
+        _inventoryScriptable.RemoveItem(_currentHeldItemInfo);
+        _currentHeldItemInfo.itemUsed.Invoke(_itemReceiverInfo.itemPosition);
         isHoldingItem = false;
         _gameUI.HideItem();
         Reset();
-    }
-    IEnumerator MoveTo(Vector3 pos, Transform target)
-    {
-        while (target.position != pos)
-        {
-            target.position = Vector3.MoveTowards(target.position, pos, 8f * Time.deltaTime);
-            yield return null;
-        }
     }
     #endregion
 }

@@ -138,6 +138,20 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
+    #region INVENTORY
+
+    public Action<InputAction.CallbackContext> InventoryStarted;
+
+    public void OnInventoryChanged(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            InventoryStarted?.Invoke(context);
+        }
+    }
+
+    #endregion
+
     #region ACTIONS UTILITIES
 
     public void EnableAllActions()

@@ -15,6 +15,8 @@ public class ItemButton : MonoBehaviour
     {
         _itemInfo = itemInfo;
         itemImage.sprite = itemInfo.View;
+        _itemInfo.itemPickedUp += OnItemPickedUp;
+        _itemInfo.itemStored += OnItemStored;
         //itemName.text = itemInfo.Name;
         button.onClick.AddListener(PickUpItem);
     }
@@ -22,13 +24,21 @@ public class ItemButton : MonoBehaviour
     void PickUpItem()
     {
         _itemInfo.itemPickedUp?.Invoke(_itemInfo);
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(StoreItem);
     }
     void StoreItem()
     {
         _itemInfo.itemStored?.Invoke();
+    }
+
+    public void OnItemStored()
+    {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(PickUpItem);
+    }
+
+    public void OnItemPickedUp(ItemInfoScriptable itemInfo)
+    {
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(StoreItem);
     }
 }

@@ -9,5 +9,5 @@ public class ItemReceiver : MonoBehaviour
     public Transform itemPosition;
     public ItemInfoScriptable linckedItemInfo;
 
-    public Action<ItemInfoScriptable> WrongItemReceived, RightItemReceived;
+    public Action<PickableItem> WrongItemReceived, RightItemReceived;
 }

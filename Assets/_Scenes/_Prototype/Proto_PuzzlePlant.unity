@@ -217,6 +217,7 @@ MonoBehaviour:
   wheelRadius: 200
   itemButtonPrefab: {fileID: 5485929742175574025, guid: e1db5845da732b9409596bdd2228c9ba, type: 3}
   _itemButtons: []
+  point: {fileID: 1358220856}
 --- !u!1 &211282010
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +264,7 @@ MonoBehaviour:
   _info: {fileID: 11400000, guid: 39fa4a320bf02954c88c93980a14dc8d, type: 2}
   _pickedView: {fileID: 1785048880}
   _droppedView: {fileID: 328070178}
+  picked: 0
 --- !u!4 &211282013
 Transform:
   m_ObjectHideFlags: 0
@@ -2751,6 +2753,7 @@ MonoBehaviour:
   _info: {fileID: 11400000, guid: 9c89c3d19484e304b8352774da6dc439, type: 2}
   _pickedView: {fileID: 917893042}
   _droppedView: {fileID: 1408012557}
+  picked: 0
 --- !u!4 &2114820293
 Transform:
   m_ObjectHideFlags: 0

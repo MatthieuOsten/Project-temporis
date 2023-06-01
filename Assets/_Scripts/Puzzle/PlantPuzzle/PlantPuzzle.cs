@@ -24,19 +24,19 @@ public class PlantPuzzle : MonoBehaviour
         
     }
 
-    void OnWrongItemReceived(ItemInfoScriptable itemInfo)
+    void OnWrongItemReceived(PickableItem item)
     {
         nbReceveirsUsed++;
         WinCheck();
-        itemInfo.itemPickedFromReceiver += OnItemPickedFromReceiver;
+        item.itemPickedFromReceiver += OnItemPickedFromReceiver;
     }
 
-    void OnRightItemReceived(ItemInfoScriptable itemInfo)
+    void OnRightItemReceived(PickableItem item)
     {
         nbReceveirsUsed++;
         nbReceiversCompleted++;
         WinCheck();
-        itemInfo.itemPickedFromReceiver += OnItemPickedFromReceiver;
+        item.itemPickedFromReceiver += OnItemPickedFromReceiver;
     }
 
     void WinCheck()
@@ -50,16 +50,16 @@ public class PlantPuzzle : MonoBehaviour
         }
     }
 
-    public void OnItemPickedFromReceiver(ItemInfoScriptable itemInfo)
+    public void OnItemPickedFromReceiver(PickableItem item)
     {
-        ItemReceiver linckedReceiver = FindLinckedReceiver(itemInfo);
-        if(itemInfo.Id == linckedReceiver.linckedItemId)
+        ItemReceiver linckedReceiver = FindLinckedReceiver(item.Info);
+        if(item.Info.Id == linckedReceiver.linckedItemId)
         {
             nbReceiversCompleted--;
         }
         nbReceveirsUsed--;
         linckedReceiver.linckedItemInfo = null;
-        itemInfo.itemPickedFromReceiver -= OnItemPickedFromReceiver;
+        item.itemPickedFromReceiver -= OnItemPickedFromReceiver;
     }
 
     ItemReceiver FindLinckedReceiver(ItemInfoScriptable itemInfo)

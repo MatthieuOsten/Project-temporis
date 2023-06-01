@@ -12,15 +12,21 @@ public class PickableItem : MonoBehaviour
     Collider _collider;
     [SerializeField] GameObject _pickedView, _droppedView;
 
+    public Action itemPicked, itemStored;
+    public Action<PickableItem> itemPickedUp, itemPickedFromReceiver;
+    public Action<Transform> itemUsed;
+
+    public bool picked;
+
     // Start is called before the first frame update
     void Start()
     {
         _collider = GetComponent<Collider>();
-        _info.itemPicked += OnItemPicked;
-        _info.itemPickedFromReceiver += OnItemPickedFromReceiver;
-        _info.itemPickedUp += OnItemPickedUp;
-        _info.itemUsed += OnItemUsed;
-        _info.itemStored += OnItemStored;
+        itemPicked += OnItemPicked;
+        itemPickedFromReceiver += OnItemPickedFromReceiver;
+        itemPickedUp += OnItemPickedUp;
+        itemUsed += OnItemUsed;
+        itemStored += OnItemStored;
     }
 
     public void OnItemPicked()
@@ -28,19 +34,19 @@ public class PickableItem : MonoBehaviour
         _collider.isTrigger = true;
         gameObject.layer = 2;
         _droppedView.SetActive(false);
+        picked = true;
     }
 
-    public void OnItemPickedFromReceiver(ItemInfoScriptable itemInfo)
+    public void OnItemPickedFromReceiver(PickableItem item)
     {
         gameObject.layer = 2;
         _pickedView.SetActive(false);
     }
 
-    public void OnItemPickedUp(ItemInfoScriptable itemInfo)
+    public void OnItemPickedUp(PickableItem item)
     {
         _pickedView.SetActive(true);
         InputManager.Instance.InventoryStarted?.Invoke(new InputAction.CallbackContext());
-        _info.used = false;
     }
 
     public void OnItemStored()
@@ -53,7 +59,6 @@ public class PickableItem : MonoBehaviour
         gameObject.layer = 11;
         transform.parent = target;
         StartCoroutine(MoveTo(target.position, transform));
-        _info.used = true;
     }
 
     IEnumerator MoveTo(Vector3 pos, Transform target)

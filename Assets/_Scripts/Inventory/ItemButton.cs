@@ -9,25 +9,26 @@ public class ItemButton : MonoBehaviour
     public Button button;
     [SerializeField] Image itemImage;
     public TextMeshProUGUI itemName;
-    private ItemInfoScriptable _itemInfo;
+    [HideInInspector] public PickableItem linckedItem;
 
-    public void SetButton(ItemInfoScriptable itemInfo)
+    public void SetButton(PickableItem item)
     {
-        _itemInfo = itemInfo;
-        itemImage.sprite = itemInfo.View;
-        _itemInfo.itemPickedUp += OnItemPickedUp;
-        _itemInfo.itemStored += OnItemStored;
+        linckedItem = item;
+        ItemInfoScriptable itemInfo = item.Info;
         //itemName.text = itemInfo.Name;
+        itemImage.sprite = itemInfo.View;
+        item.itemPickedUp += OnItemPickedUp;
+        item.itemStored += OnItemStored;
         button.onClick.AddListener(PickUpItem);
     }
 
     void PickUpItem()
     {
-        _itemInfo.itemPickedUp?.Invoke(_itemInfo);
+        linckedItem.itemPickedUp?.Invoke(linckedItem);
     }
     void StoreItem()
     {
-        _itemInfo.itemStored?.Invoke();
+        linckedItem.itemStored?.Invoke();
     }
 
     public void OnItemStored()
@@ -36,7 +37,7 @@ public class ItemButton : MonoBehaviour
         button.onClick.AddListener(PickUpItem);
     }
 
-    public void OnItemPickedUp(ItemInfoScriptable itemInfo)
+    public void OnItemPickedUp(PickableItem item)
     {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(StoreItem);

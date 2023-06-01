@@ -51,7 +51,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void OnInventoryStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("Heyyy");
         this.enabled = !this.enabled;
     }
 

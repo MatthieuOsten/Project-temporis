@@ -8,18 +8,19 @@ public class InventoryScriptable : ScriptableObject
 {
     [SerializeField] List<ItemInfoScriptable> _currentItemsList;
     List<ItemInfoScriptable> _itemsList;
-    public Action<ItemInfoScriptable> itemAdded;
+    public Action<PickableItem, bool> itemAdded;
     public Action<int> itemRemoved;
 
-    public void AddItem(ItemInfoScriptable itemInfo)
+    public void AddItem(PickableItem item)
     {
+        ItemInfoScriptable itemInfo = item.Info;
+        bool alreadyContained = AlreadyContained(itemInfo);
         _currentItemsList.Add(itemInfo);
-        if(!AlreadyContained(itemInfo))
+        if(!alreadyContained)
         {
             _itemsList.Add(itemInfo);
         }
-        itemAdded?.Invoke(itemInfo);
-        itemInfo.itemPickedUp += StoreAll;
+        itemAdded?.Invoke(item, alreadyContained);
     }
     public void RemoveItem(ItemInfoScriptable itemInfo)
     {
@@ -33,16 +34,6 @@ public class InventoryScriptable : ScriptableObject
     public bool AlreadyContained(ItemInfoScriptable itemInfo)
     {
         return _itemsList.Contains(itemInfo);
-    }
-    public void StoreAll(ItemInfoScriptable itemInfo)
-    {
-        for(int i = 0; i< _currentItemsList.Count; i++)
-        {
-            if(_currentItemsList[i] != itemInfo)
-            {
-                _currentItemsList[i].itemStored?.Invoke();
-            }
-        }
     }
     public void Clear()
     {

@@ -15,6 +15,7 @@ public class UIWheel : MonoBehaviour
     [SerializeField] float wheelRadius;
     [SerializeField] GameObject itemButtonPrefab;
     [SerializeField] List<GameObject> _itemButtons;
+    [SerializeField] GameObject point;
 
     private void Start()
     {
@@ -26,12 +27,16 @@ public class UIWheel : MonoBehaviour
         InputManager.Instance.InventoryStarted += OnInventoryStarted;
     }
 
-    public void AddItem(ItemInfoScriptable itemInfo)
+    public void AddItem(PickableItem item, bool alreadyContained)
     {
         GameObject currentButton = Instantiate(itemButtonPrefab, wheel.transform);
         _itemButtons.Add(currentButton);
-        currentButton.GetComponent<ItemButton>().SetButton(itemInfo);
-        if(_itemButtons.Count > 1)
+        currentButton.GetComponent<ItemButton>().SetButton(item);
+        if(!alreadyContained )
+        {
+            item.itemPickedUp += StoreAll;
+        }
+        if (_itemButtons.Count > 1)
         {
             _currentWheelRadius = wheelRadius;
         }
@@ -40,13 +45,12 @@ public class UIWheel : MonoBehaviour
 
     public void OnInventoryStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("Inventory");
         wheel.SetActive(!wheel.activeInHierarchy);
+        point.SetActive(!point.activeInHierarchy);
     }
 
     public void RemoveItem(int index)
     {
-        Debug.Log(index);
         GameObject buttonToRemove = _itemButtons[index];
         _itemButtons.Remove(buttonToRemove);
         Destroy(buttonToRemove);
@@ -66,6 +70,18 @@ public class UIWheel : MonoBehaviour
             Vector3 dir = (transform.position - pos).normalized;
             pos -= dir * _currentWheelRadius;
             _itemButtons[i].transform.position = pos;
+        }
+    }
+
+    public void StoreAll(PickableItem item)
+    {
+        for (int i = 0; i < _itemButtons.Count; i++)
+        {
+            PickableItem currentItem = _itemButtons[i].GetComponent<ItemButton>().linckedItem;
+            if (currentItem != item)
+            {
+                currentItem.itemStored?.Invoke();
+            }
         }
     }
 }

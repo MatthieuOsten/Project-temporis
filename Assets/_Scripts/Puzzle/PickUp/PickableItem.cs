@@ -17,6 +17,7 @@ public class PickableItem : MonoBehaviour
     {
         _collider = GetComponent<Collider>();
         _info.itemPicked += OnItemPicked;
+        _info.itemPickedFromReceiver += OnItemPickedFromReceiver;
         _info.itemPickedUp += OnItemPickedUp;
         _info.itemUsed += OnItemUsed;
         _info.itemStored += OnItemStored;
@@ -26,8 +27,12 @@ public class PickableItem : MonoBehaviour
     {
         _collider.isTrigger = true;
         gameObject.layer = 2;
-        transform.tag = "Picked";
         _droppedView.SetActive(false);
+    }
+
+    public void OnItemPickedFromReceiver(ItemInfoScriptable itemInfo)
+    {
+        gameObject.layer = 2;
         _pickedView.SetActive(false);
     }
 
@@ -35,6 +40,7 @@ public class PickableItem : MonoBehaviour
     {
         _pickedView.SetActive(true);
         InputManager.Instance.InventoryStarted?.Invoke(new InputAction.CallbackContext());
+        _info.used = false;
     }
 
     public void OnItemStored()
@@ -47,6 +53,7 @@ public class PickableItem : MonoBehaviour
         gameObject.layer = 11;
         transform.parent = target;
         StartCoroutine(MoveTo(target.position, transform));
+        _info.used = true;
     }
 
     IEnumerator MoveTo(Vector3 pos, Transform target)

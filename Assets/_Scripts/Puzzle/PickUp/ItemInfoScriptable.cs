@@ -12,8 +12,9 @@ public class ItemInfoScriptable : ScriptableObject
     public Sprite View { get { return _view; } private set { _view = value; } }
     [SerializeField] string _name;
     public string Name { get { return _name; } private set { _name = value; } }
+    [HideInInspector] public bool used;
 
     public Action itemPicked, itemStored;
-    public Action<ItemInfoScriptable> itemPickedUp;
+    public Action<ItemInfoScriptable> itemPickedUp, itemPickedFromReceiver;
     public Action<Transform> itemUsed;
 }

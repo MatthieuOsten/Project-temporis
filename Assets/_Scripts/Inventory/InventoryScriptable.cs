@@ -14,8 +14,11 @@ public class InventoryScriptable : ScriptableObject
     public void AddItem(ItemInfoScriptable itemInfo)
     {
         _currentItemsList.Add(itemInfo);
+        if(!AlreadyContained(itemInfo))
+        {
+            _itemsList.Add(itemInfo);
+        }
         itemAdded?.Invoke(itemInfo);
-        itemInfo.itemPicked?.Invoke();
         itemInfo.itemPickedUp += StoreAll;
     }
     public void RemoveItem(ItemInfoScriptable itemInfo)

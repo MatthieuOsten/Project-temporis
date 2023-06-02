@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 820.8
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Scene
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 18
+  controlID: 119
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 19
+  controlID: 120
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 20
+  controlID: 121
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -3310,7 +3310,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: 350
+    m_CachedPref: -350
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
@@ -3361,22 +3361,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_Prefabs
+    - Assets/_Prefabs/Vegetation
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 53
   m_LastFolders:
-  - Assets/_Prefabs
+  - Assets/_Prefabs/Vegetation
   m_LastFoldersGridSize: 53
   m_LastProjectPath: C:\Users\mabri\OneDrive\Bureau\PFA\Project-temporis
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 180}
-    m_SelectedIDs: fa730000
-    m_LastClickedID: 29690
-    m_ExpandedIDs: 000000001072000012720000147200001672000018720000fa73000000ca9a3b
+    scrollPos: {x: 0, y: 90.20001}
+    m_SelectedIDs: 2c740000
+    m_LastClickedID: 29740
+    m_ExpandedIDs: 000000002e720000307200003272000034720000f6730000fa73000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -3404,7 +3404,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000001072000012720000147200001672000018720000
+    m_ExpandedIDs: 000000002e72000030720000327200003472000036720000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -3533,9 +3533,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ba740000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 24fbffff
+      m_ExpandedIDs: f2e5fffff2f9ffff24fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -3658,9 +3658,9 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 67.5, y: -124}
+      snapOffset: {x: -112, y: 25.599998}
       snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 2
+      snapCorner: 1
       id: Orientation
       index: 0
       layout: 4
@@ -3839,9 +3839,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 63.88146, y: -34.159153, z: 120.047035}
+    m_Target: {x: 40.028435, y: 2.8646276, z: 83.427155}
     speed: 2
-    m_Value: {x: 63.88146, y: -34.159153, z: 120.047035}
+    m_Value: {x: 40.028435, y: 2.8646276, z: 83.427155}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -3888,13 +3888,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.23484746, y: 0.25674704, z: -0.06445449, w: 0.93531346}
+    m_Target: {x: 0.07524662, y: 0.36646864, z: -0.029747294, w: 0.9269249}
     speed: 2
-    m_Value: {x: 0.23324654, y: 0.25964436, z: -0.06476808, w: 0.9348722}
+    m_Value: {x: 0.07520056, y: 0.367852, z: -0.029859593, w: 0.92635745}
   m_Size:
-    m_Target: 37.04688
+    m_Target: 19.705791
     speed: 2
-    m_Value: 37.04688
+    m_Value: 18.857216
   m_Ortho:
     m_Target: 0
     speed: 2

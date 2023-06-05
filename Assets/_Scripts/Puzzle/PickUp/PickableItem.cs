@@ -1,43 +1,72 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PickableItem : MonoBehaviour
 {
     [SerializeField] ItemInfoScriptable _info;
     public ItemInfoScriptable Info { get { return _info; } private set { _info = value; } }
     Collider _collider;
-    Rigidbody _rb;
+    [SerializeField] GameObject _pickedView, _droppedView;
+
+    public Action itemPicked, itemStored;
+    public Action<PickableItem> itemPickedUp, itemPickedFromReceiver;
+    public Action<Transform> itemUsed;
+
+    public bool picked;
 
     // Start is called before the first frame update
     void Start()
     {
         _collider = GetComponent<Collider>();
-        _rb = GetComponent<Rigidbody>();
+        itemPicked += OnItemPicked;
+        itemPickedFromReceiver += OnItemPickedFromReceiver;
+        itemPickedUp += OnItemPickedUp;
+        itemUsed += OnItemUsed;
+        itemStored += OnItemStored;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void PickItem()
+    public void OnItemPicked()
     {
         _collider.isTrigger = true;
         gameObject.layer = 2;
-        _rb.isKinematic = true;
+        _droppedView.SetActive(false);
+        picked = true;
     }
 
-    public void DropItem()
+    public void OnItemPickedFromReceiver(PickableItem item)
     {
-        _collider.isTrigger = false;
-        gameObject.layer = 9;
-        _rb.isKinematic = false;
+        gameObject.layer = 2;
+        _pickedView.SetActive(false);
     }
 
-    public void UseItem()
+    public void OnItemPickedUp(PickableItem item)
     {
-        gameObject.layer = 9;
+        _pickedView.SetActive(true);
+        InputManager.Instance.InventoryStarted?.Invoke(new InputAction.CallbackContext());
+    }
+
+    public void OnItemStored()
+    {
+        _pickedView.SetActive(false);
+    }
+
+    public void OnItemUsed(Transform target)
+    {
+        gameObject.layer = 11;
+        transform.parent = target;
+        StartCoroutine(MoveTo(target.position, transform));
+    }
+
+    IEnumerator MoveTo(Vector3 pos, Transform target)
+    {
+        while (target.position != pos)
+        {
+            target.position = Vector3.MoveTowards(target.position, pos, 8f * Time.deltaTime);
+            yield return null;
+        }
     }
 }

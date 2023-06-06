@@ -9,13 +9,32 @@ public class NoteBookManager : MonoBehaviour
     [SerializeField] EntriesListScriptable _entriesList;
     [SerializeField] EngravingScriptable _engravingScriptableTest;
     [SerializeField] float pageFlipSpeed;
-    [SerializeField] Button button;
+
+    [SerializeField] float _buttonLength;
+    [SerializeField] GameObject _entryButtonPrefab;
+    [SerializeField] Transform _buttonHolder;
+    List<EntryButton> _entryButtonList;
 
     private void Start()
     {
+        _entryButtonList = new List<EntryButton>();
         _entriesList.Clear();
         _entriesList.EntryAdded += OnPageAdded;
-        button.onClick.AddListener(() => { SwitchNoteBookPages(0); });
+        int nbButtons = (leftNoteBookPageList.Count + rightNoteBookPageList.Count)*2;
+        float buttonSpacing = _buttonLength / nbButtons;
+        float buttonStartPos = - buttonSpacing * ((nbButtons - 1)/2);
+        if(nbButtons%2 ==0)
+        {
+            buttonStartPos -= buttonSpacing / 2;
+        }
+        for(int i = 0; i < nbButtons; i++)
+        {
+            int index = i;
+            EntryButton newEntryButton = Instantiate(_entryButtonPrefab, _buttonHolder).GetComponent<EntryButton>();
+            newEntryButton.Initialize(buttonStartPos + buttonSpacing * i, i + 1);
+            newEntryButton.entryButton.onClick.AddListener(() => { SwitchNoteBookPages(index); });
+            _entryButtonList.Add(newEntryButton);
+        }
     }
 
     private void Update()
@@ -29,6 +48,7 @@ public class NoteBookManager : MonoBehaviour
 
     void OnPageAdded(EngravingScriptable newEntry, int entryIndex)
     {
+        _entryButtonList[entryIndex].SetSprite(newEntry.engravingSprite);
         Debug.Log(entryIndex);
         int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
         Debug.Log(noteBookPageIndex);
@@ -78,7 +98,6 @@ public class NoteBookManager : MonoBehaviour
         {
             for(int i = rightNoteBookPageList.Count-1; i > result - 1 - entryIndex % 2; i--)
             {
-
                 leftNoteBookPageList.Add(rightNoteBookPageList[i]);
                 rightNoteBookPageList.RemoveAt(i);
                 int index = rightNoteBookPageList.Count - 1;

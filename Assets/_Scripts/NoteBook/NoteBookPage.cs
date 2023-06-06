@@ -88,5 +88,7 @@ public class NoteBookPage : MonoBehaviour
             pagePivot.localRotation = Quaternion.RotateTowards(pagePivot.localRotation, rot, Time.deltaTime * speed);
             yield return null;
         }
+        pagePivot.localPosition = pos;
+        pagePivot.localRotation = rot;
     }
 }

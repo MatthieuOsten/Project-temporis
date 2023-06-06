@@ -1337,7 +1337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993f91a5f465a274ebdd3b2e0c2ab11b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInput: {fileID: 229957016}
 --- !u!4 &229957018
 Transform:
   m_ObjectHideFlags: 0
@@ -3142,7 +3141,7 @@ MonoBehaviour:
   _idleEffectSpeed: 1
   _pushingEffectSpeed: 0.5
   _walkingEffectIntensity: 0.1
-  _idleEffectIntensity: 0.025
+  _idleEffectIntensity: 0.01
   _pushingEffectIntensity: 0.2
   isPushing: 0
   _animationCurve:
@@ -4389,6 +4388,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PFB_ReflecteurLumiere
       objectReference: {fileID: 0}
+    - target: {fileID: 2464685401514994973, guid: d4d94f1d25226224b907c639b729a945,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9197928568377067717, guid: d4d94f1d25226224b907c639b729a945,
         type: 3}
       propertyPath: m_RootOrder
@@ -4671,6 +4675,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interact: {fileID: 940399638}
   _holdItem: {fileID: 1831438202}
+  _playerScreen: {fileID: 0}
+  _noteBookScreen: {fileID: 0}
 --- !u!114 &1754169938
 MonoBehaviour:
   m_ObjectHideFlags: 0

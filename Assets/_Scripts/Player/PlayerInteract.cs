@@ -6,15 +6,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] GameUI _gameUI;
     [SerializeField] EngravingUI _noteBook;
     [SerializeField] PageList _pageInventory;
+    [SerializeField] EntriesListScriptable _entriesList;
+
+    [Header("RAYCAST UTILITIES")]
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _interactLayers;
     [SerializeField] private LayerMask _itemReceiverLayer;
     [SerializeField] private Transform _pickUpPoint;
 
     private Engraving _engravingInfo;
+    private EntryHolder _entryHolderInfo;
     private Transform _mirrorInfo;
     private PickableItem _itemInfo;
     private PickableItem _currentHeldItemInfo;
@@ -26,9 +31,12 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField] GameObject arm;
 
+    [Header("PLAYER UTILITIES")]
     [SerializeField] private PlayerMovement _playerMov;
     [SerializeField] private HeadBobbing _headBobbing;
     [SerializeField] private PlayerCamera _playerCam;
+
+    [Header("INVENTORY")]
     [SerializeField] private InventoryScriptable _inventoryScriptable;
 
     // Update is called once per frame
@@ -67,13 +75,20 @@ public class PlayerInteract : MonoBehaviour
         {
             if (hitInfo.transform.gameObject.layer == 6)
             {
-                if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
+                /*if (hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
                 {
-                    /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
                     if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
                     {
                         _gameUI.ShowInteractText("Left click to interact");
                         InputManager.Instance.InteractStarted = TranslatePrint;
+                    }
+                }*/
+                if(hitInfo.collider.TryGetComponent<EntryHolder>(out _entryHolderInfo))
+                {
+                    if (!_entryHolderInfo.Info.hasBeenStudied)
+                    {
+                        _gameUI.ShowInteractText("Left click to observe");
+                        InputManager.Instance.InteractStarted = WriteEntry;
                     }
                 }
             }
@@ -133,13 +148,22 @@ public class PlayerInteract : MonoBehaviour
     #endregion
 
     #region PRINT
-    public void TranslatePrint(InputAction.CallbackContext context)
+    /*public void TranslatePrint(InputAction.CallbackContext context)
     {
         EngravingScriptable engravingScriptableToAdd = _engravingInfo.EngravingScriptable;
         _noteBook.Set(engravingScriptableToAdd);
         _engravingInfo.EngravingScriptable.HasBeenStudied = true;
         _pageInventory.SetPageInfo(engravingScriptableToAdd); //ajoute la page à la liste
         InputManager.Instance.InteractStarted -= TranslatePrint;
+    }*/
+
+    public void WriteEntry(InputAction.CallbackContext context)
+    {
+        Debug.Log("Pourquoi?");
+        Reset();
+        _entriesList.AddEntry(_entryHolderInfo.Info);
+        _entryHolderInfo.Info.hasBeenStudied = true;
+        _gameUI.HideInteractText();
     }
     #endregion
 

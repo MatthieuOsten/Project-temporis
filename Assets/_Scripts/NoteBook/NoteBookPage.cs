@@ -11,18 +11,6 @@ public class NoteBookPage : MonoBehaviour
     [SerializeField] TextMeshProUGUI frontDescription, backDescription;
     [SerializeField] Transform pagePivot;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void FlipPage(float posZ, float rotY)
     {
         pagePivot.localPosition = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
@@ -45,18 +33,18 @@ public class NoteBookPage : MonoBehaviour
         StartCoroutine(FlipPivot(pos, rot, speed, delay));
     }
 
-    public void SetFrontPage(EngravingScriptable pageInfo)
+    public void SetFrontPage(EntryInfoScriptable entryInfo)
     {
         frontCanvas.SetActive(true);
-        frontIllustration.sprite = pageInfo.engravingSprite;
-        frontDescription.text = pageInfo.engravingTranslate;
+        frontIllustration.sprite = entryInfo.entryIllustration;
+        frontDescription.text = entryInfo.entryDescription;
     }
 
-    public void SetBackPage(EngravingScriptable pageInfo)
+    public void SetBackPage(EntryInfoScriptable entryInfo)
     {
         backCanvas.SetActive(true);
-        backIllustration.sprite = pageInfo.engravingSprite;
-        backDescription.text = pageInfo.engravingTranslate;
+        backIllustration.sprite = entryInfo.entryIllustration;
+        backDescription.text = entryInfo.entryDescription;
     }
 
     public void ShowFrontPage()

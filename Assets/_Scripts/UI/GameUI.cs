@@ -8,6 +8,7 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _interact;
     [SerializeField] Image _holdItem;
+    [SerializeField] GameObject _playerScreen, _noteBookScreen;
 
     /// <summary>
     /// Set the visibility of the interact text
@@ -33,5 +34,24 @@ public class GameUI : MonoBehaviour
     {
         _holdItem.gameObject.SetActive(false);
         _holdItem.sprite = null;
+    }
+
+    public void ShowPlayerScreen()
+    {
+        _playerScreen.SetActive(true);
+    }
+
+    public void HidePlayerScreen()
+    {
+        _playerScreen.SetActive(false);
+    }
+
+    public void ShowNoteBookScreen()
+    {
+        _noteBookScreen.SetActive(true);
+    }
+    public void HideNoteBookScreen()
+    {
+        _noteBookScreen.SetActive(false);
     }
 }

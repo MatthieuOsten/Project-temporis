@@ -45,6 +45,7 @@ public class UIWheel : MonoBehaviour
 
     public void OnInventoryStarted(InputAction.CallbackContext context)
     {
+        InputManager.Instance.EnableCamera(wheel.activeInHierarchy);
         wheel.SetActive(!wheel.activeInHierarchy);
         point.SetActive(!point.activeInHierarchy);
     }

@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] protected PlayerInput _playerInput;
+    PlayerInput _playerInput;
 
     private void Awake()
     {
@@ -126,15 +126,34 @@ public class InputManager : MonoBehaviour
     {
         CameraChanged?.Invoke(context);
     }
+
+    public Action CameraEnabled, CameraDisabled;
+
+    public void EnableCamera(bool enabled)
+    {
+        if(enabled)
+        {
+            _playerInput.actions.FindAction("Camera").Enable();
+            CameraEnabled?.Invoke();
+        }
+        else
+        {
+            _playerInput.actions.FindAction("Camera").Disable();
+            CameraDisabled?.Invoke();
+        }
+    }
     #endregion
 
     #region NOTEBOOK
 
-    public Action<InputAction.CallbackContext> OpenNoteBookChanged;
+    public Action<InputAction.CallbackContext> OpenNoteBookStarted;
 
     public void OnOpenNoteBookChanged(InputAction.CallbackContext context)
     {
-        OpenNoteBookChanged?.Invoke(context);
+        if(context.started)
+        {
+            OpenNoteBookStarted?.Invoke(context);
+        }
     }
     #endregion
 

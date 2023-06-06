@@ -1,54 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class NoteBookManager : MonoBehaviour
 {
     [SerializeField] List<NoteBookPage> leftNoteBookPageList, rightNoteBookPageList;
     [SerializeField] EntriesListScriptable _entriesList;
-    [SerializeField] EngravingScriptable _engravingScriptableTest;
     [SerializeField] float pageFlipSpeed;
 
     [SerializeField] float _buttonLength;
     [SerializeField] GameObject _entryButtonPrefab;
     [SerializeField] Transform _buttonHolder;
     List<EntryButton> _entryButtonList;
+    [SerializeField] GameObject playerCam, noteBookCam;
+    [SerializeField] GameObject noteBookView;
+    [SerializeField] GameUI _gameUI;
 
     private void Start()
     {
-        _entryButtonList = new List<EntryButton>();
         _entriesList.Clear();
-        _entriesList.EntryAdded += OnPageAdded;
-        int nbButtons = (leftNoteBookPageList.Count + rightNoteBookPageList.Count)*2;
-        float buttonSpacing = _buttonLength / nbButtons;
-        float buttonStartPos = - buttonSpacing * ((nbButtons - 1)/2);
-        if(nbButtons%2 ==0)
-        {
-            buttonStartPos -= buttonSpacing / 2;
-        }
-        for(int i = 0; i < nbButtons; i++)
-        {
-            int index = i;
-            EntryButton newEntryButton = Instantiate(_entryButtonPrefab, _buttonHolder).GetComponent<EntryButton>();
-            newEntryButton.Initialize(buttonStartPos + buttonSpacing * i, i + 1);
-            newEntryButton.entryButton.onClick.AddListener(() => { SwitchNoteBookPages(index); });
-            _entryButtonList.Add(newEntryButton);
-        }
+        _entriesList.entryAdded += OnEntryAdded;
+        InputManager.Instance.OpenNoteBookStarted = OpenNoteBook;
+        SetEntryButtons();
     }
 
-    private void Update()
+    void OnEntryAdded(EntryInfoScriptable newEntry, int entryIndex)
     {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            Debug.Log("Add");
-            AddPage();
-        }
-    }
-
-    void OnPageAdded(EngravingScriptable newEntry, int entryIndex)
-    {
-        _entryButtonList[entryIndex].SetSprite(newEntry.engravingSprite);
+        _entryButtonList[entryIndex].SetSprite(newEntry.entryIllustration);
         Debug.Log(entryIndex);
         int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
         Debug.Log(noteBookPageIndex);
@@ -84,12 +65,11 @@ public class NoteBookManager : MonoBehaviour
         {
             leftNoteBookPageList[leftNoteBookPageList.Count-1].SetBackPage(newEntry);
         }
+        OpenNoteBook(new InputAction.CallbackContext());
     }
 
     void SwitchNoteBookPages(int entryIndex)
     {
-        // A modifier pour gérer l'affichage et le désaffichage des pages
-
         int noteBookPageIndex = (entryIndex - (entryIndex % 2)) / 2;
         int result = rightNoteBookPageList.Count + (leftNoteBookPageList.Count - noteBookPageIndex);
         int delay = 0;
@@ -124,9 +104,26 @@ public class NoteBookManager : MonoBehaviour
         }
     }
 
-    void AddPage()
+    void OpenNoteBook(InputAction.CallbackContext context)
     {
-        _entriesList.AddPage(_engravingScriptableTest);
+        InputManager.Instance.EnableCamera(false);
+        noteBookView.SetActive(true);
+        playerCam.SetActive(false);
+        noteBookCam.SetActive(true);
+        _gameUI.HidePlayerScreen();
+        _gameUI.ShowNoteBookScreen();
+        InputManager.Instance.OpenNoteBookStarted = CloseNoteBook;
+    }
+    void CloseNoteBook(InputAction.CallbackContext context)
+    {
+        Debug.Log("NoteBook");
+        InputManager.Instance.EnableCamera(true);
+        noteBookView.SetActive(false);
+        playerCam.SetActive(true);
+        noteBookCam.SetActive(false);
+        _gameUI.ShowPlayerScreen();
+        _gameUI.HideNoteBookScreen();
+        InputManager.Instance.OpenNoteBookStarted = OpenNoteBook;
     }
 
     #region ButtonFunctions
@@ -147,6 +144,26 @@ public class NoteBookManager : MonoBehaviour
             leftNoteBookPageList.Add(rightNoteBookPageList[rightNoteBookPageList.Count - 1]);
             rightNoteBookPageList.RemoveAt(rightNoteBookPageList.Count - 1);
             leftNoteBookPageList[leftNoteBookPageList.Count - 1].FlipPage(0.005f * (leftNoteBookPageList.Count - 1), -20, pageFlipSpeed);
+        }
+    }
+
+    private void SetEntryButtons()
+    {
+        _entryButtonList = new List<EntryButton>();
+        int nbButtons = (leftNoteBookPageList.Count + rightNoteBookPageList.Count) * 2;
+        float buttonSpacing = _buttonLength / nbButtons;
+        float buttonStartPos = -buttonSpacing * ((nbButtons - 1) / 2);
+        if (nbButtons % 2 == 0)
+        {
+            buttonStartPos -= buttonSpacing / 2;
+        }
+        for (int i = 0; i < nbButtons; i++)
+        {
+            int index = i;
+            EntryButton newEntryButton = Instantiate(_entryButtonPrefab, _buttonHolder).GetComponent<EntryButton>();
+            newEntryButton.Initialize(buttonStartPos + buttonSpacing * i, i + 1);
+            newEntryButton.entryButton.onClick.AddListener(() => { SwitchNoteBookPages(index); });
+            _entryButtonList.Add(newEntryButton);
         }
     }
     #endregion

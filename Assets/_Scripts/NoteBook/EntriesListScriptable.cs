@@ -6,16 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new_EntriesListScriptable", menuName = "NoteBook/EntriesListScriptable")]
 public class EntriesListScriptable : ScriptableObject
 {
-    List<EngravingScriptable> _entriesList;
+    List<EntryInfoScriptable> _entriesList;
 
-    public Action<EngravingScriptable, int> EntryAdded;
+    public Action<EntryInfoScriptable, int> entryAdded;
 
-    public void AddPage(EngravingScriptable entryToAdd)
+    public void AddEntry(EntryInfoScriptable entryToAdd)
     {
         _entriesList.Add(entryToAdd);
-        EntryAdded?.Invoke(entryToAdd, _entriesList.Count-1);
+        entryAdded?.Invoke(entryToAdd, _entriesList.Count-1);
     }
-    public EngravingScriptable GetEntry(int index)
+    public EntryInfoScriptable GetEntry(int index)
     {
         return _entriesList[index];
     }

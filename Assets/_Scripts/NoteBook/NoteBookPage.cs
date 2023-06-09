@@ -19,7 +19,6 @@ public class NoteBookPage : MonoBehaviour
 
     public void FlipPage(float posZ, float rotY, float speed)
     {
-        Debug.Log("Flip");
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         StartCoroutine(FlipPivot(pos, rot, speed, 0));
@@ -27,7 +26,6 @@ public class NoteBookPage : MonoBehaviour
 
     public void FlipPage(float posZ, float rotY, float speed, float delay)
     {
-        Debug.Log("Flip");
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         StartCoroutine(FlipPivot(pos, rot, speed, delay));

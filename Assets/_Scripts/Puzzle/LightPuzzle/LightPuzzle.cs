@@ -5,147 +5,114 @@ using UnityEngine;
 
 public class LightPuzzle : MonoBehaviour
 {
-    [SerializeField] LineRenderer _lightRayL, _lightRayR;
-    Ray _rayL, _rayR;
-    [SerializeField] Transform rayOriginL, rayOriginR;
+    [SerializeField] TubeRenderer _lightRay;
+    Ray _ray;
+    [SerializeField] Transform _rayOrigin;
     [SerializeField] float maxLength = 100;
     //float remainingLength;
     [SerializeField] LayerMask mirrorLayerMask;
-    public List<LightReflector> mirrorsL, mirrorsR;
+    public List<LightReflector> mirrors;
+    [SerializeField] GameObject _laserPOVCamera;
+    [SerializeField] GameUI _gameUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        _lightRayL.positionCount = 2;
-        //_lightRayR.positionCount = 1;
-        _lightRayL.SetPosition(0, rayOriginL.position);
-        //_lightRayR.SetPosition(0, rayOriginR.position);
-        _rayL = new Ray(rayOriginL.position, rayOriginL.forward);
-        //_rayR = new Ray(rayOriginR.position, rayOriginR.forward);
+        //_laserPOVCamera.SetActive(false);
+        _ray = new Ray(_rayOrigin.position, Vector3.forward);
+        _lightRay.positionCount = 2;
+        _lightRay.SetPosition(0, _rayOrigin.position);
+        _gameUI.laserPOVCameraShowed += ShowLaserPOVCamera;
+        _gameUI.laserPOVCameraHidded += HideLaserPOVCamera;
     }
 
     // Update is called once per frame
     void Update()
     {
-        DrawRayLeft();
-        //DrawRayRight();
+        DrawRay();
     }
 
-    void DrawRayLeft()
+    void DrawRay()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_rayL.origin, _rayL.direction, out hit, mirrorLayerMask))
+        if (Physics.Raycast(_ray.origin, _ray.direction, out hit, mirrorLayerMask))
         {
             if (hit.transform.gameObject.layer == 7)
             {
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
-                _lightRayL.positionCount++;
-                //remainingLength -= Vector3.Distance(_ray.origin, hit.point);
-                _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
+                _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
+                _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
                 LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
-                if (mirrorsL.Count == 0)
+                if (mirrors.Count == 0)
                 {
-                    newMirror.rotModified += OnMirrorRotModifiedL;
-                    mirrorsL.Add(newMirror);
+                    newMirror.rotModified += OnMirrorRotModified;
+                    mirrors.Add(newMirror);
                 }
                 else
                 {
-                    if (!mirrorsL.Contains(newMirror))
+                    if (!mirrors.Contains(newMirror))
                     {
-                        newMirror.rotModified += OnMirrorRotModifiedL;
+                        newMirror.rotModified += OnMirrorRotModified;
                     }
-                    if (mirrorsL[mirrorsL.Count - 1] != newMirror)
+                    if (mirrors[mirrors.Count - 1] != newMirror)
                     {
-                        mirrorsL.Add(newMirror);
+                        mirrors.Add(newMirror);
                     }
                 }
             }
-            else if(_lightRayL.GetPosition(_lightRayL.positionCount - 1) != hit.point)
+            else if(_lightRay.GetPosition(_lightRay.positionCount - 1) != hit.point)
             {
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
             }
         }
     }
 
-    void DrawRayRight()
+    void OnMirrorRotModified(LightReflector mirror)
     {
+        int id = mirrors.IndexOf(mirror);
+        if (mirrors[mirrors.Count-1] != mirror)
+        {
+            for (int i = mirrors.Count - 1; i > id; i--)
+            {
+                LightReflector lastMirror = mirrors[i];
+                mirrors.RemoveAt(i);
+                if (!mirrors.Contains(lastMirror))
+                {
+                    lastMirror.rotModified -= OnMirrorRotModified;
+                }
+            }
+        }
+        _lightRay.positionCount = id + 2;
+        Vector3 directionPoint = _lightRay.GetPosition(id + 1);
+        Vector3 lastPoint = _lightRay.GetPosition(id);
+        _ray = new Ray(lastPoint, new Vector3(directionPoint.x - lastPoint.x, directionPoint.y - lastPoint.y, directionPoint.z - lastPoint.z));
         RaycastHit hit;
-        if (Physics.Raycast(_rayR.origin, _rayR.direction, out hit))
+        if (Physics.Raycast(_ray.origin, _ray.direction, out hit, mirrorLayerMask))
         {
             if (hit.transform.gameObject.layer == 7)
             {
-                _lightRayR.positionCount++;
-                _lightRayR.SetPosition(_lightRayR.positionCount - 1, hit.point);
-                //remainingLength -= Vector3.Distance(_ray.origin, hit.point);
-                _rayR = new Ray(hit.point, Vector3.Reflect(_rayR.direction, hit.normal));
-                LightReflector newMirror = hit.transform.GetComponentInParent<LightReflector>();
-                if (!mirrorsR.Contains(newMirror))
-                {
-                    newMirror.rotModified += OnMirrorRotModifiedR;
-                    mirrorsR.Add(newMirror);
-                }
-            }
-            else if(_lightRayR.GetPosition(_lightRayR.positionCount - 1) != hit.point)
-            {
-                _lightRayR.positionCount++;
-                _lightRayR.SetPosition(_lightRayR.positionCount - 1, hit.point);
+                _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
+                _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
             }
         }
-        else
-        {
-            if (!(_lightRayR.GetPosition(_lightRayR.positionCount - 1) == _rayR.origin + _rayR.direction * 100))
-            {
-                _lightRayR.positionCount++;
-                _lightRayR.SetPosition(_lightRayR.positionCount - 1, _rayR.origin + _rayR.direction * 100);
-            }
-        }
+        SetLaserPOVCamera(_ray.origin, _ray.direction, 0.2f);
+        DrawRay();
     }
 
-    void OnMirrorRotModifiedL(LightReflector mirror)
+    void SetLaserPOVCamera(Vector3 pos, Vector3 direction, float yPosOffset)
     {
-        int id = mirrorsL.IndexOf(mirror);
-        if (mirrorsL[mirrorsL.Count-1] != mirror)
-        {
-            for (int i = mirrorsL.Count - 1; i > id; i--)
-            {
-                LightReflector lastMirror = mirrorsL[i];
-                mirrorsL.RemoveAt(i);
-                if (!mirrorsL.Contains(lastMirror))
-                {
-                    lastMirror.rotModified -= OnMirrorRotModifiedL;
-                }
-            }
-        }
-        _lightRayL.positionCount = id + 2;
-        Vector3 directionPoint = _lightRayL.GetPosition(id + 1);
-        Vector3 lastPoint = _lightRayL.GetPosition(id);
-        _rayL = new Ray(lastPoint, new Vector3(directionPoint.x - lastPoint.x, directionPoint.y - lastPoint.y, directionPoint.z - lastPoint.z));
-        RaycastHit hit;
-        if (Physics.Raycast(_rayL.origin, _rayL.direction, out hit, mirrorLayerMask))
-        {
-            if (hit.transform.gameObject.layer == 7)
-            {
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, hit.point);
-                _lightRayL.positionCount++;
-                _rayL = new Ray(hit.point, Vector3.Reflect(_rayL.direction, hit.normal));
-                _lightRayL.SetPosition(_lightRayL.positionCount - 1, _rayL.origin + _rayL.direction * 100);
-            }
-        }
-        DrawRayLeft();
+        _laserPOVCamera.transform.position = pos;
+        _laserPOVCamera.transform.forward = direction;
+        _laserPOVCamera.transform.position += _laserPOVCamera.transform.up * yPosOffset;
     }
 
-    void OnMirrorRotModifiedR(LightReflector mirror)
+    void ShowLaserPOVCamera()
     {
-        int id = mirrorsR.IndexOf(mirror);
-        for (int i = mirrorsR.Count - 1; i > id; i--)
-        {
-            mirrorsR[i].rotModified -= OnMirrorRotModifiedR;
-            mirrorsR.RemoveAt(i);
-        }
-        Vector3 directionPoint = _lightRayR.GetPosition(id+1);
-        _lightRayR.positionCount = id+1;
-        Vector3 lastPoint = _lightRayR.GetPosition(id);
-        _rayR = new Ray(lastPoint, new Vector3(directionPoint.x - lastPoint.x, directionPoint.y - lastPoint.y, directionPoint.z - lastPoint.z));
+        _laserPOVCamera.SetActive(true);
+    }
+    void HideLaserPOVCamera()
+    {
+        _laserPOVCamera.SetActive(false);
     }
 }

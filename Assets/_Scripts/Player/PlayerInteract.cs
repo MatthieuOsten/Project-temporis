@@ -8,8 +8,6 @@ public class PlayerInteract : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] GameUI _gameUI;
-    [SerializeField] EngravingUI _noteBook;
-    [SerializeField] PageList _pageInventory;
     [SerializeField] EntriesListScriptable _entriesList;
 
     [Header("RAYCAST UTILITIES")]
@@ -18,7 +16,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private LayerMask _itemReceiverLayer;
     [SerializeField] private Transform _pickUpPoint;
 
-    private Engraving _engravingInfo;
     private EntryHolder _entryHolderInfo;
     private Transform _mirrorInfo;
     private PickableItem _itemInfo;
@@ -170,6 +167,7 @@ public class PlayerInteract : MonoBehaviour
     #region MIRROR    
     public void GrabMirror(InputAction.CallbackContext context)
     {
+        _gameUI.ShowLaserPOVCameraOutline();
         arm.SetActive(true);
         canDetect = false;
         _gameUI.HideInteractText();
@@ -199,6 +197,7 @@ public class PlayerInteract : MonoBehaviour
     }
     public void LetOffMirror(InputAction.CallbackContext context)
     {
+        _gameUI.HideLaserPOVCameraOutline();
         arm.SetActive(false);
         transform.parent = null;
         InputManager.Instance.EnableActions(false, false, true, false);

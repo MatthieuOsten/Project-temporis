@@ -1566,7 +1566,7 @@ Transform:
   - {fileID: 1771690270}
   - {fileID: 316965984}
   m_Father: {fileID: 1238947831}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209754870
 GameObject:
@@ -1673,9 +1673,10 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1896587745}
   - {fileID: 1197130635}
   m_Father: {fileID: 4228877431012169740}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -50, y: 180, z: 0}
 --- !u!114 &1238947832
 MonoBehaviour:
@@ -2714,13 +2715,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896587742}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.99904823, z: -0.04361939, w: 0}
+  m_LocalPosition: {x: 0, y: -0.87605, z: 5.9567227}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4228877431012169740}
-  m_RootOrder: 2
+  m_Father: {fileID: 1238947831}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!20 &1896587744
 Camera:
@@ -3329,7 +3330,6 @@ Transform:
   m_Children:
   - {fileID: 4134989692967217511}
   - {fileID: 2957007447637287555}
-  - {fileID: 1896587745}
   - {fileID: 1238947831}
   m_Father: {fileID: 1481374222851002384}
   m_RootOrder: 1
@@ -3349,9 +3349,11 @@ MonoBehaviour:
   _walkingEffectSpeed: 5
   _idleEffectSpeed: 1
   _pushingEffectSpeed: 0.5
+  _sprintEffectSpeed: 0
   _walkingEffectIntensity: 0.1
   _idleEffectIntensity: 0.01
   _pushingEffectIntensity: 0.2
+  _sprintEffectIntensity: 0
   isPushing: 0
   _animationCurve:
     serializedVersion: 2

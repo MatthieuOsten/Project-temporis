@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class GameUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _interact;
-    [SerializeField] Image _holdItem;
+    [SerializeField] Image _holdItem, _laserPOVCameraOutline;
     [SerializeField] GameObject _playerScreen, _noteBookScreen;
+    public Action laserPOVCameraShowed, laserPOVCameraHidded;
 
     /// <summary>
     /// Set the visibility of the interact text
@@ -53,5 +55,15 @@ public class GameUI : MonoBehaviour
     public void HideNoteBookScreen()
     {
         _noteBookScreen.SetActive(false);
+    }
+    public void ShowLaserPOVCameraOutline()
+    {
+        _laserPOVCameraOutline.gameObject.SetActive(true);
+        laserPOVCameraShowed?.Invoke();
+    }
+    public void HideLaserPOVCameraOutline()
+    {
+        _laserPOVCameraOutline.gameObject.SetActive(false);
+        laserPOVCameraHidded.Invoke();
     }
 }

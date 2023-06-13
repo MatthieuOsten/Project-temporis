@@ -58,6 +58,7 @@ public class InputManager : MonoBehaviour
         GameRestarted?.Invoke(context);
     }
 
+    #region GAME
     #region MOVE
 
     public Action<InputAction.CallbackContext> MoveStarted;
@@ -129,9 +130,103 @@ public class InputManager : MonoBehaviour
 
     public Action CameraEnabled, CameraDisabled;
 
-    public void EnableCamera(bool enabled)
+    #endregion
+
+    #region NOTEBOOK
+
+    public Action<InputAction.CallbackContext> OpenNoteBookStarted;
+    public Action<InputAction.CallbackContext> CloseNoteBookStarted;
+
+    public void OnOpenNoteBookChanged(InputAction.CallbackContext context)
     {
-        if(enabled)
+        if(context.started)
+        {
+            OpenNoteBookStarted?.Invoke(context);
+        }
+    }
+    public void OnCloseNoteBookChanged(InputAction.CallbackContext context)
+    {
+        Debug.Log("CC");
+        if (context.started)
+        {
+            CloseNoteBookStarted?.Invoke(context);
+        }
+    }
+    #endregion
+
+    #region INVENTORY
+
+    public Action<InputAction.CallbackContext> OpenInventoryStarted;
+    public Action<InputAction.CallbackContext> CloseInventoryStarted;
+
+    public void OnOpenInventoryChanged(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            OpenInventoryStarted?.Invoke(context);
+        }
+    }
+
+    public void OnCloseInventoryChanged(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            CloseInventoryStarted?.Invoke(context);
+        }
+    }
+
+    #endregion
+    #endregion
+
+    #region UI
+    #region POINT
+
+    public Action<InputAction.CallbackContext> PointPerformed;
+
+    public void OnPointChanged(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            PointPerformed?.Invoke(context);
+        }
+    }
+
+    #endregion
+    #endregion
+
+    #region ACTIONS UTILITIES
+
+    public void EnableAllInGameActions()
+    {
+        _playerInput.SwitchCurrentActionMap("Game");
+        CameraEnabled?.Invoke();
+    }
+    public void DisableAllInGameActions()
+    {
+        _playerInput.SwitchCurrentActionMap("UI");
+        CameraDisabled?.Invoke();
+    }
+    public void InGameActionsEnabled(bool move, bool interact, bool camera, bool openNoteBook)
+    {
+        if (move)
+        {
+            _playerInput.actions.FindAction("Move").Enable();
+        }
+        else
+        {
+            _playerInput.actions.FindAction("Move").Disable();
+        }
+
+        if (interact)
+        {
+            _playerInput.actions.FindAction("Interact").Enable();
+        }
+        else
+        {
+            _playerInput.actions.FindAction("Interact").Disable();
+        }
+
+        if (camera)
         {
             _playerInput.actions.FindAction("Camera").Enable();
             CameraEnabled?.Invoke();
@@ -141,91 +236,16 @@ public class InputManager : MonoBehaviour
             _playerInput.actions.FindAction("Camera").Disable();
             CameraDisabled?.Invoke();
         }
-    }
-    #endregion
 
-    #region NOTEBOOK
-
-    public Action<InputAction.CallbackContext> OpenNoteBookStarted;
-
-    public void OnOpenNoteBookChanged(InputAction.CallbackContext context)
-    {
-        if(context.started)
-        {
-            OpenNoteBookStarted?.Invoke(context);
-        }
-    }
-    #endregion
-
-    #region INVENTORY
-
-    public Action<InputAction.CallbackContext> InventoryStarted;
-
-    public void OnInventoryChanged(InputAction.CallbackContext context)
-    {
-        if(context.started)
-        {
-            InventoryStarted?.Invoke(context);
-        }
-    }
-
-    #endregion
-
-    #region ACTIONS UTILITIES
-
-    public void EnableAllActions()
-    {
-        _playerInput.actions.FindAction("Move").Enable();
-        _playerInput.actions.FindAction("Interact").Enable();
-        _playerInput.actions.FindAction("Camera").Enable();
-        _playerInput.actions.FindAction("OpenNoteBook").Enable();
-
-    }
-    public void DisableAllActions()
-    {
-        _playerInput.actions.FindAction("Move").Disable();
-        _playerInput.actions.FindAction("Interact").Disable();
-        _playerInput.actions.FindAction("Camera").Disable();
-        _playerInput.actions.FindAction("OpenNoteBook").Disable();
-
-    }
-    public void EnableActions(bool move, bool interact, bool camera, bool openNoteBook)
-    {
-        if (move)
-        {
-            _playerInput.actions.FindAction("Move").Enable();
-        }
-        if (interact)
-        {
-            _playerInput.actions.FindAction("Interact").Enable();
-        }
-        if (camera)
-        {
-            _playerInput.actions.FindAction("Camera").Enable();
-        }
         if (openNoteBook)
         {
             _playerInput.actions.FindAction("OpenNoteBook").Enable();
         }
-    }
-    public void DisableActions(bool move, bool interact, bool camera, bool openNoteBook)
-    {
-        if (move)
-        {
-            _playerInput.actions.FindAction("Move").Disable();
-        }
-        if (interact)
-        {
-            _playerInput.actions.FindAction("Interact").Disable();
-        }
-        if(camera)
-        {
-            _playerInput.actions.FindAction("Camera").Disable();
-        }
-        if (openNoteBook)
+        else
         {
             _playerInput.actions.FindAction("OpenNoteBook").Disable();
         }
     }
+
     #endregion
 }

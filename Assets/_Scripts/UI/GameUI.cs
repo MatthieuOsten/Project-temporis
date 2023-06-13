@@ -4,13 +4,54 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.InputSystem;
 
 public class GameUI : MonoBehaviour
 {
+    #region SINGELTON
+    static GameUI _instance;
+    static public GameUI Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject newGameUI = new GameObject("GameUI");
+                _instance = newGameUI.AddComponent<GameUI>();
+                return _instance;
+            }
+            else
+            {
+                return _instance;
+            }
+        }
+        set
+        {
+            if (Instance != null)
+            {
+                Destroy(value.gameObject);
+            }
+        }
+    }
+    #endregion
+
     [SerializeField] TextMeshProUGUI _interact;
     [SerializeField] Image _holdItem, _laserPOVCameraOutline;
     [SerializeField] GameObject _playerScreen, _noteBookScreen;
     public Action laserPOVCameraShowed, laserPOVCameraHidded;
+    [SerializeField] GameObject _handCursor, _penCursor;
+    [SerializeField] Transform _cursorHolder;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
+
+    private void Start()
+    {
+        Cursor.visible = false;
+        InputManager.Instance.PointPerformed += MoveCursor;
+    }
 
     /// <summary>
     /// Set the visibility of the interact text
@@ -65,5 +106,27 @@ public class GameUI : MonoBehaviour
     {
         _laserPOVCameraOutline.gameObject.SetActive(false);
         laserPOVCameraHidded.Invoke();
+    }
+
+    public void ShowHandCursor()
+    {
+        _penCursor.SetActive(false);
+        _handCursor.SetActive(true);
+    }
+
+    public void ShowPenCursor()
+    {
+        _handCursor.SetActive(false);
+        _penCursor.SetActive(true);
+    }
+
+    public void ShowErasorCursor()
+    {
+
+    }
+
+    void MoveCursor(InputAction.CallbackContext context)
+    {
+        _cursorHolder.transform.position = context.ReadValue<Vector2>();
     }
 }

@@ -24,7 +24,7 @@ public class UIWheel : MonoBehaviour
         _itemButtons = new List<GameObject>();
         inventory.itemAdded += AddItem;
         inventory.itemRemoved += RemoveItem;
-        InputManager.Instance.InventoryStarted += OnInventoryStarted;
+        InputManager.Instance.OpenInventoryStarted += OnInventoryStarted;
     }
 
     public void AddItem(PickableItem item, bool alreadyContained)
@@ -45,7 +45,7 @@ public class UIWheel : MonoBehaviour
 
     public void OnInventoryStarted(InputAction.CallbackContext context)
     {
-        InputManager.Instance.EnableCamera(wheel.activeInHierarchy);
+        //InputManager.Instance.EnableCamera(wheel.activeInHierarchy);
         wheel.SetActive(!wheel.activeInHierarchy);
         point.SetActive(!point.activeInHierarchy);
     }

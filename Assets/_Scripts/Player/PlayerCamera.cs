@@ -34,11 +34,13 @@ public class PlayerCamera : MonoBehaviour
     private void OnCameraEnabled()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        this.enabled = true;
     }
 
     private void OnCameraDisabled()
     {
         Cursor.lockState = CursorLockMode.Confined;
+        this.enabled = false;
     }
 
     private void Start()

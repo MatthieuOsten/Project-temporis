@@ -1,19 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new_EntriesListScriptable", menuName = "NoteBook/EntriesListScriptable")]
 public class EntriesListScriptable : ScriptableObject
 {
-    List<EntryInfoScriptable> _entriesList;
+    [SerializeField] EntryInfoScriptable[] _entriesList;
 
     public Action<EntryInfoScriptable, int> entryAdded;
+    public Action<EntryInfoScriptable, EntryInfoScriptable> tornedEntriesAdded;
 
     public void AddEntry(EntryInfoScriptable entryToAdd)
     {
-        _entriesList.Add(entryToAdd);
-        entryAdded?.Invoke(entryToAdd, _entriesList.Count-1);
+        _entriesList[entryToAdd.entryIndex] = entryToAdd;
+        entryAdded?.Invoke(entryToAdd, entryToAdd.entryIndex);
+    }
+    public void AddTornedEntries(EntryInfoScriptable frontEntry, EntryInfoScriptable backEntry)
+    {
+        _entriesList[frontEntry.entryIndex] = frontEntry;
+        entryAdded?.Invoke(frontEntry, frontEntry.entryIndex);
+        tornedEntriesAdded?.Invoke(frontEntry, backEntry);
+        _entriesList[backEntry.entryIndex] = backEntry;
     }
     public EntryInfoScriptable GetEntry(int index)
     {
@@ -22,6 +31,6 @@ public class EntriesListScriptable : ScriptableObject
 
     public void Clear()
     {
-        _entriesList.Clear();
+        _entriesList = null;
     }
 }

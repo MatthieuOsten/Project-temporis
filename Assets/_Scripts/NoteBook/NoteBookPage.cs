@@ -10,18 +10,8 @@ public class NoteBookPage : MonoBehaviour
     [SerializeField] Image frontIllustration, backIllustration;
     [SerializeField] TextMeshProUGUI frontDescription, backDescription;
     [SerializeField] Transform pagePivot;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    bool _isTorned = false;
+    [SerializeField] GameObject _repairedView, _tornedView;
 
     public void FlipPage(float posZ, float rotY)
     {
@@ -31,7 +21,6 @@ public class NoteBookPage : MonoBehaviour
 
     public void FlipPage(float posZ, float rotY, float speed)
     {
-        Debug.Log("Flip");
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         StartCoroutine(FlipPivot(pos, rot, speed, 0));
@@ -39,24 +28,23 @@ public class NoteBookPage : MonoBehaviour
 
     public void FlipPage(float posZ, float rotY, float speed, float delay)
     {
-        Debug.Log("Flip");
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         StartCoroutine(FlipPivot(pos, rot, speed, delay));
     }
 
-    public void SetFrontPage(EngravingScriptable pageInfo)
+    public void SetFrontPage(EntryInfoScriptable entryInfo)
     {
         frontCanvas.SetActive(true);
-        frontIllustration.sprite = pageInfo.engravingSprite;
-        frontDescription.text = pageInfo.engravingTranslate;
+        frontIllustration.sprite = entryInfo.entryIllustration;
+        frontDescription.text = entryInfo.entryDescription;
     }
 
-    public void SetBackPage(EngravingScriptable pageInfo)
+    public void SetBackPage(EntryInfoScriptable entryInfo)
     {
         backCanvas.SetActive(true);
-        backIllustration.sprite = pageInfo.engravingSprite;
-        backDescription.text = pageInfo.engravingTranslate;
+        backIllustration.sprite = entryInfo.entryIllustration;
+        backDescription.text = entryInfo.entryDescription;
     }
 
     public void ShowFrontPage()
@@ -77,6 +65,14 @@ public class NoteBookPage : MonoBehaviour
     public void HideBackPage()
     {
         backCanvas.SetActive(false);
+    }
+
+    public void RepairPage(EntryInfoScriptable frontEntryInfo, EntryInfoScriptable backEntryInfo)
+    {
+        SetFrontPage(frontEntryInfo);
+        SetBackPage(backEntryInfo);
+        _tornedView.SetActive(false);
+        _repairedView.SetActive(true);
     }
 
     IEnumerator FlipPivot(Vector3 pos, Quaternion rot, float speed, float delay)

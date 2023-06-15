@@ -6,29 +6,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] GameUI _gameUI;
-    [SerializeField] EngravingUI _noteBook;
-    [SerializeField] PageList _pageInventory;
+    [SerializeField] EntriesListScriptable _entriesList;
+
+    [Header("RAYCAST UTILITIES")]
     [SerializeField] private float _rayDistance = 10f;
     [SerializeField] private LayerMask _interactLayers;
     [SerializeField] private LayerMask _itemReceiverLayer;
     [SerializeField] private Transform _pickUpPoint;
 
-    private Engraving _engravingInfo;
+    private EntryHolder _entryHolderInfo;
     private Transform _mirrorInfo;
     private PickableItem _itemInfo;
     private PickableItem _currentHeldItemInfo;
     private Interactive obj;
     private ItemReceiver _itemReceiverInfo;
+    private TornPageHolder _tornPageInfo;
 
     bool canDetect = true;
     bool isHoldingItem = false;
 
     [SerializeField] GameObject arm;
 
+    [Header("PLAYER UTILITIES")]
     [SerializeField] private PlayerMovement _playerMov;
     [SerializeField] private HeadBobbing _headBobbing;
     [SerializeField] private PlayerCamera _playerCam;
+
+    [Header("INVENTORY")]
     [SerializeField] private InventoryScriptable _inventoryScriptable;
 
     // Update is called once per frame
@@ -67,13 +73,12 @@ public class PlayerInteract : MonoBehaviour
         {
             if (hitInfo.transform.gameObject.layer == 6)
             {
-                if (/*hitInfo.collider.GetComponent<Engraving>() != null*/ hitInfo.collider.TryGetComponent<Engraving>(out _engravingInfo))
+                if(hitInfo.collider.TryGetComponent<EntryHolder>(out _entryHolderInfo))
                 {
-                    /*_engravingInfo = hitInfo.collider.GetComponent<Engraving>(); // var to store engraving info*/
-                    if (!_engravingInfo.EngravingScriptable.HasBeenStudied)
+                    if (!_entryHolderInfo.Info.hasBeenStudied)
                     {
-                        _gameUI.ShowInteractText("Left click to interact");
-                        InputManager.Instance.InteractStarted = TranslatePrint;
+                        _gameUI.ShowInteractText("Left click to observe");
+                        InputManager.Instance.InteractStarted = WriteEntry;
                     }
                 }
             }
@@ -108,6 +113,14 @@ public class PlayerInteract : MonoBehaviour
                     InputManager.Instance.InteractStarted = OnItemPickedFromReceiver;
                 }
             }
+            else if(hitInfo.transform.gameObject.layer == 13)
+            {
+                if(hitInfo.collider.TryGetComponent<TornPageHolder>(out _tornPageInfo))
+                {
+                    _gameUI.ShowInteractText("Lef click to pick");
+                    InputManager.Instance.InteractStarted = OnTornPagePicked;
+                }
+            }
         }
         else
         {
@@ -133,24 +146,34 @@ public class PlayerInteract : MonoBehaviour
     #endregion
 
     #region PRINT
-    public void TranslatePrint(InputAction.CallbackContext context)
+    /*public void TranslatePrint(InputAction.CallbackContext context)
     {
         EngravingScriptable engravingScriptableToAdd = _engravingInfo.EngravingScriptable;
         _noteBook.Set(engravingScriptableToAdd);
         _engravingInfo.EngravingScriptable.HasBeenStudied = true;
         _pageInventory.SetPageInfo(engravingScriptableToAdd); //ajoute la page à la liste
         InputManager.Instance.InteractStarted -= TranslatePrint;
+    }*/
+
+    public void WriteEntry(InputAction.CallbackContext context)
+    {
+        Debug.Log("Pourquoi?");
+        Reset();
+        _entriesList.AddEntry(_entryHolderInfo.Info);
+        _entryHolderInfo.Info.hasBeenStudied = true;
+        _gameUI.HideInteractText();
     }
     #endregion
 
     #region MIRROR    
     public void GrabMirror(InputAction.CallbackContext context)
     {
+        _gameUI.ShowLaserPOVCameraOutline();
         arm.SetActive(true);
         canDetect = false;
         _gameUI.HideInteractText();
         InputManager.Instance.InteractStarted = null;
-        InputManager.Instance.DisableActions(true, false, true, false);
+        //InputManager.Instance.DisableActions(true, false, true, false);
         LightReflector parent = _mirrorInfo.GetComponentInParent<LightReflector>();
         InputManager.Instance.MoveStarted = parent.RotateReflectorStarted;
         InputManager.Instance.MovePerformed = null;
@@ -175,9 +198,10 @@ public class PlayerInteract : MonoBehaviour
     }
     public void LetOffMirror(InputAction.CallbackContext context)
     {
+        _gameUI.HideLaserPOVCameraOutline();
         arm.SetActive(false);
         transform.parent = null;
-        InputManager.Instance.EnableActions(false, false, true, false);
+        InputManager.Instance.InGameActionsEnabled(false, false, true, false);
         InputManager.Instance.MoveStarted = _playerMov.OnMoveStarted;
         InputManager.Instance.MoveStarted += _headBobbing.OnMoveStarted;
         InputManager.Instance.MovePerformed = _playerMov.OnMovePerformed;
@@ -196,7 +220,7 @@ public class PlayerInteract : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 80f * Time.deltaTime);
             yield return null;
         }
-        InputManager.Instance.EnableActions(true, false, true, false);
+        InputManager.Instance.InGameActionsEnabled(true, false, true, false);
     }
     #endregion
 
@@ -248,6 +272,15 @@ public class PlayerInteract : MonoBehaviour
         isHoldingItem = false;
         _gameUI.HideItem();
         Reset();
+    }
+    #endregion
+
+    #region TORNED PAGE
+    void OnTornPagePicked(InputAction.CallbackContext context)
+    {
+        Reset();
+        _entriesList.AddTornedEntries(_tornPageInfo.FrontEntryInfo, _tornPageInfo.BackEntryInfo);
+        Destroy(_tornPageInfo.gameObject);
     }
     #endregion
 }

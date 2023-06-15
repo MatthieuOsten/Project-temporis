@@ -14,7 +14,7 @@ public class TriggerEventNoteBook : MonoBehaviour
     private void TriggerEventTest(Collider obj)
     {
         //Set les infos dans le noteBook
-        _noteBook.Set(_triggerEvent);
+        //_noteBook.Set(_triggerEvent);
         _pages.SetPageInfo(_triggerEvent);
         Debug.Log(obj.gameObject.name);
     }

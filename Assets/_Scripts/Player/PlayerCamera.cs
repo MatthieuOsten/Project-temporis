@@ -31,27 +31,26 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void OnCameraEnabled()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        this.enabled = true;
     }
 
-    private void OnDisable()
+    private void OnCameraDisabled()
     {
         Cursor.lockState = CursorLockMode.Confined;
+        this.enabled = false;
     }
 
     private void Start()
     {
-        InputManager.Instance.InventoryStarted += OnInventoryStarted;
         _mainCamera = CameraUtility.Camera;
         isXRotClamped = false;
         InputManager.Instance.CameraChanged += RotatePlayer;
-    }
-
-    private void OnInventoryStarted(InputAction.CallbackContext context)
-    {
-        this.enabled = !this.enabled;
+        InputManager.Instance.CameraDisabled += OnCameraDisabled;
+        InputManager.Instance.CameraEnabled += OnCameraEnabled;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void RotatePlayer(InputAction.CallbackContext context)

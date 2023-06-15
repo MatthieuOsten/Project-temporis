@@ -1,27 +1,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new_EntriesListScriptable", menuName = "NoteBook/EntriesListScriptable")]
 public class EntriesListScriptable : ScriptableObject
 {
-    List<EngravingScriptable> _entriesList;
+    [SerializeField] EntryInfoScriptable[] _entriesList;
 
-    public Action<EngravingScriptable, int> EntryAdded;
+    public Action<EntryInfoScriptable, int> entryAdded;
+    public Action<EntryInfoScriptable, EntryInfoScriptable> tornedEntriesAdded;
 
-    public void AddPage(EngravingScriptable entryToAdd)
+    public void AddEntry(EntryInfoScriptable entryToAdd)
     {
-        _entriesList.Add(entryToAdd);
-        EntryAdded?.Invoke(entryToAdd, _entriesList.Count-1);
+        _entriesList[entryToAdd.entryIndex] = entryToAdd;
+        entryAdded?.Invoke(entryToAdd, entryToAdd.entryIndex);
     }
-    public EngravingScriptable GetEntry(int index)
+    public void AddTornedEntries(EntryInfoScriptable frontEntry, EntryInfoScriptable backEntry)
+    {
+        _entriesList[frontEntry.entryIndex] = frontEntry;
+        entryAdded?.Invoke(frontEntry, frontEntry.entryIndex);
+        tornedEntriesAdded?.Invoke(frontEntry, backEntry);
+        _entriesList[backEntry.entryIndex] = backEntry;
+    }
+    public EntryInfoScriptable GetEntry(int index)
     {
         return _entriesList[index];
     }
 
     public void Clear()
     {
-        _entriesList.Clear();
+        _entriesList = null;
     }
 }

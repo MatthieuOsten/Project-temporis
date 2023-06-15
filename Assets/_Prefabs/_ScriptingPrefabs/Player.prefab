@@ -82,8 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameUI: {fileID: 0}
-  _noteBook: {fileID: 0}
-  _pageInventory: {fileID: 11400000, guid: 831536e7546feab48a5486d5fc15d6ba, type: 2}
+  _entriesList: {fileID: 11400000, guid: 6eb46967d906aa943abbcccb4c69ab14, type: 2}
   _rayDistance: 1.5
   _interactLayers:
     serializedVersion: 2
@@ -224,7 +223,7 @@ GameObject:
   - component: {fileID: 6469601647950505367}
   - component: {fileID: 2957007446377249387}
   m_Layer: 2
-  m_Name: Camera
+  m_Name: PlayerCam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -409,9 +408,11 @@ MonoBehaviour:
   _walkingEffectSpeed: 5
   _idleEffectSpeed: 1
   _pushingEffectSpeed: 0.5
+  _sprintEffectSpeed: 0
   _walkingEffectIntensity: 0.1
-  _idleEffectIntensity: 0.025
+  _idleEffectIntensity: 0.01
   _pushingEffectIntensity: 0.2
+  _sprintEffectIntensity: 0
   isPushing: 0
   _animationCurve:
     serializedVersion: 2

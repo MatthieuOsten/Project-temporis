@@ -42,6 +42,11 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
         GameUI.Instance.isLocked = true;
     }
 
+    public int GetIllustrationIndex()
+    {
+        return _illustrationStates.IndexOf(illustrationButton.image.sprite);
+    }
+
     void EditIllustration(int index)
     {
         illustrationEdited?.Invoke(index);

@@ -8,7 +8,7 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
     Ray _ray;
     [SerializeField] Transform _rayOrigin;
     [SerializeField] LayerMask mirrorLayerMask;
-    public List<ReflectingMirror> mirrors;
+    public List<ReflectingMirror2D> mirrors;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,7 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
                 _lightRay.positionCount++;
                 _ray = new Ray(target.position, Vector2.Reflect(_ray.direction, target.up));
                 _lightRay.SetPosition(_lightRay.positionCount - 1, target.position + _ray.direction * 100);
-                ReflectingMirror newMirror = target.GetComponent<ReflectingMirror>();
+                ReflectingMirror2D newMirror = target.GetComponent<ReflectingMirror2D>();
                 if (mirrors.Count == 0)
                 {
                     newMirror.rotModified += OnMirrorRotModified;
@@ -59,20 +59,15 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
             {
                 _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
             }
-            else
-            {
-                Debug.Log("Why?");
-            }
         }
     }
 
-    void OnMirrorRotModified(ReflectingMirror mirror)
+    void OnMirrorRotModified(ReflectingMirror2D mirror)
     {
         int id = mirrors.IndexOf(mirror);
-        Debug.Log(id);
         for (int i = mirrors.Count - 1; i > id; i--)
         {
-            ReflectingMirror lastMirror = mirrors[i];
+            ReflectingMirror2D lastMirror = mirrors[i];
             mirrors.RemoveAt(i);
             if (!mirrors.Contains(lastMirror))
             {

@@ -146,7 +146,6 @@ public class InputManager : MonoBehaviour
     }
     public void OnCloseNoteBookChanged(InputAction.CallbackContext context)
     {
-        Debug.Log("CC");
         if (context.started)
         {
             CloseNoteBookStarted?.Invoke(context);

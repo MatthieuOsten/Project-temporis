@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class NoteBookManager : MonoBehaviour
     [SerializeField] Transform noteBookPOV;
     [SerializeField] GameObject noteBookView;
     [SerializeField] GameUI _gameUI;
+
+    public Action NoteBookOpened;
+    public Action NoteBookClosed;
 
     private void Start()
     {
@@ -167,6 +171,7 @@ public class NoteBookManager : MonoBehaviour
         _gameUI.ShowNoteBookScreen();
         StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
         InputManager.Instance.DisableAllInGameActions();
+        NoteBookOpened?.Invoke();
     }
     void CloseNoteBook(InputAction.CallbackContext context)
     {
@@ -174,6 +179,7 @@ public class NoteBookManager : MonoBehaviour
         _gameUI.ShowPlayerScreen();
         _gameUI.HideNoteBookScreen();
         InputManager.Instance.EnableAllInGameActions();
+        NoteBookClosed?.Invoke();
     }
 
     #region ButtonFunctions

@@ -18,6 +18,7 @@ public class TriggerEventTeleportation : MonoBehaviour
     private void EventTeleportation(Collider col)
     {
         _teleportationUI.SetActive(!_teleportationUI.activeInHierarchy);
+        InputManager.Instance.EnableAllInGameActions();
         _animator.SetBool("HitTrigger", true);
     }
 

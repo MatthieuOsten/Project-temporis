@@ -7,5 +7,6 @@ public class SetPlayerPosition : MonoBehaviour
     public void SetPositionPlayer()
     {
         _eventTrigger.Event._player.transform.position = _eventTrigger.Event._spawn.position;
+        InputManager.Instance.EnableAllInGameActions();
     }
 }

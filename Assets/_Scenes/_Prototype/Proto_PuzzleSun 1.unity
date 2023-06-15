@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -799,12 +799,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 1065872173}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &176427015
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1457,12 +1451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 554130203}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &296409480
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1516,6 +1504,7 @@ MonoBehaviour:
   _handCursor: {fileID: 0}
   _penCursor: {fileID: 0}
   _cursorHolder: {fileID: 0}
+  isLocked: 0
 --- !u!224 &311775003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3078,7 +3067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &686880237
 Transform:
   m_ObjectHideFlags: 0
@@ -3527,12 +3516,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 1469867580}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &907151528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5215,12 +5198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 1508551056}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &1395521645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5377,12 +5354,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 481209099}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &1428624840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5800,12 +5771,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 678026128}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &1501053617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6370,12 +6335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 634798583}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &1627272051
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6652,12 +6611,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 608415827}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &1697257694
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7716,12 +7669,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 1993593864}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &2042354421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8103,12 +8050,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _spriteRenderer: {fileID: 485541137}
-  _mirrorStates:
-  - {fileID: 21300000, guid: bb349eb486b70c44f8d5e24b00e95f30, type: 3}
-  - {fileID: 21300000, guid: edc84999c5db8dc4cb605ec3c1957c92, type: 3}
-  - {fileID: 21300000, guid: 0ac2681b22c71764ca4f85565d9872d2, type: 3}
-  - {fileID: 21300000, guid: a84bfc17e6e96934ab668acfa21ff0d1, type: 3}
 --- !u!65 &2139692597
 BoxCollider:
   m_ObjectHideFlags: 0

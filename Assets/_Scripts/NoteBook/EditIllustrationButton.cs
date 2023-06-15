@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Button _illustrationButton;
+    public Button illustrationButton;
     [SerializeField] Button[] _editIllustrationButtons;
     [SerializeField] GameObject _editIllustrationInterface;
     [SerializeField] List<Sprite> _illustrationStates;
@@ -16,15 +17,15 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     private void Start()
     {
-        _illustrationButton.onClick.AddListener(ShowEditIllustrationInterface);
+        illustrationButton.onClick.AddListener(ShowEditIllustrationInterface);
     }
 
     void ShowEditIllustrationInterface()
     {
-        _illustrationButton.interactable = false;
+        GameUI.Instance.ShowPenCursor();
+        illustrationButton.interactable = false;
         _editIllustrationInterface.SetActive(true);
-        int indexToIgnore = _illustrationStates.IndexOf(_illustrationButton.image.sprite);
-        Debug.Log(indexToIgnore);
+        int indexToIgnore = _illustrationStates.IndexOf(illustrationButton.image.sprite);
         int buttonIndex = 0;
         for (int i =0; i <_illustrationStates.Count; i++)
         {
@@ -37,25 +38,37 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
                 buttonIndex++;
             }
         }
+        InputManager.Instance.ClickCanceled = CloseEditIllustrationInterface;
+        GameUI.Instance.isLocked = true;
     }
 
     void EditIllustration(int index)
     {
         illustrationEdited?.Invoke(index);
-        _illustrationButton.image.sprite = _illustrationStates[index];
+        illustrationButton.image.sprite = _illustrationStates[index];
         CloseEditIllustrationInterface();
     }
 
-    void CloseEditIllustrationInterface()
+    public void CloseEditIllustrationInterface()
     {
-        _illustrationButton.interactable = true; 
+        illustrationButton.interactable = true; 
         _editIllustrationInterface.SetActive(false);
+        GameUI.Instance.isLocked = false;
         GameUI.Instance.ShowHandCursor();
+    }
+
+    public void CloseEditIllustrationInterface(InputAction.CallbackContext context)
+    {
+        illustrationButton.interactable = true;
+        _editIllustrationInterface.SetActive(false);
+        GameUI.Instance.isLocked = false;
+        GameUI.Instance.ShowHandCursor();
+        InputManager.Instance.ClickCanceled = null;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(_illustrationButton.interactable)
+        if(illustrationButton.interactable)
         {
             GameUI.Instance.ShowPenCursor();
         }
@@ -63,7 +76,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (_illustrationButton.interactable)
+        if (illustrationButton.interactable)
         {
             GameUI.Instance.ShowHandCursor();
         }

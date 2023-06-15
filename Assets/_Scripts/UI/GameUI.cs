@@ -41,6 +41,7 @@ public class GameUI : MonoBehaviour
     public Action laserPOVCameraShowed, laserPOVCameraHidded;
     [SerializeField] GameObject _handCursor, _penCursor;
     [SerializeField] Transform _cursorHolder;
+    public bool isLocked;
 
     private void Awake()
     {
@@ -110,14 +111,20 @@ public class GameUI : MonoBehaviour
 
     public void ShowHandCursor()
     {
-        _penCursor.SetActive(false);
-        _handCursor.SetActive(true);
+        if(!isLocked)
+        {
+            _penCursor.SetActive(false);
+            _handCursor.SetActive(true);
+        }
     }
 
     public void ShowPenCursor()
     {
-        _handCursor.SetActive(false);
-        _penCursor.SetActive(true);
+        if(!isLocked)
+        {
+            _handCursor.SetActive(false);
+            _penCursor.SetActive(true);
+        }
     }
 
     public void ShowErasorCursor()

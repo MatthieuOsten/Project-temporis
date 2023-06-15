@@ -57,7 +57,6 @@ public class NoteBookManager : MonoBehaviour
         int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
 
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);
-        Debug.Log(result);
         if (result <= _rightNoteBookPageList.Count)
         {
             for (int i = _rightNoteBookPageList.Count - 1; i > result - 1 - entryIndex%2; i--)
@@ -134,7 +133,6 @@ public class NoteBookManager : MonoBehaviour
         int noteBookPageIndex = (entryIndex - (entryIndex % 2)) / 2;
 
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);
-        Debug.Log(result);
         if (result <= _rightNoteBookPageList.Count)
         {
             for (int i = _rightNoteBookPageList.Count - 1; i > result - 1; i--)

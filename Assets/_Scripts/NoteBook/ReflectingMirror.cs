@@ -29,6 +29,6 @@ public class ReflectingMirror : NoteBookEditableElement
 
     void RotateMirror(float rotY)
     {
-        transform.rotation = Quaternion.Euler(Vector3.up * rotY);
+        transform.rotation = Quaternion.Euler(Vector3.forward * rotY);
     }
 }

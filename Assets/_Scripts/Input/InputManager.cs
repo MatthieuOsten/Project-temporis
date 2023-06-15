@@ -192,6 +192,17 @@ public class InputManager : MonoBehaviour
     }
 
     #endregion
+
+    #region CLICK
+
+    public Action<InputAction.CallbackContext> ClickCanceled;
+
+    public void OnClickChanged(InputAction.CallbackContext context)
+    {
+        ClickCanceled?.Invoke(context);
+    }
+
+    #endregion
     #endregion
 
     #region ACTIONS UTILITIES

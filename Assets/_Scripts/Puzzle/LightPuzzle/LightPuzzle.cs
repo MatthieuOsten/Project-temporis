@@ -19,7 +19,7 @@ public class LightPuzzle : MonoBehaviour
     void Start()
     {
         //_laserPOVCamera.SetActive(false);
-        _ray = new Ray(_rayOrigin.position, Vector3.forward);
+        _ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
         _lightRay.positionCount = 2;
         _lightRay.SetPosition(0, _rayOrigin.position);
         _gameUI.laserPOVCameraShowed += ShowLaserPOVCamera;

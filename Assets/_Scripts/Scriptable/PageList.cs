@@ -42,7 +42,7 @@ public class PageList : ScriptableObject
         AddPage(newPage);
     }
 
-    public void SetPageInfo(EventTriggerScriptable trigger)
+    public void SetPageInfo(EventTriggerScriptableEnviroNoteBook trigger)
     {
         Page newPage = new Page();
         newPage._activate = trigger._activate;

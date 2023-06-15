@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_SH_BookGem
-  m_Shader: {fileID: -6465566751694194690, guid: eade6730e82ba5849b71bad4b8a7dd35, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: eade6730e82ba5849b71bad4b8a7dd35,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -46,14 +47,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fresnel_Size: 0
-    - _Fresnel_Strenght: 0
-    - _Metallic: 0
+    - _Fresnel_Size: 0.1
+    - _Fresnel_Strenght: 0.2
+    - _GlowPower: 3
+    - _IsGlow: 0
+    - _Lumiisity: 0.42
+    - _Metallic: 0.563
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0
+    - _Smoothness: 0.314
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 0, g: 1, b: 0.8781085, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1204690551673219511
 MonoBehaviour:

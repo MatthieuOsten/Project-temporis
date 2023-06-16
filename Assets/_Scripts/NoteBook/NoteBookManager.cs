@@ -159,7 +159,7 @@ public class NoteBookManager : MonoBehaviour
 
         _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].RepairPage(frontEntry, backEntry);
 
-        OpenNoteBook(new InputAction.CallbackContext());
+        OpenNoteBook();
     }
 
     #region INPUT FUNCTIONS
@@ -170,7 +170,16 @@ public class NoteBookManager : MonoBehaviour
         GameUI.Instance.HidePlayerScreen();
         GameUI.Instance.ShowNoteBookScreen();
         StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
-        InputManager.Instance.DisableAllInGameActions();
+        InputManager.Instance.SwitchCurrentActionMap();
+        NoteBookOpened?.Invoke();
+    }
+    void OpenNoteBook()
+    {
+        GameUI.Instance.ShowHandCursor();
+        noteBookView.SetActive(true);
+        GameUI.Instance.HidePlayerScreen();
+        GameUI.Instance.ShowNoteBookScreen();
+        StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
         InputManager.Instance.SwitchCurrentActionMap();
         NoteBookOpened?.Invoke();
     }
@@ -179,7 +188,6 @@ public class NoteBookManager : MonoBehaviour
         noteBookView.SetActive(false);
         GameUI.Instance.ShowPlayerScreen();
         GameUI.Instance.HideNoteBookScreen();
-        InputManager.Instance.EnableAllInGameActions();
         InputManager.Instance.SwitchCurrentActionMap();
         NoteBookClosed?.Invoke();
         GameUI.Instance.HideCursor();

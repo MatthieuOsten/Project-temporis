@@ -341,15 +341,16 @@ public class InputManager : MonoBehaviour
 
     public void SwitchCurrentActionMap()
     {
-        if(_playerInput.currentActionMap.name == "Game")
+        switch(_playerInput.currentActionMap.name)
         {
-            _playerInput.SwitchCurrentActionMap("UI");
-            DisableAllInGameActions();
-        }
-        else if(_playerInput.currentActionMap.name == "UI")
-        {
-            _playerInput.SwitchCurrentActionMap("Game");
-            EnableAllInGameActions();
+            case "Game":
+                DisableAllInGameActions();
+                _playerInput.SwitchCurrentActionMap("UI");
+                break;
+            case "UI":
+                _playerInput.SwitchCurrentActionMap("Game");
+                EnableAllInGameActions();
+                break;
         }
     }
     #endregion

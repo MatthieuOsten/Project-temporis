@@ -20,7 +20,6 @@ public class EntriesListScriptable : ScriptableObject
     public void AddTornedEntries(EntryInfoScriptable frontEntry, EntryInfoScriptable backEntry)
     {
         _entriesList[frontEntry.entryIndex] = frontEntry;
-        entryAdded?.Invoke(frontEntry, frontEntry.entryIndex);
         tornedEntriesAdded?.Invoke(frontEntry, backEntry);
         _entriesList[backEntry.entryIndex] = backEntry;
     }

@@ -24,28 +24,6 @@ public class OpenTemple : MonoBehaviour
     {
         _damOpen++;
         OpenTempleDoor();
-        ShowWaterInTemple();
-    }
-
-    private void ShowWaterInTemple()
-    {
-        switch (_damOpen)
-        {
-            case 1:
-                    _waterLvl1.SetActive(!_waterLvl1.activeInHierarchy);
-                break;
-
-            case 3:
-                    _waterLvl2.SetActive(!_waterLvl2.activeInHierarchy);
-                break;
-
-            case 5:
-                    _waterLvl3.SetActive(!_waterLvl3.activeInHierarchy);
-                break;
-
-            case 6:
-                    _waterLvl4.SetActive(!_waterLvl4.activeInHierarchy);
-                break;
-        }
     }
 }
+

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2182556418834902491}
   - component: {fileID: 8089246481186949088}
   - component: {fileID: 1149116913485613611}
+  - component: {fileID: 4370436257423673782}
   m_Layer: 0
   m_Name: porte_low
   m_TagString: Untagged
@@ -97,6 +98,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _water: []
+  _openTemple: {fileID: 0}
+--- !u!95 &4370436257423673782
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5264347600663966539}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 82bd5f9f747136942a3fd596ac085983, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6275880940062443502
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,4 +250,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventDam: {fileID: 0}
   _animator: {fileID: 0}
-  _openTemple: {fileID: 0}

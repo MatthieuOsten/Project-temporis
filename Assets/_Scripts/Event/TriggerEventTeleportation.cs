@@ -1,32 +1,41 @@
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class TriggerEventTeleportation : MonoBehaviour
 {
-    [SerializeField] EventTriggerTeleportation _event;
+    [SerializeField] GameObject _player;
+    [SerializeField] Transform _spawn;
     [SerializeField] Animator _animator;
     [SerializeField] GameObject _teleportationUI;
-    public EventTriggerTeleportation Event
-    {
-        get { return _event; }
-        set { _event = value; }
-    }
-    private void Awake()
-    {
-        _event.Event += EventTeleportation;
-    }
 
-    private void EventTeleportation(Collider col)
+    private void EventTeleportation()
     {
         _teleportationUI.SetActive(!_teleportationUI.activeInHierarchy);
-        InputManager.Instance.EnableAllInGameActions();
         _animator.SetBool("HitTrigger", true);
+        InputManager.Instance.DisableAllInGameActions();
+        StartCoroutine(DisableUI());
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            _event.EventInvoke(other);
+            EventTeleportation();
         }
+    }
+
+    private void SetPlayerPosition()
+    {
+        _player.transform.position = _spawn.position;
+        InputManager.Instance.EnableAllInGameActions();
+    }
+
+    IEnumerator DisableUI()
+    {
+        yield return new WaitForSeconds(.25f);
+        SetPlayerPosition();
+        yield return new WaitForSeconds(1f);
+        _teleportationUI.SetActive(!_teleportationUI.activeInHierarchy);
     }
 }

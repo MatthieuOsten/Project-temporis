@@ -3,7 +3,7 @@ using UnityEngine;
 public class TriggerEvent : MonoBehaviour
 {
     [SerializeField] EventTriggerScriptable _triggerEvent;
-    [SerializeField] EngravingUI _noteBook;
+    //[SerializeField] EngravingUI _noteBook;
     [SerializeField] PageList _pages;
 
     private void Awake()
@@ -14,7 +14,7 @@ public class TriggerEvent : MonoBehaviour
     private void TriggerEventTest(Collider obj)
     {
         //Set les infos dans le noteBook
-        _noteBook.Set(_triggerEvent);
+        //_noteBook.Set(_triggerEvent);
         _pages.SetPageInfo(_triggerEvent);
         Debug.Log(obj.gameObject.name);
     }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,7 +45,7 @@ public class PickableItem : MonoBehaviour
     public void OnItemPickedUp(PickableItem item)
     {
         _pickedView.SetActive(true);
-        InputManager.Instance.InventoryStarted?.Invoke(new InputAction.CallbackContext());
+        InputManager.Instance.CloseInventoryStarted?.Invoke(new InputAction.CallbackContext());
     }
 
     public void OnItemStored()

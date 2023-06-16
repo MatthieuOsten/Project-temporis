@@ -16,6 +16,7 @@ public class UIWheel : MonoBehaviour
     [SerializeField] GameObject itemButtonPrefab;
     [SerializeField] List<GameObject> _itemButtons;
     [SerializeField] GameObject point;
+    [SerializeField] GameObject _noItemText;
 
     private void Start()
     {
@@ -24,7 +25,8 @@ public class UIWheel : MonoBehaviour
         _itemButtons = new List<GameObject>();
         inventory.itemAdded += AddItem;
         inventory.itemRemoved += RemoveItem;
-        InputManager.Instance.InventoryStarted += OnInventoryStarted;
+        InputManager.Instance.OpenInventoryStarted += OnOpenInventoryStarted;
+        InputManager.Instance.CloseInventoryStarted += OnCloseInventoryStarted;
     }
 
     public void AddItem(PickableItem item, bool alreadyContained)
@@ -43,11 +45,26 @@ public class UIWheel : MonoBehaviour
         UpdateWheel();
     }
 
-    public void OnInventoryStarted(InputAction.CallbackContext context)
+    public void OnOpenInventoryStarted(InputAction.CallbackContext context)
     {
-        InputManager.Instance.EnableCamera(wheel.activeInHierarchy);
+        Debug.Log("Open");
+        InputManager.Instance.SwitchCurrentActionMap();
         wheel.SetActive(!wheel.activeInHierarchy);
         point.SetActive(!point.activeInHierarchy);
+        if (_itemButtons.Count == 0)
+        {
+            _noItemText.SetActive(true);
+        }
+        GameUI.Instance.ShowHandCursor();
+    }
+
+    public void OnCloseInventoryStarted(InputAction.CallbackContext context)
+    {
+        InputManager.Instance.SwitchCurrentActionMap();
+        wheel.SetActive(!wheel.activeInHierarchy);
+        point.SetActive(!point.activeInHierarchy);
+        _noItemText.SetActive(false);
+        GameUI.Instance.HideCursor();
     }
 
     public void RemoveItem(int index)

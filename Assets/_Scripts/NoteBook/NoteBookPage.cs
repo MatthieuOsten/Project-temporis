@@ -10,6 +10,8 @@ public class NoteBookPage : MonoBehaviour
     [SerializeField] Image frontIllustration, backIllustration;
     [SerializeField] TextMeshProUGUI frontDescription, backDescription;
     [SerializeField] Transform pagePivot;
+    bool _isTorned = false;
+    [SerializeField] GameObject _repairedView, _tornedView;
 
     public void FlipPage(float posZ, float rotY)
     {
@@ -63,6 +65,14 @@ public class NoteBookPage : MonoBehaviour
     public void HideBackPage()
     {
         backCanvas.SetActive(false);
+    }
+
+    public void RepairPage(EntryInfoScriptable frontEntryInfo, EntryInfoScriptable backEntryInfo)
+    {
+        SetFrontPage(frontEntryInfo);
+        SetBackPage(backEntryInfo);
+        _tornedView.SetActive(false);
+        _repairedView.SetActive(true);
     }
 
     IEnumerator FlipPivot(Vector3 pos, Quaternion rot, float speed, float delay)

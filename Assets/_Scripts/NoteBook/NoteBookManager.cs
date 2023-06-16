@@ -17,7 +17,6 @@ public class NoteBookManager : MonoBehaviour
     List<EntryButton> _entryButtonList;
     [SerializeField] Transform noteBookPOV;
     [SerializeField] GameObject noteBookView;
-    [SerializeField] GameUI _gameUI;
 
     public Action NoteBookOpened;
     public Action NoteBookClosed;
@@ -163,26 +162,31 @@ public class NoteBookManager : MonoBehaviour
         OpenNoteBook(new InputAction.CallbackContext());
     }
 
+    #region INPUT FUNCTIONS
     void OpenNoteBook(InputAction.CallbackContext context)
     {
         GameUI.Instance.ShowHandCursor();
         noteBookView.SetActive(true);
-        _gameUI.HidePlayerScreen();
-        _gameUI.ShowNoteBookScreen();
+        GameUI.Instance.HidePlayerScreen();
+        GameUI.Instance.ShowNoteBookScreen();
         StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
         InputManager.Instance.DisableAllInGameActions();
+        InputManager.Instance.SwitchCurrentActionMap();
         NoteBookOpened?.Invoke();
     }
     void CloseNoteBook(InputAction.CallbackContext context)
     {
         noteBookView.SetActive(false);
-        _gameUI.ShowPlayerScreen();
-        _gameUI.HideNoteBookScreen();
+        GameUI.Instance.ShowPlayerScreen();
+        GameUI.Instance.HideNoteBookScreen();
         InputManager.Instance.EnableAllInGameActions();
+        InputManager.Instance.SwitchCurrentActionMap();
         NoteBookClosed?.Invoke();
+        GameUI.Instance.HideCursor();
     }
+    #endregion
 
-    #region ButtonFunctions
+    #region BUTTON FUNCTIONS
     public void TurnRight()
     {
         if(_leftNoteBookPageList.Count != 0)

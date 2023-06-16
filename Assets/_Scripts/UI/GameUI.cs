@@ -36,9 +36,8 @@ public class GameUI : MonoBehaviour
     #endregion
 
     [SerializeField] TextMeshProUGUI _interact;
-    [SerializeField] Image _holdItem, _laserPOVCameraOutline;
+    [SerializeField] Image _holdItem;
     [SerializeField] GameObject _playerScreen, _noteBookScreen;
-    public Action laserPOVCameraShowed, laserPOVCameraHidded;
     [SerializeField] GameObject _handCursor, _penCursor;
     [SerializeField] Transform _cursorHolder;
     public bool isLocked;
@@ -98,21 +97,12 @@ public class GameUI : MonoBehaviour
     {
         _noteBookScreen.SetActive(false);
     }
-    public void ShowLaserPOVCameraOutline()
-    {
-        _laserPOVCameraOutline.gameObject.SetActive(true);
-        laserPOVCameraShowed?.Invoke();
-    }
-    public void HideLaserPOVCameraOutline()
-    {
-        _laserPOVCameraOutline.gameObject.SetActive(false);
-        laserPOVCameraHidded.Invoke();
-    }
 
     public void ShowHandCursor()
     {
         if(!isLocked)
         {
+            _cursorHolder.gameObject.SetActive(true);
             _penCursor.SetActive(false);
             _handCursor.SetActive(true);
         }
@@ -122,6 +112,7 @@ public class GameUI : MonoBehaviour
     {
         if(!isLocked)
         {
+            _cursorHolder.gameObject.SetActive(true);
             _handCursor.SetActive(false);
             _penCursor.SetActive(true);
         }
@@ -130,6 +121,11 @@ public class GameUI : MonoBehaviour
     public void ShowErasorCursor()
     {
 
+    }
+
+    public void HideCursor()
+    {
+        _cursorHolder.gameObject.SetActive(false);
     }
 
     void MoveCursor(InputAction.CallbackContext context)

@@ -17,10 +17,8 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] private Transform _pickUpPoint;
 
     private EntryHolder _entryHolderInfo;
-    private Transform _mirrorInfo;
     private PickableItem _itemInfo;
     private PickableItem _currentHeldItemInfo;
-    private Interactive obj;
     private ItemReceiver _itemReceiverInfo;
     private TornPageHolder _tornPageInfo;
 
@@ -82,23 +80,6 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
-            else if (hitInfo.transform.gameObject.layer == 8)
-            {
-                _mirrorInfo = hitInfo.transform;
-                _gameUI.ShowInteractText("Hold left click to grab");
-                InputManager.Instance.InteractStarted = GrabMirror;
-                InputManager.Instance.InteractCancelled = LetOffMirror;
-            }
-            else if(hitInfo.transform.gameObject.layer == 9)
-            {
-                if(hitInfo.collider.TryGetComponent<Interactive>(out obj))
-                {
-                    _gameUI.ShowInteractText("Left click to interact");
-
-                    InputManager.Instance.InteractStarted = obj.StartedUse;
-                    InputManager.Instance.InteractCancelled = obj.CancelledUse;
-                }
-            }
             else if (hitInfo.transform.gameObject.layer == 11)
             {
                 _itemInfo = hitInfo.transform.GetComponent<PickableItem>();
@@ -113,7 +94,7 @@ public class PlayerInteract : MonoBehaviour
                     InputManager.Instance.InteractStarted = OnItemPickedFromReceiver;
                 }
             }
-            else if(hitInfo.transform.gameObject.layer == 13)
+            else if(hitInfo.transform.gameObject.layer == 8)
             {
                 if(hitInfo.collider.TryGetComponent<TornPageHolder>(out _tornPageInfo))
                 {
@@ -162,65 +143,6 @@ public class PlayerInteract : MonoBehaviour
         _entriesList.AddEntry(_entryHolderInfo.Info);
         _entryHolderInfo.Info.hasBeenStudied = true;
         _gameUI.HideInteractText();
-    }
-    #endregion
-
-    #region MIRROR    
-    public void GrabMirror(InputAction.CallbackContext context)
-    {
-        _gameUI.ShowLaserPOVCameraOutline();
-        arm.SetActive(true);
-        canDetect = false;
-        _gameUI.HideInteractText();
-        InputManager.Instance.InteractStarted = null;
-        //InputManager.Instance.DisableActions(true, false, true, false);
-        LightReflector parent = _mirrorInfo.GetComponentInParent<LightReflector>();
-        InputManager.Instance.MoveStarted = parent.RotateReflectorStarted;
-        InputManager.Instance.MovePerformed = null;
-        InputManager.Instance.MoveCanceled = parent.RotateReflectorCanceled;
-        InputManager.Instance.MoveStarted += _headBobbing.OnMoveWhilePushingStarted;
-        InputManager.Instance.MoveCanceled += _headBobbing.OnMoveWhilePushingCanceled;
-        _headBobbing.isPushing = true;
-        transform.parent = parent.transform;
-        _playerCam.IsXRotClamped = true;
-        if (Vector3.Angle(_mirrorInfo.forward, transform.forward) <= 90)
-        {
-            Quaternion rot = Quaternion.LookRotation(_mirrorInfo.forward, transform.up);
-            StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + _mirrorInfo.forward * -0.8f), rot));
-            parent.direction = -1;
-        }
-        else
-        {
-            Quaternion rot = Quaternion.LookRotation(-_mirrorInfo.forward, transform.up);
-            StartCoroutine(LookToward((new Vector3(_mirrorInfo.position.x, transform.position.y, _mirrorInfo.position.z) + -_mirrorInfo.forward * -0.8f), rot));
-            parent.direction = 1;
-        }
-    }
-    public void LetOffMirror(InputAction.CallbackContext context)
-    {
-        _gameUI.HideLaserPOVCameraOutline();
-        arm.SetActive(false);
-        transform.parent = null;
-        InputManager.Instance.InGameActionsEnabled(false, false, true, false);
-        InputManager.Instance.MoveStarted = _playerMov.OnMoveStarted;
-        InputManager.Instance.MoveStarted += _headBobbing.OnMoveStarted;
-        InputManager.Instance.MovePerformed = _playerMov.OnMovePerformed;
-        InputManager.Instance.MoveCanceled = _playerMov.OnMoveCanceled;
-        InputManager.Instance.MoveCanceled += _headBobbing.OnMoveCanceled;
-        _headBobbing.isPushing = false;
-        _mirrorInfo.GetComponentInParent<LightReflector>().Reset();
-        canDetect = true;
-        _playerCam.IsXRotClamped = false;
-    }
-    IEnumerator LookToward(Vector3 pos, Quaternion rot)
-    {
-        while ((transform.position != pos) || (transform.rotation != rot))
-        {
-            transform.position = Vector3.MoveTowards(transform.position, pos, 2f * Time.deltaTime);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 80f * Time.deltaTime);
-            yield return null;
-        }
-        InputManager.Instance.InGameActionsEnabled(true, false, true, false);
     }
     #endregion
 

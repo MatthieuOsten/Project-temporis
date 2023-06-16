@@ -45,7 +45,7 @@ public class PickableItem : MonoBehaviour
     public void OnItemPickedUp(PickableItem item)
     {
         _pickedView.SetActive(true);
-        InputManager.Instance.OpenInventoryStarted?.Invoke(new InputAction.CallbackContext());
+        InputManager.Instance.CloseInventoryStarted?.Invoke(new InputAction.CallbackContext());
     }
 
     public void OnItemStored()

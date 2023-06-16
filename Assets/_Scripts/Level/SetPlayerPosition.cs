@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SetPlayerPosition : MonoBehaviour
 {
-    [SerializeField] TriggerEventTeleportation _eventTrigger;
+    [SerializeField] EventTriggerTeleportation _eventTrigger;
 
     public void SetPositionPlayer()
     {
-        _eventTrigger.Event._player.transform.position = _eventTrigger.Event._spawn.position;
+        _eventTrigger._player.transform.position = _eventTrigger._spawn.position;
         InputManager.Instance.EnableAllInGameActions();
     }
 }

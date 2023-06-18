@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class NoteBookManager : MonoBehaviour
 {
@@ -36,27 +35,27 @@ public class NoteBookManager : MonoBehaviour
         int nbEntries = _rightNoteBookPageList.Count*2;
         for(int i =0; i < nbEntries; i++)
         {
-            EntryInfoScriptable currentEntry = _entriesList.GetEntry(i);
+            EntryScriptable currentEntry = _entriesList.GetEntry(i);
             if (currentEntry)
             {
                 int pageIndex = _rightNoteBookPageList.Count - 1 - ((i - i % 2) / 2);
                 if(i%2 == 0)
                 {
-                    _rightNoteBookPageList[pageIndex].SetFrontPage(currentEntry);
+                    _rightNoteBookPageList[pageIndex].FrontEntry.SetEntry(currentEntry);
 
                 }
                 else
                 {
-                    _rightNoteBookPageList[pageIndex].SetBackPage(currentEntry);
+                    _rightNoteBookPageList[pageIndex].BackEntry.SetEntry(currentEntry);
                 }
-                _entryButtonList[i].SetSprite(currentEntry.entryIllustration);
+                _entryButtonList[i].SetSprite(currentEntry.EntryIcon);
             }
         }
     }
 
-    void OnEntryAdded(EntryInfoScriptable newEntry, int entryIndex)
+    void OnEntryAdded(EntryScriptable newEntry, int entryIndex)
     {
-        _entryButtonList[entryIndex].SetSprite(newEntry.entryIllustration);
+        _entryButtonList[entryIndex].SetSprite(newEntry.EntryIcon);
         int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
 
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);
@@ -83,11 +82,11 @@ public class NoteBookManager : MonoBehaviour
 
         if(entryIndex % 2 == 0)
         {
-            _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].SetFrontPage(newEntry);
+            _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FrontEntry.SetEntry(newEntry);
         }
         else
         {
-            _leftNoteBookPageList[_leftNoteBookPageList.Count-1].SetBackPage(newEntry);
+            _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.SetEntry(newEntry);
         }
         OpenNoteBook(new InputAction.CallbackContext());
     }
@@ -128,11 +127,11 @@ public class NoteBookManager : MonoBehaviour
         }
     }
 
-    void OnTornedEntriesAdded(EntryInfoScriptable frontEntry, EntryInfoScriptable backEntry)
+    void OnTornedEntriesAdded(EntryScriptable frontEntry, EntryScriptable backEntry)
     {
-        int entryIndex = frontEntry.entryIndex;
-        _entryButtonList[entryIndex].SetSprite(frontEntry.entryIllustration);
-        _entryButtonList[backEntry.entryIndex].SetSprite(backEntry.entryIllustration);
+        int entryIndex = frontEntry.EntryIndex;
+        _entryButtonList[entryIndex].SetSprite(frontEntry.EntryIcon);
+        _entryButtonList[backEntry.EntryIndex].SetSprite(backEntry.EntryIcon);
         int noteBookPageIndex = (entryIndex - (entryIndex % 2)) / 2;
 
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);

@@ -73,11 +73,8 @@ public class PlayerInteract : MonoBehaviour
             {
                 if(hitInfo.collider.TryGetComponent<EntryHolder>(out _entryHolderInfo))
                 {
-                    if (!_entryHolderInfo.Info.hasBeenStudied)
-                    {
-                        _gameUI.ShowInteractText("Left click to observe");
-                        InputManager.Instance.InteractStarted = WriteEntry;
-                    }
+                    _gameUI.ShowInteractText("Left click to observe");
+                    InputManager.Instance.InteractStarted = WriteEntry;
                 }
             }
             else if (hitInfo.transform.gameObject.layer == 11)
@@ -141,7 +138,6 @@ public class PlayerInteract : MonoBehaviour
         Debug.Log("Pourquoi?");
         Reset();
         _entriesList.AddEntry(_entryHolderInfo.Info);
-        _entryHolderInfo.Info.hasBeenStudied = true;
         _gameUI.HideInteractText();
     }
     #endregion

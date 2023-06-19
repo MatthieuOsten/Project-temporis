@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 64006764093848602}
   - component: {fileID: 5198072283353127250}
   - component: {fileID: 3494589347441575646}
+  - component: {fileID: 9198632596568746146}
   m_Layer: 0
   m_Name: WaterLakeDamLever
   m_TagString: Untagged
@@ -938,8 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f210aaa8e30ae146951fb1c86cf2abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  _dameAnimator: {fileID: 0}
+  _damAnimator: {fileID: 0}
 --- !u!95 &3494589347441575646
 Animator:
   serializedVersion: 5
@@ -960,6 +960,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &9198632596568746146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8366401259914902868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7528c273653a5ef40af3bd69c2152b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lakeState: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &8593859725614236032
 GameObject:
   m_ObjectHideFlags: 0

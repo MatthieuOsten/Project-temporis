@@ -8,11 +8,12 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
     Ray _ray;
     [SerializeField] Transform _rayOrigin;
     [SerializeField] LayerMask mirrorLayerMask;
-    public List<ReflectingMirror2D> mirrors;
+    public List<ReflectingMirror2D> _mirrors;
 
     // Start is called before the first frame update
     void Start()
     {
+        _mirrors = new List<ReflectingMirror2D>();
         _ray = new Ray(_rayOrigin.position, _rayOrigin.right);
         _lightRay.positionCount = 2;
         _lightRay.SetPosition(0, _rayOrigin.position);
@@ -32,26 +33,25 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
         {
             if (hit.transform.gameObject.layer == 7)
             {
-                Transform target = hit.collider.transform;
-                _lightRay.SetPosition(_lightRay.positionCount - 1, target.position);
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
                 _lightRay.positionCount++;
-                _ray = new Ray(target.position, Vector2.Reflect(_ray.direction, target.up));
-                _lightRay.SetPosition(_lightRay.positionCount - 1, target.position + _ray.direction * 100);
-                ReflectingMirror2D newMirror = target.GetComponent<ReflectingMirror2D>();
-                if (mirrors.Count == 0)
+                _ray = new Ray(hit.point, Vector2.Reflect(_ray.direction, hit.normal));
+                _lightRay.SetPosition(_lightRay.positionCount - 1, _ray.origin + _ray.direction * 100);
+                ReflectingMirror2D newMirror = hit.transform.GetComponent<ReflectingMirror2D>();
+                if (_mirrors.Count == 0)
                 {
                     newMirror.rotModified += OnMirrorRotModified;
-                    mirrors.Add(newMirror);
+                    _mirrors.Add(newMirror);
                 }
                 else
                 {
-                    if (!mirrors.Contains(newMirror))
+                    if (!_mirrors.Contains(newMirror))
                     {
                         newMirror.rotModified += OnMirrorRotModified;
                     }
-                    if (mirrors[mirrors.Count - 1] != newMirror)
+                    if (_mirrors[_mirrors.Count - 1] != newMirror)
                     {
-                        mirrors.Add(newMirror);
+                        _mirrors.Add(newMirror);
                     }
                 }
             }
@@ -62,14 +62,14 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
         }
     }
 
-    void OnMirrorRotModified(ReflectingMirror2D mirror)
+    public void OnMirrorRotModified(ReflectingMirror2D mirror)
     {
-        int id = mirrors.IndexOf(mirror);
-        for (int i = mirrors.Count - 1; i > id; i--)
+        int id = _mirrors.IndexOf(mirror);
+        for (int i = _mirrors.Count - 1; i > id; i--)
         {
-            ReflectingMirror2D lastMirror = mirrors[i];
-            mirrors.RemoveAt(i);
-            if (!mirrors.Contains(lastMirror))
+            ReflectingMirror2D lastMirror = _mirrors[i];
+            _mirrors.RemoveAt(i);
+            if (!_mirrors.Contains(lastMirror))
             {
                 lastMirror.rotModified -= OnMirrorRotModified;
             }
@@ -83,11 +83,10 @@ public class ReflectingMirrorPuzzle2D : MonoBehaviour
         {
             if (hit.transform.gameObject.layer == 7)
             {
-                Transform target = hit.collider.transform;
-                _ray = new Ray(target.position, Vector2.Reflect(_ray.direction, target.up));
-                _lightRay.SetPosition(_lightRay.positionCount - 1, target.position);
+                _ray = new Ray(hit.point, Vector2.Reflect(_ray.direction, hit.normal));
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
                 _lightRay.positionCount++;
-                _lightRay.SetPosition(_lightRay.positionCount - 1, target.position + _ray.direction * 100);
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point + _ray.direction * 100);
             }
         }
         DrawRay();

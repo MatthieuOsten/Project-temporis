@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
     [SerializeField] float _moveSpeed, _sprintSpeed;
-    private float _currentMoveSpeed = 10;
+    private float _currentMoveSpeed = 0;
     bool _isSprinting = false;
 
     bool _isMovementPressed;
@@ -32,13 +32,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _characterController.SimpleMove(transform.TransformDirection(_currentMovement * _currentMoveSpeed * Time.deltaTime));
+        _characterController.SimpleMove(transform.TransformDirection(_currentMovement * _currentMoveSpeed));
     }
 
     public void OnMoveStarted(InputAction.CallbackContext context)
     {
         _isMovementPressed = true;
-        _currentMoveSpeed = 10;
         if (_isSprinting)
         {
             StartCoroutine(SmoothStart(_sprintSpeed));
@@ -64,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     {
         while (_currentMoveSpeed < speed && _isMovementPressed)
         {
-            _currentMoveSpeed += Time.deltaTime * 400;
+            _currentMoveSpeed += Time.deltaTime * 10;
             yield return null;
         }
     }

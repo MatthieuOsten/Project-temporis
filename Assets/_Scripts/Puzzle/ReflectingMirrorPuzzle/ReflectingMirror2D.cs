@@ -15,41 +15,36 @@ public class ReflectingMirror2D : NoteBookEditableElement
         {
             case 0:
                 RotateMirror(0);
+                StartCoroutine(_linckedReflectingMirror.RotateToward(0));
                 break;
             case 1:
                 RotateMirror(90);
+                StartCoroutine(_linckedReflectingMirror.RotateToward(90));
                 break;
             case 2:
-                RotateMirror(45);
+                RotateMirror(-45);
+                StartCoroutine(_linckedReflectingMirror.RotateToward(45));
                 break;
             case 3:
-                RotateMirror(-45);
+                RotateMirror(45);
+                StartCoroutine(_linckedReflectingMirror.RotateToward(-45));
                 break;
         }
-        rotModified?.Invoke(this);
     }
 
     protected override void OnNoteBookClosed()
     {
-        switch (_currentIndex)
-        {
-            case 0:
-                StartCoroutine(_linckedReflectingMirror.RotateToward(0));
-                break;
-            case 1:
-                StartCoroutine(_linckedReflectingMirror.RotateToward(90));
-                break;
-            case 2:
-                StartCoroutine(_linckedReflectingMirror.RotateToward(-45));
-                break;
-            case 3:
-                StartCoroutine(_linckedReflectingMirror.RotateToward(45));
-                break;
-        }
+        
     }
 
     void RotateMirror(float rotY)
     {
         transform.rotation = Quaternion.Euler(Vector3.forward * rotY);
+        Invoke("OnRotModified", 0.1f);
+    }
+
+    void OnRotModified()
+    {
+        rotModified?.Invoke(this);
     }
 }

@@ -6,15 +6,20 @@ using UnityEngine.InputSystem;
 
 public class NoteBookManager : MonoBehaviour
 {
-    [SerializeField] List<NoteBookPage> _leftNoteBookPageList, _rightNoteBookPageList;
+    [Header("PAGES LISTS")]
+    [SerializeField] List<NoteBookPage> _leftNoteBookPageList;
+    [SerializeField] List<NoteBookPage> _rightNoteBookPageList;
+    [Header("ENTRIES LIST")]
     [SerializeField] EntriesListScriptable _entriesList;
+    [Header("PAGE PARAMETERS")]
     [SerializeField] float pageFlipSpeed;
-
-    [SerializeField] float _buttonLength;
+    [SerializeField, Range(0, 0.01f)] float _pageSpacing = 0.002f;
+    [SerializeField] float _rightPageMaxAngle = -160f, _leftPageMaxAngle = -20f;
+    [Header("UI")]
     [SerializeField] GameObject _entryButtonPrefab;
+    [SerializeField] float _buttonLength;
     [SerializeField] Transform _buttonHolder;
     List<EntryButton> _entryButtonList;
-    [SerializeField] Transform noteBookPOV;
     [SerializeField] GameObject noteBookView;
 
     public Action NoteBookOpened;
@@ -22,6 +27,7 @@ public class NoteBookManager : MonoBehaviour
 
     private void Start()
     {
+        NoteBookClosed += ResetAllPages;
         _entriesList.entryAdded += OnEntryAdded;
         _entriesList.tornedEntriesAdded += OnTornedEntriesAdded;
         InputManager.Instance.OpenNoteBookStarted += OpenNoteBook;
@@ -66,7 +72,7 @@ public class NoteBookManager : MonoBehaviour
                 Debug.Log("Droite");
                 _leftNoteBookPageList.Add(_rightNoteBookPageList[i]);
                 _rightNoteBookPageList.RemoveAt(i);
-                _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(0.002f * (_leftNoteBookPageList.Count-1), -20);
+                _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_leftNoteBookPageList.Count-1), _leftPageMaxAngle);
             }
         }
         else
@@ -76,7 +82,7 @@ public class NoteBookManager : MonoBehaviour
                 Debug.Log("Gauche");
                 _rightNoteBookPageList.Add(_leftNoteBookPageList[i]);
                 _leftNoteBookPageList.RemoveAt(i);
-                _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(0.002f * (_rightNoteBookPageList.Count - 1), -160);
+                _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_rightNoteBookPageList.Count - 1), _rightPageMaxAngle);
             }
         }
 
@@ -107,7 +113,7 @@ public class NoteBookManager : MonoBehaviour
                 //rightNoteBookPageList[index].ShowFrontPage();
                 index = _leftNoteBookPageList.Count - 1;
                 //leftNoteBookPageList[index].ShowBackPage();
-                _leftNoteBookPageList[index].FlipPage(0.002f * (_leftNoteBookPageList.Count-1), -20f, 400, 0.1f * delay);
+                _leftNoteBookPageList[index].FlipPage(_pageSpacing * (_leftNoteBookPageList.Count-1), _leftPageMaxAngle, 400, 0.1f * delay);
                 delay++;
             }
         }
@@ -121,7 +127,7 @@ public class NoteBookManager : MonoBehaviour
                 //leftNoteBookPageList[index].ShowFrontPage();
                 index = _rightNoteBookPageList.Count - 1;
                 //rightNoteBookPageList[index].ShowBackPage();
-                _rightNoteBookPageList[index].FlipPage(0.002f * (_rightNoteBookPageList.Count-1), -160f, 400,0.1f * delay);
+                _rightNoteBookPageList[index].FlipPage(_pageSpacing * (_rightNoteBookPageList.Count-1), _rightPageMaxAngle, 400,0.1f * delay);
                 delay++;
             }
         }
@@ -142,7 +148,7 @@ public class NoteBookManager : MonoBehaviour
                 Debug.Log("Droite");
                 _leftNoteBookPageList.Add(_rightNoteBookPageList[i]);
                 _rightNoteBookPageList.RemoveAt(i);
-                _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(0.002f * (_leftNoteBookPageList.Count - 1), -20);
+                _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_leftNoteBookPageList.Count - 1), _leftPageMaxAngle);
             }
         }
         else
@@ -152,13 +158,25 @@ public class NoteBookManager : MonoBehaviour
                 Debug.Log("Gauche");
                 _rightNoteBookPageList.Add(_leftNoteBookPageList[i]);
                 _leftNoteBookPageList.RemoveAt(i);
-                _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(0.002f * (_rightNoteBookPageList.Count - 1), -160);
+                _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_rightNoteBookPageList.Count - 1), _rightPageMaxAngle);
             }
         }
 
         _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].RepairPage(frontEntry, backEntry);
 
         OpenNoteBook();
+    }
+
+    public void ResetAllPages()
+    {
+        for(int i = 0; i< _rightNoteBookPageList.Count; i++)
+        {
+            _rightNoteBookPageList[i].FlipPage(_pageSpacing * i, _rightPageMaxAngle);
+        }
+        for (int i = 0; i < _leftNoteBookPageList.Count; i++)
+        {
+            _leftNoteBookPageList[i].FlipPage(_pageSpacing * i, _leftPageMaxAngle);
+        }
     }
 
     #region INPUT FUNCTIONS
@@ -168,8 +186,9 @@ public class NoteBookManager : MonoBehaviour
         noteBookView.SetActive(true);
         GameUI.Instance.HidePlayerScreen();
         GameUI.Instance.ShowNoteBookScreen();
-        StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
+        CameraManager.Instance.SetNoteBookView();
         InputManager.Instance.SwitchCurrentActionMap();
+        InputManager.Instance.PointPerformed += CheckLookUp;
         NoteBookOpened?.Invoke();
     }
     void OpenNoteBook()
@@ -178,8 +197,9 @@ public class NoteBookManager : MonoBehaviour
         noteBookView.SetActive(true);
         GameUI.Instance.HidePlayerScreen();
         GameUI.Instance.ShowNoteBookScreen();
-        StartCoroutine(LookToward(CameraUtility.Camera.transform, noteBookPOV.localPosition, noteBookPOV.localRotation));
+        CameraManager.Instance.SetNoteBookView();
         InputManager.Instance.SwitchCurrentActionMap();
+        InputManager.Instance.PointPerformed += CheckLookUp;
         NoteBookOpened?.Invoke();
     }
     void CloseNoteBook(InputAction.CallbackContext context)
@@ -188,8 +208,29 @@ public class NoteBookManager : MonoBehaviour
         GameUI.Instance.ShowPlayerScreen();
         GameUI.Instance.HideNoteBookScreen();
         InputManager.Instance.SwitchCurrentActionMap();
+        InputManager.Instance.PointPerformed -= CheckLookUp;
         NoteBookClosed?.Invoke();
         GameUI.Instance.HideCursor();
+    }
+    void CheckLookUp(InputAction.CallbackContext context)
+    {
+        if(context.ReadValue<Vector2>().y >= 1000)
+        {
+            CameraManager.Instance.SetNoteBookMidView();
+            GameUI.Instance.HideNoteBookScreen();
+            InputManager.Instance.PointPerformed -= CheckLookUp;
+            InputManager.Instance.PointPerformed += CheckLookDown;
+        }
+    }
+    void CheckLookDown(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<Vector2>().y <= 100)
+        {
+            CameraManager.Instance.SetNoteBookView();
+            GameUI.Instance.ShowNoteBookScreen();
+            InputManager.Instance.PointPerformed -= CheckLookDown;
+            InputManager.Instance.PointPerformed += CheckLookUp;
+        }
     }
     #endregion
 
@@ -200,7 +241,7 @@ public class NoteBookManager : MonoBehaviour
         {
             _rightNoteBookPageList.Add(_leftNoteBookPageList[_leftNoteBookPageList.Count - 1]);
             _leftNoteBookPageList.RemoveAt(_leftNoteBookPageList.Count - 1);
-            _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(0.005f * (_rightNoteBookPageList.Count - 1), -160, pageFlipSpeed);
+            _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_rightNoteBookPageList.Count - 1), _rightPageMaxAngle, pageFlipSpeed);
         }
     }
 
@@ -210,7 +251,7 @@ public class NoteBookManager : MonoBehaviour
         {
             _leftNoteBookPageList.Add(_rightNoteBookPageList[_rightNoteBookPageList.Count - 1]);
             _rightNoteBookPageList.RemoveAt(_rightNoteBookPageList.Count - 1);
-            _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(0.005f * (_leftNoteBookPageList.Count - 1), -20, pageFlipSpeed);
+            _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_leftNoteBookPageList.Count - 1), _leftPageMaxAngle, pageFlipSpeed);
         }
     }
 
@@ -233,15 +274,12 @@ public class NoteBookManager : MonoBehaviour
             _entryButtonList.Add(newEntryButton);
         }
     }
-    #endregion
-
-    IEnumerator LookToward(Transform target, Vector3 pos, Quaternion rot)
+    public void LookUp()
     {
-        while ((target.localPosition != pos) || (target.localRotation != rot))
-        {
-            target.localPosition = Vector3.MoveTowards(target.localPosition, pos, Time.deltaTime);
-            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, 60f * Time.deltaTime);
-            yield return null;
-        }
+        CameraManager.Instance.SetNoteBookMidView();
+        GameUI.Instance.HideNoteBookScreen();
+        InputManager.Instance.PointPerformed -= CheckLookUp;
+        InputManager.Instance.PointPerformed += CheckLookDown;
     }
+    #endregion
 }

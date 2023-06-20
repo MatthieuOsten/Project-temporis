@@ -39,6 +39,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
             }
         }
         InputManager.Instance.ClickCanceled = CloseEditIllustrationInterface;
+        InputManager.Instance.CloseNoteBookStarted += CloseEditIllustrationInterface;
         GameUI.Instance.isLocked = true;
     }
 
@@ -52,6 +53,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
         illustrationEdited?.Invoke(index);
         illustrationButton.image.sprite = _illustrationStates[index];
         CloseEditIllustrationInterface();
+        _noteBookManager.LookUp();
     }
 
     public void CloseEditIllustrationInterface()
@@ -69,6 +71,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
         GameUI.Instance.isLocked = false;
         GameUI.Instance.ShowHandCursor();
         InputManager.Instance.ClickCanceled = null;
+        InputManager.Instance.CloseNoteBookStarted -= CloseEditIllustrationInterface;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

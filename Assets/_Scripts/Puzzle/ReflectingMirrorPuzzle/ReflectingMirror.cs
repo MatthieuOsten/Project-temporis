@@ -1,21 +1,27 @@
-using log4net.Util;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ReflectingMirror : MonoBehaviour
 {
-    [SerializeField] ReflectingMirrorPuzzle _reflectingMirrorPuzzle;
+    public ReflectingMirrorPuzzle reflectingMirrorPuzzle;
+    public Action<ReflectingMirror> rotModified;
+
     public IEnumerator RotateToward(float rotY)
     {
-        _reflectingMirrorPuzzle.BlockRay();
+        CameraManager.Instance.LookAt(transform, 200f);
+        reflectingMirrorPuzzle.LockAllMirrorsButtons();
         Quaternion rot = Quaternion.Euler(0, rotY, 0);
         while (transform.rotation != rot)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 80f * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 100f * Time.deltaTime);
+            rotModified?.Invoke(this);
             yield return null;
         }
         transform.rotation = rot;
-        _reflectingMirrorPuzzle.ResetRay();
+        yield return new WaitForSeconds(0.1f);
+        rotModified?.Invoke(this);
+        reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
     }
 }

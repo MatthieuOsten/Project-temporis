@@ -8,13 +8,13 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
     Ray _ray;
     [SerializeField] Transform _rayOrigin;
     [SerializeField] LayerMask mirrorLayerMask;
-    bool _canDraw;
-    int _mirrorToRot, _mirrorsReady;
+    List<ReflectingMirror> _mirrors;
+    [SerializeField] EditIllustrationButton[] _allButtons;
 
     // Start is called before the first frame update
     void Start()
     {
-        _canDraw = true;
+        _mirrors = new List<ReflectingMirror>();
         _ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
         _lightRay.positionCount = 2;
         _lightRay.SetPosition(0, _rayOrigin.position);
@@ -23,10 +23,7 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_canDraw)
-        {
-            DrawRay();
-        }
+        DrawRay();
     }
 
     void DrawRay()
@@ -40,6 +37,25 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
                 _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
                 _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
                 _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
+                ReflectingMirror newMirror = hit.transform.GetComponentInParent<ReflectingMirror>();
+                if (_mirrors.Count == 0)
+                {
+                    newMirror.rotModified += OnMirrorRotModified;
+                    newMirror.reflectingMirrorPuzzle = this;
+                    _mirrors.Add(newMirror);
+                }
+                else
+                {
+                    if (!_mirrors.Contains(newMirror))
+                    {
+                        newMirror.rotModified += OnMirrorRotModified;
+                    }
+                    if (_mirrors[_mirrors.Count - 1] != newMirror)
+                    {
+                        _mirrors.Add(newMirror);
+                        newMirror.reflectingMirrorPuzzle = this;
+                    }
+                }
             }
             else if (_lightRay.GetPosition(_lightRay.positionCount - 1) != hit.point)
             {
@@ -48,25 +64,47 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
         }
     }
 
-    public void ResetRay()
+    void OnMirrorRotModified(ReflectingMirror mirror)
     {
-        _mirrorsReady++;
-        if(_mirrorToRot==_mirrorsReady)
+        int id = _mirrors.IndexOf(mirror);
+        for (int i = _mirrors.Count - 1; i > id; i--)
         {
-            _ray = new Ray(_rayOrigin.position, _rayOrigin.forward);
-            _lightRay.positionCount = 2;
-            _lightRay.SetPosition(0, _rayOrigin.position);
-            _lightRay.gameObject.SetActive(true);
-            _canDraw = true;
-            _mirrorsReady = 0;
-            _mirrorToRot = 0;
+            ReflectingMirror lastMirror = _mirrors[i];
+            _mirrors.RemoveAt(i);
+            if (!_mirrors.Contains(lastMirror))
+            {
+                lastMirror.rotModified -= OnMirrorRotModified;
+            }
+        }
+        _lightRay.positionCount = id + 2;
+        Vector3 directionPoint = _lightRay.GetPosition(id + 1);
+        Vector3 lastPoint = _lightRay.GetPosition(id);
+        _ray = new Ray(lastPoint, new Vector3(directionPoint.x - lastPoint.x, directionPoint.y - lastPoint.y, directionPoint.z - lastPoint.z));
+        RaycastHit hit;
+        if (Physics.Raycast(_ray.origin, _ray.direction, out hit, mirrorLayerMask))
+        {
+            if (hit.transform.gameObject.layer == 7)
+            {
+                _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
+                _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
+                _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
+            }
+        }
+        DrawRay();
+    }
+    public void LockAllMirrorsButtons()
+    {
+        for (int i = 0; i < _allButtons.Length; i++)
+        {
+            _allButtons[i].illustrationButton.interactable = false;
         }
     }
 
-    public void BlockRay()
+    public void UnlockAllMirrorsButtons()
     {
-        _mirrorToRot++;
-        _canDraw = false;
-        _lightRay.gameObject.SetActive(false);
+        for (int i = 0; i < _allButtons.Length; i++)
+        {
+            _allButtons[i].illustrationButton.interactable = true;
+        }
     }
 }

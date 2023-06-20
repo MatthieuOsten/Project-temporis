@@ -3,10 +3,28 @@ guid: 19f13f7e409c1094198db8d7d76e1117
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 02 - Default
+    second: {fileID: -3661639628750336703, guid: 4b901a3514c4c8447b570d89becce3b8,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BigLeaves
+    second: {fileID: 4058638732556551201, guid: 4b901a3514c4c8447b570d89becce3b8,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SmallLeaves
+    second: {fileID: -5252841677734631107, guid: 4b901a3514c4c8447b570d89becce3b8,
+      type: 3}
   materials:
     materialImportMode: 2
-    materialName: 0
+    materialName: 1
     materialSearch: 1
     materialLocation: 1
   animations:

@@ -2,19 +2,72 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace InputEntry
 {
-    [System.Serializable]
-    public class EntryAll
-    {
-
-        public Sounds Sounds;
-
-        public EntryAll() { }
-    }
 
     public static class EntryUtilities
     {
+        public static struct ResolutionRatio
+        {
+            public int Width;
+            public int Height;
+            public Ratio ratio;
+
+            public struct Ratio
+            {
+                private int width;
+                private int height;
+
+                public Vector2 GetRatioVector {
+                    get { 
+                        return new Vector2 (width, height); 
+                    }
+                }
+
+                public Ratio(int width, int height)
+                {
+                    this.width = width;
+                    this.height = height;
+                }
+
+                public float GetRatio()
+                {
+                    return (float)width / height;
+                }
+
+                public bool MatchesRatio(int imageWidth, int imageHeight)
+                {
+                    float imageRatio = (float)imageWidth / imageHeight;
+                    return Mathf.Approximately(GetRatio(), imageRatio);
+                }
+
+                public override string ToString()
+                {
+                    return $"{width}:{height}";
+                }
+
+            }
+        }
+
+        public static Vector2[] DefaultResolution =
+        {
+            new Vector2()
+            {
+                x = 1920,
+                y = 1080
+            },
+
+        };
+
+        public static int[] FrameRate =
+        {
+            30, 60, 90, 120, 144, 165
+        };
+
         public static string getIDTimed
         {
             get
@@ -35,7 +88,7 @@ namespace InputEntry
     [System.Serializable]
     public class Entry
     {
-        private string _name = "Entry Empty";
+        [SerializeField] private string _name = "Entry Empty";
 
         protected string Name { set { _name = value; } }
     }
@@ -46,12 +99,11 @@ namespace InputEntry
     [System.Serializable]
     public class Tracker : Entry
     {
-        private Vector3 _position;
-        private Quaternion _rotation;
+        [SerializeField] private Vector3 _position;
+        [SerializeField] private Quaternion _rotation;
 
         public Tracker(GameObject gameObject)
         {
-
             Name = "Tracker of " + gameObject.name + " n°" +  EntryUtilities.getIDTimed;
 
             _position = gameObject.transform.position;
@@ -73,8 +125,8 @@ namespace InputEntry
     [System.Serializable]
     public class Settings : Entry 
     {
-        public Graphics Graphics;
-        public Sounds Sounds;
+        [SerializeField] private Graphics Graphics;
+        [SerializeField] private Sounds Sounds;
 
         public Settings() {
             Name = "Default Settings";
@@ -97,20 +149,20 @@ namespace InputEntry
     [System.Serializable]
     public class Notebook : Entry
     {
-        public bool[] TabPages;
+        [SerializeField] private bool[] _tabPages;
 
         public Notebook(int nbrPages)
         {
             Name = "Notebook " + nbrPages + " Pages";
 
-            TabPages = new bool[nbrPages];
+            _tabPages = new bool[nbrPages];
         }
 
         public Notebook(bool[] tabPages)
         {
             Name = "Notebook " + tabPages.Length + " Pages";
 
-            TabPages = tabPages;
+            _tabPages = tabPages;
         }
     }
 
@@ -121,10 +173,11 @@ namespace InputEntry
     public class Graphics : Entry
     {
 
-        private Resolution _resolution;
-        private float _sensitivity;
-        private int _quality;
-        private bool _vsync;
+        [SerializeField] private Resolution _resolution;
+        [SerializeField] private FullScreenMode _screenMode;
+        [SerializeField] private float _sensitivity;
+        [SerializeField] private int _quality;
+        [SerializeField] private bool _vsync;
 
         /// <summary>
         /// Quality of the game limited by 
@@ -164,20 +217,49 @@ namespace InputEntry
         public Graphics() {
             Name = "Default Graphics";
 
-            _resolution = Screen.currentResolution;
+            _screenMode = FullScreenMode.FullScreenWindow;
+            _resolution = GetResolution();
             _sensitivity = 0.50f;
             _quality = QualitySettings.GetQualityLevel();
             _vsync = false;
         }
 
-        public Graphics(Resolution resolution, float sensitivity, int quality, bool vsync)
+        public Graphics(Resolution resolution, FullScreenMode fullScreenMode, float sensitivity, int quality, bool vsync)
         {
             Name = "Custom Graphics";
 
+            _screenMode = fullScreenMode;
             _resolution = resolution;
             _sensitivity = sensitivity;
             Quality = quality;
             _vsync = vsync;
+        }
+
+        public Graphics(Resolution resolution, int fullScreenMode, float sensitivity, int quality, bool vsync)
+        {
+            Name = "Custom Graphics";
+
+            _screenMode = (fullScreenMode <= (int)FullScreenMode.Windowed && fullScreenMode >= 0) ? (FullScreenMode)fullScreenMode : FullScreenMode.Windowed;
+            _resolution = resolution;
+            _sensitivity = sensitivity;
+            Quality = quality;
+            _vsync = vsync;
+        }
+
+        private Resolution GetResolution()
+        {
+
+            Resolution resolution = new Resolution();
+
+            #if UNITY_EDITOR
+                resolution.width = Display.main.systemWidth;
+                resolution.height = Display.main.systemHeight;
+                resolution.refreshRate = 30;
+                return resolution;
+            #else
+                return Screen.currentResolution;
+            #endif
+
         }
     }
 
@@ -209,15 +291,15 @@ namespace InputEntry
     [System.Serializable]
     public class Inputs : Entry
     {
-        public KeyCode ForwardInput;
-        public KeyCode BackwardInput;
-        public KeyCode LeftInput;
-        public KeyCode RightInput;
+        [SerializeField] private KeyCode ForwardInput;
+        [SerializeField] private KeyCode BackwardInput;
+        [SerializeField] private KeyCode LeftInput;
+        [SerializeField] private KeyCode RightInput;
 
-        public KeyCode CameraLeftInput;
-        public KeyCode CameraRightInput;
-        public KeyCode CameraUpInput;
-        public KeyCode CameraDownwardInput;
+        [SerializeField] private KeyCode CameraLeftInput;
+        [SerializeField] private KeyCode CameraRightInput;
+        [SerializeField] private KeyCode CameraUpInput;
+        [SerializeField] private KeyCode CameraDownwardInput;
 
         public Inputs()
         {

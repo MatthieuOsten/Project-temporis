@@ -274,15 +274,10 @@ MonoBehaviour:
   filename: SaveTemplate.json
   category: Game
   entryAll:
-    entriesPlayer:
-      Position: {x: 0.72, y: 0.57, z: 0.24}
-    entriesMusics:
-      MenuVolume: 1.86
-      GameVolume: 3.85
-    entriesSounds:
-      VolumeGlobal: 1.24
-      VolumeMusics: 2.86
-      VolumeSoundEffects: 1.52
+    Sounds:
+      VolumeGlobal: 1
+      VolumeMusics: 0.5
+      VolumeSoundEffects: 1
 --- !u!4 &402377116
 Transform:
   m_ObjectHideFlags: 0

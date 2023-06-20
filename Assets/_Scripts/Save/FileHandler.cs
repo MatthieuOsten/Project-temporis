@@ -2,52 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public static class FileHandler
 {
 
-    public static void SaveToJSON<T>(List<T> toSave, string nameValue, string nameCategory,string nameFile)
+    public static void SaveToJSON<T>(List<T> toSave, string nameValue, string nameCategory,string path)
     {
         string content = JsonHelper.ToJson<T>(toSave.ToArray(), nameCategory, true);
-        string path = GetPath(nameFile);
 
         Debug.Log("on \"" + path + "\" try to insert : " + content);
 
-        //if (File.Exists(path))
-        //{
-            
-        //    content = ReadFile(path) + content;
-        //}
-
-        WriteFile(GetPath(nameFile), content);
+        WriteFile(path, content);
     }
 
-    public static void SaveToJSON<T>(T toSave, string nameValue, string nameCategory, string nameFile)
+    public static void SaveToJSON<T>(T toSave, string path)
     {
         string content = JsonUtility.ToJson(toSave, true);
-        string path = GetPath(nameFile);
 
         Debug.Log("on \"" + path + "\" try to insert : " + content);
 
-        //if (File.Exists(path))
-        //{
-
-        //    content = ReadFile(path) + content;
-        //}
-
-        WriteFile(GetPath(nameFile), content);
+        WriteFile(path, content);
     }
 
-    private static string GetPath(string filename)
+    public static List<T> ReadListFromJSON<T>(string path)
     {
-        return Application.persistentDataPath + "/" + filename;
-    }
-
-    public static List<T> ReadListFromJSON<T>(string filename)
-    {
-        string content = ReadFile(GetPath(filename));
+        string content = ReadFile(path);
 
         if (string.IsNullOrEmpty(content) || content == "{}")
         {
@@ -60,9 +40,9 @@ public static class FileHandler
 
     }
 
-    public static T ReadFromJSON<T>(string filename)
+    public static T ReadFromJSON<T>(string path)
     {
-        string content = ReadFile(GetPath(filename));
+        string content = ReadFile(path);
 
         if (string.IsNullOrEmpty(content) || content == "{}")
         {
@@ -100,9 +80,9 @@ public static class FileHandler
         return "";
     }
 
-    public static string[] GetLinesFile(string nameFile)
+    public static string[] GetLinesFile(string path)
     {
-        return ReadLinesFile(GetPath(nameFile));
+        return ReadLinesFile(path);
     }
 
     public static string[] ReadLinesFile(string path)

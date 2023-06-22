@@ -34,70 +34,92 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] Transform _noteBookPOV, _noteBookMidPOV;
     [SerializeField] Transform _player;
-    bool _playerLooking, _cameraLooking, _cameraLookingSeconds;
+    Coroutine _setCameraView, _lookToward, _lookTowardForSeconds;
 
     private void Awake()
     {
         _instance = this;
-        _playerLooking = false;
-        _cameraLooking = false;
-        _cameraLookingSeconds = false;
     }
 
     #region NOTE BOOK
     public void SetNoteBookView()
     {
-        StartCoroutine(CameraLookToward(_noteBookPOV.localRotation, 2));
+        if(_setCameraView != null)
+        {
+            StopCoroutine(_setCameraView);
+        }
+        _setCameraView = StartCoroutine(SetCameraView(_noteBookPOV.localRotation, 50));
     }
     public void SetNoteBookMidView()
     {
-        StartCoroutine(CameraLookToward(_noteBookMidPOV.localRotation, 2));
+        if (_setCameraView != null)
+        {
+            StopCoroutine(_setCameraView);
+        }
+        _setCameraView = StartCoroutine(SetCameraView(_noteBookMidPOV.localRotation, 50));
     }
     #endregion
 
     #region LOOK AT FUNCTIONS
     public void LookAt(Transform target, float speed)
     {
+        if(_lookToward != null)
+        {
+            StopCoroutine(_lookToward);
+        }
         Quaternion rot = Quaternion.Euler(_player.rotation.eulerAngles.x, Quaternion.LookRotation(target.position - _player.position).eulerAngles.y, _player.eulerAngles.z);
-        StartCoroutine(LookToward(_player, rot, 200));
+        _lookToward = StartCoroutine(LookToward(_player, rot, 200));
     }
 
     public void LookAtForSeconds(Transform target, float speed, float lookDuration)
     {
+        if(_lookTowardForSeconds != null)
+        {
+            StopCoroutine(_lookTowardForSeconds);
+        }
         Transform currentCamera = CameraUtility.Camera.transform;
-        StartCoroutine(LookTowardForSeconds(currentCamera, Quaternion.LookRotation(target.position - currentCamera.position), speed, lookDuration));
+        _lookTowardForSeconds = StartCoroutine(LookTowardForSeconds(currentCamera, Quaternion.LookRotation(target.position - currentCamera.position), speed, lookDuration));
     }
+    #endregion
 
+    #region COROUTINES
     IEnumerator LookToward(Transform target, Quaternion rot, float speed)
     {
         while (target.localRotation != rot)
         {
-            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed /* Time.deltaTime*/);
+            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed * Time.deltaTime);
             yield return null;
         }
         target.localRotation = rot;
+        _lookToward = null;
     }
-    IEnumerator CameraLookToward(Quaternion rot, float speed)
+    IEnumerator SetCameraView(Quaternion rot, float speed)
     {
+        InputManager.Instance.closeNoteBookEnabled = false;
         Transform target = CameraUtility.Camera.transform;
         while (target.localRotation != rot)
         {
-            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed /* Time.deltaTime*/);
+            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed * Time.deltaTime);
             yield return null;
         }
         target.localRotation = rot;
+        _setCameraView = null;
+        InputManager.Instance.closeNoteBookEnabled = true;
     }
     IEnumerator LookTowardForSeconds(Transform target, Quaternion rot, float speed, float lookDuration)
     {
+        InputManager.Instance.DisableAllInGameActions();
         Quaternion initRot = target.rotation;
         while (target.localRotation != rot)
         {
-            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed /* Time.deltaTime*/);
+            target.localRotation = Quaternion.RotateTowards(target.localRotation, rot, speed * Time.deltaTime);
             yield return null;
         }
         target.localRotation = rot;
         yield return new WaitForSeconds(lookDuration);
-        StartCoroutine(LookToward(target, initRot, speed));
+        yield return StartCoroutine(LookToward(target, initRot, speed));
+        _lookTowardForSeconds = null;
+        InputManager.Instance.EnableAllInGameActions();
     }
     #endregion
 }

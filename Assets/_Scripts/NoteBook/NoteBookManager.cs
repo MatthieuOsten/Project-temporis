@@ -186,8 +186,8 @@ public class NoteBookManager : MonoBehaviour
         noteBookView.SetActive(true);
         GameUI.Instance.HidePlayerScreen();
         GameUI.Instance.ShowNoteBookScreen();
-        CameraManager.Instance.SetNoteBookView();
         InputManager.Instance.SwitchCurrentActionMap();
+        CameraManager.Instance.SetNoteBookView();
         InputManager.Instance.PointPerformed += CheckLookUp;
         NoteBookOpened?.Invoke();
     }

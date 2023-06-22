@@ -20,8 +20,14 @@ public class ReflectingMirror : MonoBehaviour
             yield return null;
         }
         transform.rotation = rot;
-        yield return new WaitForSeconds(0.01f);
+        yield return StartCoroutine(CheckRot(rot));
         rotModified?.Invoke(this);
         reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
+    }
+
+    IEnumerator CheckRot(Quaternion rot)
+    {
+        transform.rotation = rot;
+        yield return null;
     }
 }

@@ -20,7 +20,7 @@ public class ReflectingMirror : MonoBehaviour
             yield return null;
         }
         transform.rotation = rot;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         rotModified?.Invoke(this);
         reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
     }

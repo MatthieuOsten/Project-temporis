@@ -40,11 +40,11 @@ public class ReflectingMirror2D : NoteBookEditableElement
     void RotateMirror(float rotY)
     {
         transform.rotation = Quaternion.Euler(Vector3.forward * rotY);
-        Invoke("OnRotModified", 0.1f);
-    }
-
-    void OnRotModified()
-    {
-        rotModified?.Invoke(this);
+        StartCoroutine(OnRotModified());
+        IEnumerator OnRotModified()
+        {
+            yield return new WaitForSeconds(0.01f);
+            rotModified?.Invoke(this);
+        }
     }
 }

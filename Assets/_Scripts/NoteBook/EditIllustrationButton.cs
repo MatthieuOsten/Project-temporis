@@ -58,9 +58,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void CloseEditIllustrationInterface()
     {
-        illustrationButton.interactable = true; 
         _editIllustrationInterface.SetActive(false);
-        GameUI.Instance.isLocked = false;
         GameUI.Instance.ShowHandCursor();
     }
 

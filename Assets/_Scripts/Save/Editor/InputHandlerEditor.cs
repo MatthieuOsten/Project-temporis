@@ -12,7 +12,7 @@ public class InputHandlerEditor : Editor
     [SerializeField] private SerializedProperty _pathSettingsProperty;
     [SerializeField] private SerializedProperty _extensionSettingsProperty;
     [SerializeField] private SerializedProperty _formatSettingsProperty;
-    [SerializeField] private SerializedProperty _entrySettingsProperty;
+    [SerializeField] private SerializedProperty _entryOptionsProperty;
 
     [SerializeField] private SerializedProperty _saveUniqueOnFileProperty, _saveUniqueOnDirProperty;
     [SerializeField] private SerializedProperty _saveFileInDirEntryProperty;
@@ -35,19 +35,48 @@ public class InputHandlerEditor : Editor
 
     [Header("ENTRY")]
 
-    [SerializeField] private SerializedProperty entryProperty;
-    [SerializeField] private SerializedProperty entryTrackerProperty;
-    [SerializeField] private SerializedProperty entrySettingsProperty;
-    [SerializeField] private SerializedProperty entryNotebookProperty;
-    [SerializeField] private SerializedProperty entryGraphicsProperty;
-    [SerializeField] private SerializedProperty entryGameplayProperty;
-    [SerializeField] private SerializedProperty entrySoundsProperty;
-    [SerializeField] private SerializedProperty entryInputsProperty;
+    [SerializeField] private SerializedProperty _entryProperty;
+    [SerializeField] private SerializedProperty _entryTrackerProperty;
+    [SerializeField] private SerializedProperty _entrySettingsProperty;
+    [SerializeField] private SerializedProperty _entryNotebookProperty;
+    [SerializeField] private SerializedProperty _entryGraphicsProperty;
+    [SerializeField] private SerializedProperty _entryGameplayProperty;
+    [SerializeField] private SerializedProperty _entrySoundsProperty;
+    [SerializeField] private SerializedProperty _entryInputsProperty;
+
+    [Header("ENTRY VALUE")]
+
+    [SerializeField] private SerializedProperty _gameObjectTrackerProperty;
 
     [Header("EDITOR")]
     private bool _isPossibilitySave = true;
     private bool _isPossibilityLoad = true;
     private string _errorPossibilitySaveAndLoad = string.Empty;
+    private bool _trackOtherObject = false;
+    private GameObject _saveOtherObject = null;
+
+    private bool IsTrackOtherObject
+    {
+        get { return _trackOtherObject; }
+        set
+        {
+            if (value != _trackOtherObject)
+            {
+                if (value == false)
+                {
+                    _saveOtherObject = _gameObjectTrackerProperty.objectReferenceValue as GameObject;
+                    _gameObjectTrackerProperty.objectReferenceValue = null;
+                }
+                else if (value == true)
+                {
+                    _gameObjectTrackerProperty.objectReferenceValue = _saveOtherObject;
+                }
+
+                _trackOtherObject = value;
+            }
+
+        }
+    }
 
     private void OnEnable()
     {
@@ -55,7 +84,7 @@ public class InputHandlerEditor : Editor
         _pathSettingsProperty = serializedObject.FindProperty("_pathSettings");
         _extensionSettingsProperty = serializedObject.FindProperty("_extensionSettings");
         _formatSettingsProperty = serializedObject.FindProperty("_formatSettings");
-        _entrySettingsProperty = serializedObject.FindProperty("_entrySettings");
+        _entryOptionsProperty = serializedObject.FindProperty("_entrySettings");
 
         // SAVE ID 
         _saveUniqueOnFileProperty = serializedObject.FindProperty("_pathSettings");
@@ -83,14 +112,17 @@ public class InputHandlerEditor : Editor
         _extensionProperty = serializedObject.FindProperty("_extension");
 
         // ENTRY
-        entryProperty = serializedObject.FindProperty("entry");
-        entryTrackerProperty = serializedObject.FindProperty("entryTracker");
-        entrySettingsProperty = serializedObject.FindProperty("entrySettings");
-        entryNotebookProperty = serializedObject.FindProperty("entryNotebook");
-        entryGraphicsProperty = serializedObject.FindProperty("entryGraphics");
-        entryGameplayProperty = serializedObject.FindProperty("entryGameplay");
-        entrySoundsProperty = serializedObject.FindProperty("entrySounds");
-        entryInputsProperty = serializedObject.FindProperty("entryInputs");
+        _entryProperty = serializedObject.FindProperty("entry");
+        _entryTrackerProperty = serializedObject.FindProperty("entryTracker");
+        _entrySettingsProperty = serializedObject.FindProperty("entrySettings");
+        _entryNotebookProperty = serializedObject.FindProperty("entryNotebook");
+        _entryGraphicsProperty = serializedObject.FindProperty("entryGraphics");
+        _entryGameplayProperty = serializedObject.FindProperty("entryGameplay");
+        _entrySoundsProperty = serializedObject.FindProperty("entrySounds");
+        _entryInputsProperty = serializedObject.FindProperty("entryInputs");
+
+        // ENTRY VALUE
+        _gameObjectTrackerProperty = serializedObject.FindProperty("_gameObjectTracker");
 
     }
 
@@ -102,9 +134,20 @@ public class InputHandlerEditor : Editor
         EditorGUILayout.PropertyField(_pathSettingsProperty);
         EditorGUILayout.PropertyField(_extensionSettingsProperty);
         EditorGUILayout.PropertyField(_formatSettingsProperty);
-        EditorGUILayout.PropertyField(_entrySettingsProperty);
+        EditorGUILayout.PropertyField(_entryOptionsProperty);
 
         GUILayout.Space(10);
+
+        if ((InputHandler.EntryOptions)_entryOptionsProperty.enumValueIndex == InputHandler.EntryOptions.Tracker)
+        {
+            IsTrackOtherObject = EditorGUILayout.Toggle("Track other object", IsTrackOtherObject);
+
+            if (IsTrackOtherObject)
+            {
+                EditorGUILayout.PropertyField(_gameObjectTrackerProperty);
+            }
+
+        }
 
         DisplayEntryProperty();
 
@@ -215,31 +258,31 @@ public class InputHandlerEditor : Editor
 
     private void DisplayEntryProperty()
     {
-        switch ((InputHandler.EntryOptions)_entrySettingsProperty.enumValueIndex)
+        switch ((InputHandler.EntryOptions)_entryOptionsProperty.enumValueIndex)
         {
             case InputHandler.EntryOptions.Default:
-                EditorGUILayout.PropertyField(entryProperty);
+                EditorGUILayout.PropertyField(_entryProperty);
                 break;
             case InputHandler.EntryOptions.Tracker:
-                EditorGUILayout.PropertyField(entryTrackerProperty);
+                EditorGUILayout.PropertyField(_entryTrackerProperty);
                 break;
             case InputHandler.EntryOptions.Settings:
-                EditorGUILayout.PropertyField(entrySettingsProperty);
+                EditorGUILayout.PropertyField(_entrySettingsProperty);
                 break;
             case InputHandler.EntryOptions.Sounds:
-                EditorGUILayout.PropertyField(entrySoundsProperty);
+                EditorGUILayout.PropertyField(_entrySoundsProperty);
                 break;
             case InputHandler.EntryOptions.Graphics:
-                EditorGUILayout.PropertyField(entryGraphicsProperty);
+                EditorGUILayout.PropertyField(_entryGraphicsProperty);
                 break;
             case InputHandler.EntryOptions.Gameplay:
-                EditorGUILayout.PropertyField(entryGameplayProperty);
+                EditorGUILayout.PropertyField(_entryGameplayProperty);
                 break;
             case InputHandler.EntryOptions.Inputs:
-                EditorGUILayout.PropertyField(entryInputsProperty);
+                EditorGUILayout.PropertyField(_entryInputsProperty);
                 break;
             case InputHandler.EntryOptions.Notebook:
-                EditorGUILayout.PropertyField(entryNotebookProperty);
+                EditorGUILayout.PropertyField(_entryNotebookProperty);
                 break;
             default:
                 EditorGUILayout.HelpBox("The entry selected dont is supported", MessageType.Error);

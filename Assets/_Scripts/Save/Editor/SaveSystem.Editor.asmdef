@@ -1,10 +1,13 @@
 {
-    "name": "NewAssembly",
+    "name": "SaveSystem.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:f672dcd43fb258b458b6fa3566d05022",
+        "GUID:8324fc5a908762941bf4737cf179c6dc"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

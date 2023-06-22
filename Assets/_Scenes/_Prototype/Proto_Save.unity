@@ -270,14 +270,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63cc03bb94ed994a9ef780e4bffcf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameInput: zgzeggz
-  filename: SaveTemplate.json
-  category: Game
-  entryAll:
+  _pathSettings: 2
+  _extensionSettings: 1
+  _formatSettings: 0
+  _entrySettings: 1
+  _saveUniqueOnFile: 0
+  _saveUniqueOnDir: 0
+  _saveFileInDirEntry: 0
+  _loopResetDirID: 0
+  _loopResetFileID: 0
+  _resetDirID: 0
+  _resetFileID: 0
+  _automaticSave: 0
+  _startUseTimeToSave: 1
+  _timeToSave: 600
+  _timeToStartSave: 600
+  _path: 
+  _dirUnique: 
+  _fileName: 
+  _fileID: 
+  _extension: 
+  entry:
+    _name: Entry Empty
+  entryTracker:
+    _name: Default Tracker n20230622103057
+    _position: {x: 0, y: 0, z: 0}
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+  entrySettings:
+    _name: Default Settings
+    Graphics:
+      _name: Default Graphics
+      _screenMode: 1
+      _quality: 0
+      _vsync: 0
     Sounds:
+      _name: Default Sounds
       VolumeGlobal: 1
       VolumeMusics: 0.5
       VolumeSoundEffects: 1
+  entryNotebook:
+    _name: Default Notebook
+    _tabPages: 
+  entryGraphics:
+    _name: Default Graphics
+    _screenMode: 1
+    _quality: 0
+    _vsync: 0
+  entryGameplay:
+    _name: Default Gameplay
+    _sensitivity: 0.5
+  entrySounds:
+    _name: Default Sounds
+    VolumeGlobal: 1
+    VolumeMusics: 0.5
+    VolumeSoundEffects: 1
+  entryInputs:
+    _name: Default Inputs
+    _inputs: {fileID: 0}
+  _gameObjectTracker: {fileID: 0}
 --- !u!4 &402377116
 Transform:
   m_ObjectHideFlags: 0

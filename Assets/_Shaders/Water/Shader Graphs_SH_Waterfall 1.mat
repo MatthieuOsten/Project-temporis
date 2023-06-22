@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_SH_Waterfall
+  m_Name: Shader Graphs_SH_Waterfall 1
   m_Shader: {fileID: -6465566751694194690, guid: fc36eb67ca35a00469968513fac44324,
     type: 3}
   m_ValidKeywords: []
@@ -48,16 +48,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BottomBrightness: 0.26
-    - _Bottomstrength: 0.77
-    - _Erosion: 0.063
+    - _BottomBrightness: 0.05
+    - _Bottomstrength: 0
+    - _Erosion: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RippleAmount: 4
-    - _VertexOffesetAmount: 0.5
-    - _VoronoiScale: 60
-    - _VoronoiSpeed: 2.01
+    - _RippleAmount: 11
+    - _VertexOffesetAmount: 0.05
+    - _VoronoiScale: 80
+    - _VoronoiSpeed: 4
     m_Colors:
-    - _RippleColor: {r: 766.9961, g: 766.9961, b: 766.9961, a: 1}
+    - _RippleColor: {r: 0, g: 2.9960785, b: 2.7155662, a: 1}
     - _RippleSpeed: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

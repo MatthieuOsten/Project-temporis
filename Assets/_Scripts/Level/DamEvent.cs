@@ -22,6 +22,6 @@ public class DamEvent : MonoBehaviour
         {
             _water[i].SetActive(!_water[i].activeInHierarchy);
         }
-        _openTemple.OpenTempleDoor();
+        _openTemple.IncreaseDamOpenCunt();
     }
 }

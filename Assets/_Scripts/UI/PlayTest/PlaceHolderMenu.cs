@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlaceHolderMenu : MonoBehaviour
@@ -10,10 +7,6 @@ public class PlaceHolderMenu : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-    }
-    public void MirorPuzzle()
-    {
-        SceneManager.LoadScene(2);
     }
 
     public void DamPuzzle()

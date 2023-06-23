@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_SH_CartoonWater
-  m_Shader: {fileID: -6465566751694194690, guid: ec5af664aad741b4fafcbbd2168490c8, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: ec5af664aad741b4fafcbbd2168490c8,
+    type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _SPECULAR_SETUP
@@ -50,7 +51,7 @@ Material:
     - _Cull: 2
     - _Displacement: 0.05
     - _DstBlend: 1
-    - _FoamOffset: 0.45
+    - _FoamOffset: 0.63
     - _Gloss: 0.89
     - _Metallic: 1.13
     - _NormalSpeed: 0

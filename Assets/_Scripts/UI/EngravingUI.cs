@@ -7,7 +7,7 @@ public class EngravingUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _engravingTranslate;
     [SerializeField] Image _engravingIcon;
     private EngravingScriptable _engraving;
-    private EventTriggerScriptable _triggerEvent;
+    private EventTriggerScriptableEnviroNoteBook _triggerEvent;
     private PageList _pageList;
 
     /// <summary>
@@ -22,7 +22,7 @@ public class EngravingUI : MonoBehaviour
         _engravingTranslate.text = _engraving.engravingTranslate;
     }
 
-    public void Set(EventTriggerScriptable trigger)
+    public void Set(EventTriggerScriptableEnviroNoteBook trigger)
     {
         _triggerEvent = trigger;
         // Recupere les infos du Scriptable et les place dans l'UI 

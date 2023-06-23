@@ -15,36 +15,21 @@ public class PlayerCamera : MonoBehaviour
     private float _mouseX;
     private float _mouseY;
 
-    private bool isXRotClamped;
-    public bool IsXRotClamped
-    {
-        get { return isXRotClamped; }
-        set
-        {
-            _yRotation = 0;
-            isXRotClamped = value;
-            if(!value)
-            {
-                transform.forward = _mainCamera.transform.parent.forward;
-                _mainCamera.transform.parent.forward = transform.forward;
-            }
-        }
-    }
-
     private void OnCameraEnabled()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        this.enabled = true;
     }
 
     private void OnCameraDisabled()
     {
         Cursor.lockState = CursorLockMode.Confined;
+        this.enabled = false;
     }
 
     private void Start()
     {
         _mainCamera = CameraUtility.Camera;
-        isXRotClamped = false;
         InputManager.Instance.CameraChanged += RotatePlayer;
         InputManager.Instance.CameraDisabled += OnCameraDisabled;
         InputManager.Instance.CameraEnabled += OnCameraEnabled;
@@ -65,17 +50,9 @@ public class PlayerCamera : MonoBehaviour
         _xRotation -= (_mouseY * Time.deltaTime) * _ySens;
         _xRotation = Mathf.Clamp(_xRotation, -60f, 70f);
 
-        if(isXRotClamped)
-        {
-            _yRotation += (_mouseX * Time.deltaTime) * _xSens;
-            _yRotation = Mathf.Clamp(_yRotation, -90, 90);
-            _mainCamera.transform.parent.localRotation = Quaternion.Euler(0, _yRotation, 0);
-        }
-        else
-        {
-            // rotate player to look left and right
-            gameObject.transform.Rotate(Vector3.up * (_mouseX * Time.deltaTime) * _xSens);
-        }
+        // rotate player to look left and right
+        gameObject.transform.Rotate(Vector3.up * (_mouseX * Time.deltaTime) * _xSens);
+
         // apply this to our camera transform
         _mainCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
     }

@@ -21,16 +21,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_SH_GlowingLittleGems
-  m_Shader: {fileID: -6465566751694194690, guid: ec3990d5dac0a9b488e6c3ffa17ac2f0, type: 3}
-  m_ValidKeywords: []
+  m_Shader: {fileID: -6465566751694194690, guid: ec3990d5dac0a9b488e6c3ffa17ac2f0,
+    type: 3}
+  m_ValidKeywords:
+  - _SPECULAR_SETUP
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
-  disabledShaderPasses: []
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -54,21 +58,21 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _DstBlend: 0
-    - _FresnelPower: 2.33
-    - _InteriorSpread: 1.22
+    - _DstBlend: 10
+    - _FresnelPower: 1.45
+    - _InteriorSpread: 1.81
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SrcBlend: 1
-    - _Surface: 0
-    - _WorkflowMode: 1
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _WorkflowMode: 0
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _InteriorColor: {r: 0, g: 0.010104803, b: 0.07578583, a: 1}
+    - _InteriorColor: {r: 0.14150941, g: 0, b: 0.0036756042, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6065535606532298705
 MonoBehaviour:

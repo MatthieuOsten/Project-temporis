@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class EntryHolder : MonoBehaviour
 {
-    [SerializeField] protected EntryInfoScriptable _info;
-    public EntryInfoScriptable Info { get { return _info; } }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _info.hasBeenStudied = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] protected EntryScriptable _info;
+    public EntryScriptable Info { get { return _info; } }
 }

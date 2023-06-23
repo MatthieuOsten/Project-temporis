@@ -42,7 +42,11 @@ public class ReflectingMirror2D : NoteBookEditableElement
         StartCoroutine(OnRotModified());
         IEnumerator OnRotModified()
         {
+            BoxCollider collider = GetComponent<BoxCollider>();
+            transform.rotation = Quaternion.Euler(Vector3.forward * rotY);
+            collider.enabled = false;
             yield return CheckRot(Quaternion.Euler(Vector3.forward * rotY));
+            collider.enabled = true;
             rotModified?.Invoke(this);
         }
         IEnumerator CheckRot(Quaternion rot)

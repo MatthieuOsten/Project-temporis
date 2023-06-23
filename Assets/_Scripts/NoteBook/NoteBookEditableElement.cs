@@ -5,37 +5,30 @@ using UnityEngine;
 public abstract class NoteBookEditableElement : MonoBehaviour
 {
     [SerializeField] protected EditIllustrationButton _linckedButton;
-    [SerializeField] protected NoteBookManager _notebookManager;
-    protected int _initialIndex, _currentIndex;
-    protected bool _added;
+    [SerializeField] protected NoteBookManager _noteBookManager;
+    [SerializeField] protected Transform _elementToShow;
 
     protected virtual void OnIllustrationEdited(int index)
     {
-        _currentIndex = index;
-        if (_initialIndex != _currentIndex)
+        if(CameraManager.Instance.CanLookAt(_elementToShow))
         {
-            _notebookManager.NoteBookClosed += OnNoteBookClosed;
-        }
-        else
-        {
-            _notebookManager.NoteBookClosed -= OnNoteBookClosed;
+            _noteBookManager.LookUp();
+            CameraManager.Instance.LookAt(_elementToShow, 200f);
         }
     }
 
     protected virtual void OnNoteBookOpened()
     {
-        _initialIndex = _currentIndex;
-        _added = false;
+        
     }
 
     protected abstract void OnNoteBookClosed();
 
     protected void Start()
     {
-        _initialIndex = _linckedButton.GetIllustrationIndex();
-        _currentIndex = _initialIndex;
+        //_linckedButton.GetIllustrationIndex();
         _linckedButton.illustrationEdited += OnIllustrationEdited;
-        _notebookManager.NoteBookOpened += OnNoteBookOpened;
+        _noteBookManager.NoteBookOpened += OnNoteBookOpened;
     }
 
 }

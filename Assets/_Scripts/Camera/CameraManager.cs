@@ -34,6 +34,7 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] Transform _noteBookPOV, _noteBookMidPOV;
     [SerializeField] Transform _player;
+    [SerializeField] float _maxLookDistance;
     Coroutine _setCameraView, _lookToward, _lookTowardForSeconds;
 
     private void Awake()
@@ -61,14 +62,27 @@ public class CameraManager : MonoBehaviour
     #endregion
 
     #region LOOK AT FUNCTIONS
+
+    public bool CanLookAt(Transform target)
+    {
+        if (Vector3.Distance(_player.position, target.position) < _maxLookDistance)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void LookAt(Transform target, float speed)
     {
-        if(_lookToward != null)
+        if(CanLookAt(target))
         {
-            StopCoroutine(_lookToward);
+            if (_lookToward != null)
+            {
+                StopCoroutine(_lookToward);
+            }
+            Quaternion rot = Quaternion.Euler(_player.rotation.eulerAngles.x, Quaternion.LookRotation(target.position - _player.position).eulerAngles.y, _player.eulerAngles.z);
+            _lookToward = StartCoroutine(LookToward(_player, rot, speed));
         }
-        Quaternion rot = Quaternion.Euler(_player.rotation.eulerAngles.x, Quaternion.LookRotation(target.position - _player.position).eulerAngles.y, _player.eulerAngles.z);
-        _lookToward = StartCoroutine(LookToward(_player, rot, 200));
     }
 
     public void LookAtForSeconds(Transform target, float speed, float lookDuration)

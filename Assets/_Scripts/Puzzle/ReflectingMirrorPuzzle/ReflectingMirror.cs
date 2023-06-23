@@ -10,7 +10,6 @@ public class ReflectingMirror : MonoBehaviour
 
     public IEnumerator RotateToward(float rotY)
     {
-        CameraManager.Instance.LookAt(transform, 200f);
         reflectingMirrorPuzzle.LockAllMirrorsButtons();
         Quaternion rot = Quaternion.Euler(0, rotY, 0);
         while (transform.rotation != rot)
@@ -19,7 +18,6 @@ public class ReflectingMirror : MonoBehaviour
             rotModified?.Invoke(this);
             yield return null;
         }
-        transform.rotation = rot;
         yield return StartCoroutine(CheckRot(rot));
         rotModified?.Invoke(this);
         reflectingMirrorPuzzle.UnlockAllMirrorsButtons();

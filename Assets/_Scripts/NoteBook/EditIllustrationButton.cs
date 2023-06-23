@@ -53,7 +53,6 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
         illustrationEdited?.Invoke(index);
         illustrationButton.image.sprite = _illustrationStates[index];
         CloseEditIllustrationInterface();
-        _noteBookManager.LookUp();
     }
 
     public void CloseEditIllustrationInterface()

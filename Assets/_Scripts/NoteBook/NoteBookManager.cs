@@ -207,10 +207,10 @@ public class NoteBookManager : MonoBehaviour
         noteBookView.SetActive(false);
         GameUI.Instance.ShowPlayerScreen();
         GameUI.Instance.HideNoteBookScreen();
+        GameUI.Instance.HideCursor();
         InputManager.Instance.SwitchCurrentActionMap();
         InputManager.Instance.PointPerformed -= CheckLookUp;
         NoteBookClosed?.Invoke();
-        GameUI.Instance.HideCursor();
     }
     void CheckLookUp(InputAction.CallbackContext context)
     {

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ReflectingMirrorPuzzle : MonoBehaviour
 {
-    [SerializeField] TubeRenderer _lightRay;
+    [SerializeField] LineRenderer _lightRay;
     Ray _ray;
     [SerializeField] Transform _rayOrigin;
     [SerializeField] LayerMask mirrorLayerMask;
@@ -29,14 +30,14 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
     void DrawRay()
     {
         RaycastHit hit;
-        Debug.DrawRay(_ray.origin, _ray.direction);
         if (Physics.Raycast(_ray.origin, _ray.direction, out hit, mirrorLayerMask))
         {
             if (hit.transform.gameObject.layer == 7)
             {
                 _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
+                _lightRay.positionCount++;
                 _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
-                _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
+                _lightRay.SetPosition(_lightRay.positionCount - 1, _ray.origin + _ray.direction * 10);
                 ReflectingMirror newMirror = hit.transform.GetComponentInParent<ReflectingMirror>();
                 if (_mirrors.Count == 0)
                 {
@@ -87,7 +88,8 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
             {
                 _ray = new Ray(hit.point, Vector3.Reflect(_ray.direction, hit.normal));
                 _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
-                _lightRay.AddPosition(_ray.origin + _ray.direction * 100);
+                _lightRay.positionCount++;
+                _lightRay.SetPosition(_lightRay.positionCount - 1, _ray.origin + _ray.direction * 10);
             }
         }
         DrawRay();

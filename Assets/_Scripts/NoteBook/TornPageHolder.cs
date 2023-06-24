@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TornPageHolder : MonoBehaviour
 {
-    [SerializeField] EntryInfoScriptable _frontEntryInfo, _backEntryInfo;
-    public EntryInfoScriptable FrontEntryInfo { get { return _frontEntryInfo; } }
-    public EntryInfoScriptable BackEntryInfo { get { return _backEntryInfo; } }
+    [SerializeField] EntryScriptable _frontEntryInfo, _backEntryInfo;
+    public EntryScriptable FrontEntryInfo { get { return _frontEntryInfo; } }
+    public EntryScriptable BackEntryInfo { get { return _backEntryInfo; } }
 }

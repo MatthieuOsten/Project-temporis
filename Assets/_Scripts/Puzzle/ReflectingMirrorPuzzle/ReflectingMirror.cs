@@ -1,20 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ReflectingMirror : MonoBehaviour
 {
-    [SerializeField] ReflectingMirrorPuzzle _reflectingMirrorPuzzle;
+    public ReflectingMirrorPuzzle reflectingMirrorPuzzle;
+    public Action<ReflectingMirror> rotModified;
+
     public IEnumerator RotateToward(float rotY)
     {
-        _reflectingMirrorPuzzle.BlockRay();
+        reflectingMirrorPuzzle.LockAllMirrorsButtons();
         Quaternion rot = Quaternion.Euler(0, rotY, 0);
         while (transform.rotation != rot)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 80f * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 100f * Time.deltaTime);
+            rotModified?.Invoke(this);
             yield return null;
         }
+        yield return StartCoroutine(CheckRot(rot));
+        rotModified?.Invoke(this);
+        reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
+    }
+
+    IEnumerator CheckRot(Quaternion rot)
+    {
         transform.rotation = rot;
-        _reflectingMirrorPuzzle.ResetRay();
+        yield return null;
     }
 }

@@ -6,7 +6,7 @@ public class RotatingStatuePart : NoteBookEditableElement
 {
     protected override void OnNoteBookClosed()
     {
-        switch(_currentIndex)
+        /*switch(_currentIndex)
         {
             case 0:
                 StartCoroutine(RotateToward(0));
@@ -20,7 +20,7 @@ public class RotatingStatuePart : NoteBookEditableElement
             case 3:
                 StartCoroutine(RotateToward(-90));
                 break;
-        }
+        }*/
     }
 
     public IEnumerator RotateToward(float rotY)

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -210,23 +207,15 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-    #region NOTEBOOK
+    #region OPEN NOTEBOOK
 
     public Action<InputAction.CallbackContext> OpenNoteBookStarted;
-    public Action<InputAction.CallbackContext> CloseNoteBookStarted;
 
     public void OnOpenNoteBookChanged(InputAction.CallbackContext context)
     {
         if(context.started)
         {
             OpenNoteBookStarted?.Invoke(context);
-        }
-    }
-    public void OnCloseNoteBookChanged(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            CloseNoteBookStarted?.Invoke(context);
         }
     }
 
@@ -316,6 +305,39 @@ public class InputManager : MonoBehaviour
     }
 
     #endregion
+
+    #region CLOSE NOTEBOOK
+
+    public Action<InputAction.CallbackContext> CloseNoteBookStarted;
+    public void OnCloseNoteBookChanged(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            CloseNoteBookStarted?.Invoke(context);
+        }
+    }
+
+    private bool _closeNoteBookEnabled;
+    public bool closeNoteBookEnabled
+    {
+        get { return _closeNoteBookEnabled; }
+        set
+        {
+            if (value)
+            {
+                _playerInput.actions.FindAction("CloseNoteBook").Enable();
+                Debug.Log("Enabled");
+            }
+            else
+            {
+                _playerInput.actions.FindAction("CloseNoteBook").Disable();
+                Debug.Log("Disabled");
+            }
+            _closeNoteBookEnabled = value;
+        }
+    }
+
+    #endregion
     #endregion
 
     #region ACTIONS UTILITIES
@@ -341,15 +363,16 @@ public class InputManager : MonoBehaviour
 
     public void SwitchCurrentActionMap()
     {
-        if(_playerInput.currentActionMap.name == "Game")
+        switch(_playerInput.currentActionMap.name)
         {
-            _playerInput.SwitchCurrentActionMap("UI");
-            DisableAllInGameActions();
-        }
-        else if(_playerInput.currentActionMap.name == "UI")
-        {
-            _playerInput.SwitchCurrentActionMap("Game");
-            EnableAllInGameActions();
+            case "Game":
+                DisableAllInGameActions();
+                _playerInput.SwitchCurrentActionMap("UI");
+                break;
+            case "UI":
+                _playerInput.SwitchCurrentActionMap("Game");
+                EnableAllInGameActions();
+                break;
         }
     }
     #endregion

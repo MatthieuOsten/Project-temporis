@@ -38,7 +38,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _interact;
     [SerializeField] Image _holdItem;
     [SerializeField] GameObject _playerScreen, _noteBookScreen;
-    [SerializeField] GameObject _handCursor, _penCursor;
+    [SerializeField] GameObject _handCursor, _penCursor, _erasorCursor;
     [SerializeField] Transform _cursorHolder;
     public bool isLocked;
 
@@ -104,6 +104,7 @@ public class GameUI : MonoBehaviour
         {
             _cursorHolder.gameObject.SetActive(true);
             _penCursor.SetActive(false);
+            _erasorCursor.SetActive(false);
             _handCursor.SetActive(true);
         }
     }
@@ -114,13 +115,20 @@ public class GameUI : MonoBehaviour
         {
             _cursorHolder.gameObject.SetActive(true);
             _handCursor.SetActive(false);
+            _erasorCursor.SetActive(false);
             _penCursor.SetActive(true);
         }
     }
 
     public void ShowErasorCursor()
     {
-
+        if (!isLocked)
+        {
+            _cursorHolder.gameObject.SetActive(true);
+            _handCursor.SetActive(false);
+            _penCursor.SetActive(false);
+            _erasorCursor.SetActive(true);
+        }
     }
 
     public void HideCursor()

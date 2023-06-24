@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class NoteBookPage : MonoBehaviour
 {
-    [SerializeField] GameObject frontCanvas, backCanvas;
-    [SerializeField] Image frontIllustration, backIllustration;
-    [SerializeField] TextMeshProUGUI frontDescription, backDescription;
+    [SerializeField] NoteBookEntry _frontEntry, _backEntry;
+    public NoteBookEntry FrontEntry { get { return _frontEntry; } }
+    public NoteBookEntry BackEntry { get { return _backEntry; } }
     [SerializeField] Transform pagePivot;
     bool _isTorned = false;
     [SerializeField] GameObject _repairedView, _tornedView;
@@ -33,44 +31,10 @@ public class NoteBookPage : MonoBehaviour
         StartCoroutine(FlipPivot(pos, rot, speed, delay));
     }
 
-    public void SetFrontPage(EntryInfoScriptable entryInfo)
+    public void RepairPage(EntryScriptable frontEntryInfo, EntryScriptable backEntryInfo)
     {
-        frontCanvas.SetActive(true);
-        frontIllustration.sprite = entryInfo.entryIllustration;
-        frontDescription.text = entryInfo.entryDescription;
-    }
-
-    public void SetBackPage(EntryInfoScriptable entryInfo)
-    {
-        backCanvas.SetActive(true);
-        backIllustration.sprite = entryInfo.entryIllustration;
-        backDescription.text = entryInfo.entryDescription;
-    }
-
-    public void ShowFrontPage()
-    {
-        frontCanvas.SetActive(true);
-    }
-
-    public void ShowBackPage()
-    {
-        backCanvas.SetActive(true);
-    }
-
-    public void HideFrontPage()
-    {
-        frontCanvas.SetActive(false);
-    }
-
-    public void HideBackPage()
-    {
-        backCanvas.SetActive(false);
-    }
-
-    public void RepairPage(EntryInfoScriptable frontEntryInfo, EntryInfoScriptable backEntryInfo)
-    {
-        SetFrontPage(frontEntryInfo);
-        SetBackPage(backEntryInfo);
+        _frontEntry.SetEntry(frontEntryInfo);
+        _backEntry.SetEntry(backEntryInfo);
         _tornedView.SetActive(false);
         _repairedView.SetActive(true);
     }

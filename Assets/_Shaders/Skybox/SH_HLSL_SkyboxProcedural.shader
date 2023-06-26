@@ -69,7 +69,7 @@ Shader "Skybox/Procedural/HLSL_Skybox"
 				#pragma vertex vert
 				#pragma fragment frag
 				// make fog work
-				#pragma multi_compile_fog
+				// #pragma multi_compile_fog
 				#pragma shader_feature FUZZY
 				#pragma shader_feature CLOUDS
 				#include "UnityCG.cginc"

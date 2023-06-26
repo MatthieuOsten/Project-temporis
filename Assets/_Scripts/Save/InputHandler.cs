@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InputEntry;
-using static InputHandler;
-using static UnityEditorInternal.ReorderableList;
 using System.IO;
 using System;
 

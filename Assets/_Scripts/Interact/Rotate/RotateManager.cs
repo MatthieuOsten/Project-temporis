@@ -16,6 +16,8 @@ public class RotateManager : MonoBehaviour
     [SerializeField] private bool _isFinish = false;
     [SerializeField] private EventDamScriptable _eventCompleted;
 
+    public int ElementsCount { get { return _tabInteract.Length;} }
+
     // Update is called once per frame
     void Update()
     {
@@ -23,6 +25,28 @@ public class RotateManager : MonoBehaviour
         {
             _isFinish = true;
             _eventCompleted.EventInvoke(_isFinish);
+        }
+    }
+
+    public void RotatePartTo(int part, int face)
+    {
+        if (part < ElementsCount && part >= 0) {
+            InteractRotate thePart = _tabInteract[part].Element;
+
+            if (face < thePart.Faces && face >= 1)
+            {
+                Debug.Log("This face " + face + " is set on this part " + part);
+            }
+            else
+            {
+                Debug.LogWarning("This face " + face + " is inexist on this part " + part);
+            }
+
+            thePart.ActualFace = face;
+        }
+        else
+        {
+            Debug.LogError("This part dont exist on this manager -> " + part);
         }
     }
 

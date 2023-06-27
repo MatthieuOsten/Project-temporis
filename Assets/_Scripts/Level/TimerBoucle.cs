@@ -4,7 +4,7 @@ using UnityEngine;
 public class TimerBoucle : MonoBehaviour
 {
     private float _currentTimer;
-    private float _maxTimer = 5f;
+    private float _maxTimer = 600f;
     private bool _isInBoucle = false;
 
     public float CurrentTimer
@@ -39,9 +39,8 @@ public class TimerBoucle : MonoBehaviour
 
     public void EndCurrentBoucle() //Reset tout le timer et les positions dans la scene
     {
-        // sauvegarde les nouvelles entrées du notebook
+        // sauvegarde les nouvelles entrées du notebook et reset les changements du notebook
         _isInBoucle = false;
-        //Reload la scene
-        StartNewBoucle();
+        SceneManager.LoadScene(1); //Reload la scene
     }
 }

@@ -20,7 +20,7 @@ public class HeadBobbing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _originalOffset = transform.position.y;
+        _originalOffset = transform.localPosition.y;
         _currentEffectSpeed = _idleEffectSpeed;
         _currentEffectIntensity = _idleEffectIntensity;
         InputManager.Instance.MoveStarted += OnMoveStarted;
@@ -37,11 +37,11 @@ public class HeadBobbing : MonoBehaviour
         float sinAmountY = -Mathf.Abs(_currentEffectIntensity * Mathf.Sin(_sinTime));
         if (isPushing && _isMovingPushing)
         {
-            transform.position = new Vector3(transform.position.x, _originalOffset - _animationCurve.Evaluate(_sinTime) * _currentEffectIntensity, transform.position.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, _originalOffset - _animationCurve.Evaluate(_sinTime) * _currentEffectIntensity, transform.localPosition.z);
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, _originalOffset + sinAmountY, transform.position.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, _originalOffset + sinAmountY, transform.localPosition.z);
         }
     }
 

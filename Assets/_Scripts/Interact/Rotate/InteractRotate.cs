@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Collider))]
 public class InteractRotate : Interactive
 {
     private enum axes { x,y, z }
@@ -15,13 +14,14 @@ public class InteractRotate : Interactive
     [SerializeField] private float _rotateDegrees = 0;
     [SerializeField] private int _faces = 4, _actualFace = 1;
     [SerializeField] private float _speed = 1.0f;
+    [SerializeField] private int _nbrBeenRotate = 0;
 
     [SerializeField] private Vector3 _rotationTarget = Vector3.zero;
 
     public int ActualFace
     {
         get { return _actualFace; }
-        private set { 
+        set {
             if (value > _faces)
             {
                 _actualFace = 1;
@@ -34,7 +34,14 @@ public class InteractRotate : Interactive
             {
                 _actualFace = value;
             }
+
+            ChangeFace();
         }
+    }
+
+    public int Faces
+    {
+        get { return _faces; }
     }
 
     /// <summary>
@@ -47,6 +54,24 @@ public class InteractRotate : Interactive
 
         if (!IsUsable) { return; }
 
+        switch (_rotationAxe)
+        {
+            case axes.x:
+            case axes.y:
+            case axes.z:
+                _nbrBeenUsed++;
+                break;
+            default:
+                break;
+        }
+
+        ChangeFace();
+
+    }
+
+    private void ChangeFace()
+    {
+
         _rotateDegrees = 360 / _faces;
 
         // En fonction de l'axe de rotation la valeur cibler est differente
@@ -54,17 +79,17 @@ public class InteractRotate : Interactive
         {
             case axes.x:
                 _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + _rotateDegrees : _rotationTarget.x - _rotateDegrees;
-                _nbrBeenUsed++;
+                _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.y:
                 _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + _rotateDegrees : _rotationTarget.y - _rotateDegrees;
-                _nbrBeenUsed++;
+                _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.z:
                 _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + _rotateDegrees : _rotationTarget.z - _rotateDegrees;
-                _nbrBeenUsed++;
+                _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             default:
@@ -73,7 +98,6 @@ public class InteractRotate : Interactive
         }
 
         if (_rotationInstant) { transform.eulerAngles = _rotationTarget; }
-
     }
 
     private void Awake()

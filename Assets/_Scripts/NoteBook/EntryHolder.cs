@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class EntryHolder : MonoBehaviour
 {
-    [SerializeField] protected EntryInfoScriptable _info;
-    public EntryInfoScriptable Info { get { return _info; } }
+    [SerializeField] protected EntryScriptable _info;
+    public EntryScriptable Info { get { return _info; } }
 }

@@ -50,7 +50,7 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _ColorBlend: 2
+    - _ColorBlend: 1.22
     - _ColorPowerBot: 2
     - _ColorPowerTop: 4
     - _Metalic: 3.41
@@ -63,8 +63,8 @@ Material:
     - _WindPower: 0.118
     - _WindSpeed: 0.53
     m_Colors:
-    - _ColorBot: {r: 0.005882353, g: 0.08235294, b: 0.01568628, a: 0}
-    - _ColorTop: {r: 0.0699003, g: 0.4811321, b: 0.09658245, a: 0}
+    - _ColorBot: {r: 0, g: 0.24705882, b: 0.020955773, a: 0}
+    - _ColorTop: {r: 0.17137653, g: 0.41509432, b: 0.0019579967, a: 0}
     - _WindDirection: {r: 0.4, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6700337259358555560

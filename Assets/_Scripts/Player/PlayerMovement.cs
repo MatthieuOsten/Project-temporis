@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody _playerRigidbody;
     private Vector2 _currentMovementInput;
     private Vector3 _currentMovement;
     [SerializeField] float _moveSpeed, _sprintSpeed;
-    private float _currentMoveSpeed = 10;
-    bool _isMoving = false;
+    private float _currentMoveSpeed = 0;
     bool _isSprinting = false;
+
+    bool _isMovementPressed;
+    CharacterController _characterController;
 
     private void Awake()
     {
-        _playerRigidbody = GetComponent<Rigidbody>();
-        _playerRigidbody.freezeRotation = true;
+        _characterController = GetComponent<CharacterController>();
+        _isMovementPressed = false;
     }
 
     private void Start()
@@ -29,15 +30,14 @@ public class PlayerMovement : MonoBehaviour
         InputManager.Instance.SprintCanceled += OnSprintCanceled;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        _playerRigidbody.velocity = transform.TransformDirection(_currentMovement * _currentMoveSpeed * Time.deltaTime);
+        _characterController.SimpleMove(transform.TransformDirection(_currentMovement * _currentMoveSpeed));
     }
 
     public void OnMoveStarted(InputAction.CallbackContext context)
     {
-        _isMoving = true;
-        _currentMoveSpeed = 10;
+        _isMovementPressed = true;
         if (_isSprinting)
         {
             StartCoroutine(SmoothStart(_sprintSpeed));
@@ -49,22 +49,21 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnMovePerformed(InputAction.CallbackContext context)
     {
-        _currentMovementInput = context.ReadValue<Vector2>(); // Store Input info 
-        _currentMovement.x = _currentMovementInput.x; // Set Input value in var
-        _currentMovement.y = 0;
+        _currentMovementInput = context.ReadValue<Vector2>();
+        _currentMovement.x = _currentMovementInput.x;
         _currentMovement.z = _currentMovementInput.y;
     }
     public void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        _isMoving = false;
+        _isMovementPressed = false;
         _currentMoveSpeed = 0;
     }
 
     IEnumerator SmoothStart(float speed)
     {
-        while (_currentMoveSpeed < speed && _isMoving)
+        while (_currentMoveSpeed < speed && _isMovementPressed)
         {
-            _currentMoveSpeed += Time.deltaTime * 400;
+            _currentMoveSpeed += Time.deltaTime * 10;
             yield return null;
         }
     }
@@ -72,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnSprintStarted(InputAction.CallbackContext context)
     {
         _isSprinting = true;
-        if(_isMoving)
+        if(_isMovementPressed)
         {
             StartCoroutine(SmoothStart(_sprintSpeed));
         }
@@ -81,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnSprintCanceled(InputAction.CallbackContext context)
     {
         _isSprinting = false;
-        if(_isMoving)
+        if(_isMovementPressed)
         {
             _currentMoveSpeed = _moveSpeed;
         }

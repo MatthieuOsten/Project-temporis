@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Collider))]
 public class InteractRotate : Interactive
 {
     private enum axes { x,y, z }
@@ -21,7 +20,7 @@ public class InteractRotate : Interactive
     public int ActualFace
     {
         get { return _actualFace; }
-        private set { 
+        set { 
             if (value > _faces)
             {
                 _actualFace = 1;
@@ -35,6 +34,11 @@ public class InteractRotate : Interactive
                 _actualFace = value;
             }
         }
+    }
+
+    public int Faces
+    {
+        get { return _faces; }
     }
 
     /// <summary>

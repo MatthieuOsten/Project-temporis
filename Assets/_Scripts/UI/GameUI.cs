@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -35,22 +33,91 @@ public class GameUI : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] TextMeshProUGUI _interact;
-    [SerializeField] Image _holdItem;
     [SerializeField] GameObject _playerScreen, _noteBookScreen;
-    [SerializeField] GameObject _handCursor, _penCursor, _erasorCursor;
+    [Header("INTERACT")]
+    [SerializeField] TextMeshProUGUI _interact;
+    [Header("INVENTORY")]
+    [SerializeField] Image _holdItem;
+    [Header("NOTEBOOK")]
+    [SerializeField] RectTransform _canvasRectTransform;
+    [SerializeField] GameObject _mouseHandCursor, _mousePencilCursor, _mouseErasorCursor, _gamepadHandCursor, _gamepadPencilCursor, _gamepadErasorCursor;
+    GameObject _currentHandCursor, _currentPencilCursor, _currentErasorCursor;
     [SerializeField] Transform _cursorHolder;
     public bool isLocked;
+    [SerializeField] GamepadCursor _gamepadCursor;
+    ControlSchemeState _currentControlScheme;
+    CursorState _currentCursor;
 
     private void Awake()
     {
         _instance = this;
+        _currentHandCursor = _mouseHandCursor;
+        _currentPencilCursor = _mousePencilCursor;
+        _currentErasorCursor = _mouseErasorCursor;
     }
 
     private void Start()
     {
+        _currentCursor = CursorState.none;
         Cursor.visible = false;
         InputManager.Instance.PointPerformed += MoveCursor;
+        InputManager.Instance.ControlSchemeSwitched += OnControlSchemeSwitched;
+    }
+
+    void OnControlSchemeSwitched(ControlSchemeState currentControlScheme)
+    {
+        switch(currentControlScheme)
+        {
+            case ControlSchemeState.gamepad :
+                if (_currentCursor != CursorState.none)
+                {
+                    _gamepadCursor.enabled = true;
+                    switch (_currentCursor)
+                    {
+                        case CursorState.hand:
+                            _mouseHandCursor.SetActive(false);
+                            _gamepadHandCursor.SetActive(true);
+                            break;
+                        case CursorState.pencil:
+                            _mousePencilCursor.SetActive(false);
+                            _gamepadPencilCursor.SetActive(true);
+                            break;
+                        case CursorState.erasor:
+                            _mouseErasorCursor.SetActive(false);
+                            _gamepadErasorCursor.SetActive(true);
+                            break;
+                    }
+                }
+                _currentHandCursor = _mouseHandCursor;
+                _currentPencilCursor = _mousePencilCursor;
+                _currentErasorCursor = _mouseErasorCursor;
+                break;
+            case ControlSchemeState.keyboard:
+                if (_currentCursor != CursorState.none)
+                {
+                    _gamepadCursor.enabled = false;
+                    switch (_currentCursor)
+                    {
+                        case CursorState.hand:
+                            _gamepadHandCursor.SetActive(false);
+                            _mouseHandCursor.SetActive(true);
+                            break;
+                        case CursorState.pencil:
+                            _gamepadPencilCursor.SetActive(false);
+                            _mousePencilCursor.SetActive(true);
+                            break;
+                        case CursorState.erasor:
+                            _gamepadErasorCursor.SetActive(false);
+                            _mouseErasorCursor.SetActive(true);
+                            break;
+                    }
+                }
+                _currentHandCursor = _gamepadHandCursor;
+                _currentPencilCursor = _gamepadPencilCursor;
+                _currentErasorCursor = _gamepadErasorCursor;
+                break;
+        }
+        _currentControlScheme = currentControlScheme;
     }
 
     /// <summary>
@@ -91,10 +158,18 @@ public class GameUI : MonoBehaviour
 
     public void ShowNoteBookScreen()
     {
+        if(_currentControlScheme == ControlSchemeState.gamepad)
+        {
+            _gamepadCursor.enabled = true;
+        }
         _noteBookScreen.SetActive(true);
     }
     public void HideNoteBookScreen()
     {
+        if(_currentControlScheme == ControlSchemeState.gamepad && _currentCursor == CursorState.none)
+        {
+            _gamepadCursor.enabled = false;
+        }
         _noteBookScreen.SetActive(false);
     }
 
@@ -102,21 +177,45 @@ public class GameUI : MonoBehaviour
     {
         if(!isLocked)
         {
-            _cursorHolder.gameObject.SetActive(true);
-            _penCursor.SetActive(false);
-            _erasorCursor.SetActive(false);
-            _handCursor.SetActive(true);
+            switch(_currentCursor)
+            {
+                case CursorState.none:
+                    _cursorHolder.gameObject.SetActive(true);
+                    break;
+                case CursorState.hand:
+                    return;
+                case CursorState.pencil:
+                    _currentPencilCursor.SetActive(false);
+                    break;
+                case CursorState.erasor:
+                    _currentErasorCursor.SetActive(false);
+                    break;
+            }
+            _currentCursor = CursorState.hand;
+            _currentHandCursor.SetActive(true);
         }
     }
 
-    public void ShowPenCursor()
+    public void ShowPencilCursor()
     {
         if(!isLocked)
         {
-            _cursorHolder.gameObject.SetActive(true);
-            _handCursor.SetActive(false);
-            _erasorCursor.SetActive(false);
-            _penCursor.SetActive(true);
+            switch (_currentCursor)
+            {
+                case CursorState.none:
+                    _cursorHolder.gameObject.SetActive(true);
+                    break;
+                case CursorState.hand:
+                    _currentHandCursor.SetActive(false);
+                    break;
+                case CursorState.pencil:
+                    return;
+                case CursorState.erasor:
+                    _currentErasorCursor.SetActive(false);
+                    break;
+            }
+            _currentCursor = CursorState.pencil;
+            _currentPencilCursor.SetActive(true);
         }
     }
 
@@ -124,15 +223,42 @@ public class GameUI : MonoBehaviour
     {
         if (!isLocked)
         {
-            _cursorHolder.gameObject.SetActive(true);
-            _handCursor.SetActive(false);
-            _penCursor.SetActive(false);
-            _erasorCursor.SetActive(true);
+            switch (_currentCursor)
+            {
+                case CursorState.none:
+                    _cursorHolder.gameObject.SetActive(true);
+                    break;
+                case CursorState.hand:
+                    _currentHandCursor.SetActive(false);
+                    break;
+                case CursorState.pencil:
+                    _currentPencilCursor.SetActive(false);
+                    break;
+                case CursorState.erasor:
+                    return;
+            }
+            _currentCursor = CursorState.hand;
+            _currentErasorCursor.SetActive(true);
         }
     }
 
     public void HideCursor()
     {
+        switch (_currentCursor)
+        {
+            case CursorState.none:
+                return;
+            case CursorState.hand:
+                _currentHandCursor.SetActive(false);
+                break;
+            case CursorState.pencil:
+                _currentPencilCursor.SetActive(false);
+                break;
+            case CursorState.erasor:
+                _currentErasorCursor.SetActive(false);
+                break;
+        }
+        _currentCursor = CursorState.none;
         _cursorHolder.gameObject.SetActive(false);
     }
 

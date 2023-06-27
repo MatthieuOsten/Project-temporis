@@ -22,7 +22,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     void ShowEditIllustrationInterface()
     {
-        GameUI.Instance.ShowPenCursor();
+        GameUI.Instance.ShowPencilCursor();
         illustrationButton.interactable = false;
         _editIllustrationInterface.SetActive(true);
         int indexToIgnore = _illustrationStates.IndexOf(illustrationButton.image.sprite);
@@ -75,7 +75,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         if(illustrationButton.interactable)
         {
-            GameUI.Instance.ShowPenCursor();
+            GameUI.Instance.ShowPencilCursor();
         }
     }
 

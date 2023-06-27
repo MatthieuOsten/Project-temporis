@@ -37,7 +37,8 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-    PlayerInput _playerInput;
+    [SerializeField] PlayerInput _playerInput;
+    ControlSchemeState _currentControlScheme;
 
     private void Awake()
     {
@@ -59,6 +60,14 @@ public class InputManager : MonoBehaviour
     public void OnGameRestarted(InputAction.CallbackContext context)
     {
         GameRestarted?.Invoke(context);
+    }
+
+    public Action<ControlSchemeState> ControlSchemeSwitched;
+    public void OnControlSchemeSwitched(PlayerInput input)
+    {
+        _currentControlScheme = (ControlSchemeState)Enum.Parse(typeof(ControlSchemeState), _playerInput.currentControlScheme.ToLower());
+        Debug.Log(_currentControlScheme.ToString());
+        ControlSchemeSwitched?.Invoke(_currentControlScheme);
     }
 
     #region GAME
@@ -281,6 +290,25 @@ public class InputManager : MonoBehaviour
     #endregion
 
     #region UI
+    #region SUBMIT
+
+    public Action<InputAction.CallbackContext> SubmitStarted;
+    public Action<InputAction.CallbackContext> SubmitCanceled;
+
+    public void OnSubmitChanged(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SubmitStarted?.Invoke(context);
+        }
+        else if(context.canceled)
+        {
+            SubmitCanceled?.Invoke(context);
+        }
+    }
+
+    #endregion
+
     #region POINT
 
     public Action<InputAction.CallbackContext> PointPerformed;
@@ -326,14 +354,31 @@ public class InputManager : MonoBehaviour
             if (value)
             {
                 _playerInput.actions.FindAction("CloseNoteBook").Enable();
-                Debug.Log("Enabled");
             }
             else
             {
                 _playerInput.actions.FindAction("CloseNoteBook").Disable();
-                Debug.Log("Disabled");
             }
             _closeNoteBookEnabled = value;
+        }
+    }
+
+    #endregion
+
+    #region GAMEPAD CURSOR POSITION
+
+    public Action<InputAction.CallbackContext> GamepadCursorPositionPerformed;
+    public Action<InputAction.CallbackContext> GamepadCursorPositionCanceled;
+
+    public void OnGamepadCursorPositionChanged(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            GamepadCursorPositionPerformed?.Invoke(context);
+        }
+        else if(context.canceled)
+        {
+            GamepadCursorPositionCanceled?.Invoke(context);
         }
     }
 

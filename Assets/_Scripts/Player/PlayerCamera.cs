@@ -7,11 +7,12 @@ using UnityEngine.InputSystem;
 public class PlayerCamera : MonoBehaviour
 {
     private Camera _mainCamera;
-    [SerializeField] private float _xRotation = 0f;
-    [SerializeField] float _yRotation = 0f;
+    private float _xRotation = 0f;
+    
+    private float _xSens, _ySens;
+    [SerializeField, Range(0f, 10f)] private float _xSensMouse, _ySensMouse;
+    [SerializeField, Range(0f, 100f)] private float _xSensGamepad, _ySensGamepad;
 
-    [SerializeField] private float _xSens = 30f;
-    [SerializeField] private float _ySens = 30f;
     private float _mouseX;
     private float _mouseY;
 
@@ -27,12 +28,31 @@ public class PlayerCamera : MonoBehaviour
         this.enabled = false;
     }
 
+    private void OnControlSchemeSwitched(ControlSchemeState currentControlScheme)
+    {
+        Debug.Log("Switch");
+        switch(currentControlScheme)
+        {
+            case ControlSchemeState.keyboard:
+                _xSens = _xSensMouse;
+                _ySens = _ySensMouse;
+                break;
+            case ControlSchemeState.gamepad:
+                _xSens = _xSensGamepad;
+                _ySens = _ySensGamepad;
+                break;
+        }
+    }
+
     private void Start()
     {
         _mainCamera = CameraUtility.Camera;
+        _xSens = _xSensMouse;
+        _ySens = _ySensMouse;
         InputManager.Instance.CameraChanged += RotatePlayer;
         InputManager.Instance.CameraDisabled += OnCameraDisabled;
         InputManager.Instance.CameraEnabled += OnCameraEnabled;
+        InputManager.Instance.ControlSchemeSwitched += OnControlSchemeSwitched;
         Cursor.lockState = CursorLockMode.Locked;
     }
 

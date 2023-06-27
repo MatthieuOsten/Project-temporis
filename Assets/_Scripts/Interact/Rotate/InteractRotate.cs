@@ -20,7 +20,7 @@ public class InteractRotate : Interactive
     public int ActualFace
     {
         get { return _actualFace; }
-        set { 
+        set {
             if (value > _faces)
             {
                 _actualFace = 1;
@@ -33,6 +33,8 @@ public class InteractRotate : Interactive
             {
                 _actualFace = value;
             }
+
+            ChangeFace();
         }
     }
 
@@ -49,6 +51,12 @@ public class InteractRotate : Interactive
     {
         base.StartedUse(context);
 
+        ChangeFace();
+
+    }
+
+    private void ChangeFace()
+    {
         if (!IsUsable) { return; }
 
         _rotateDegrees = 360 / _faces;
@@ -77,7 +85,6 @@ public class InteractRotate : Interactive
         }
 
         if (_rotationInstant) { transform.eulerAngles = _rotationTarget; }
-
     }
 
     private void Awake()

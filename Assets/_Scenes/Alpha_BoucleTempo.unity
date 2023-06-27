@@ -134,6 +134,8 @@ GameObject:
   - component: {fileID: 31735129}
   - component: {fileID: 31735128}
   - component: {fileID: 31735130}
+  - component: {fileID: 31735132}
+  - component: {fileID: 31735131}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -210,14 +212,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31735127}
-  m_LocalRotation: {x: -0.9650065, y: 0.011289677, z: -0.25857267, w: -0.042133655}
+  m_LocalRotation: {x: 0.9650065, y: -0.011289556, z: 0.25857267, w: 0.0421332}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 535, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 175, y: -30, z: 0}
 --- !u!114 &31735130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +240,43 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!114 &31735131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31735127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 0
+  _rotationAxe: 0
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _rotateDegrees: 0
+  _faces: 4
+  _actualFace: 1
+  _speed: 1
+  _rotationTarget: {x: -30, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}
+--- !u!65 &31735132
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31735127}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &343439052
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +287,6 @@ GameObject:
   m_Component:
   - component: {fileID: 343439053}
   - component: {fileID: 343439054}
-  - component: {fileID: 343439055}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -283,20 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03794e19866fa484f90a9558652a9bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &343439055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343439052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dbb8c2f8a24ef14292959964ecdc82f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _light: {fileID: 31735129}
-  _timer: {fileID: 343439054}
 --- !u!1001 &393341680
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class RotateManager : MonoBehaviour
                 Debug.LogWarning("This face " + face + " is inexist on this part " + part);
             }
 
-            thePart.ActualFace = face;
+            thePart.ChangeFace(face);
         }
         else
         {

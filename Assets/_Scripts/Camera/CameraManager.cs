@@ -67,9 +67,9 @@ public class CameraManager : MonoBehaviour
     {
         if (Vector3.Distance(_player.position, target.position) < _maxLookDistance)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void LookAt(Transform target, float speed)

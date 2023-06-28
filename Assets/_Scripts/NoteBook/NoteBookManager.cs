@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 public class NoteBookManager : MonoBehaviour
 {
     [Header("PAGES LISTS")]
-    [SerializeField] List<NoteBookPage> _leftNoteBookPageList;
-    [SerializeField] List<NoteBookPage> _rightNoteBookPageList;
+    [SerializeField] List<NoteBookPage> _allNoteBookPages;
+    List<NoteBookPage> _leftNoteBookPageList, _rightNoteBookPageList;
     [Header("ENTRIES LIST")]
     [SerializeField] EntriesListScriptable _entriesList;
     [Header("PAGE PARAMETERS")]
@@ -27,6 +27,8 @@ public class NoteBookManager : MonoBehaviour
 
     private void Start()
     {
+        _leftNoteBookPageList = new List<NoteBookPage>();
+        _rightNoteBookPageList = new List<NoteBookPage>();
         NoteBookClosed += ResetAllPages;
         _entriesList.entryAdded += OnEntryAdded;
         _entriesList.tornedEntriesAdded += OnTornedEntriesAdded;
@@ -38,32 +40,29 @@ public class NoteBookManager : MonoBehaviour
     void InitializeNoteBook()
     {
         InitializeEntryButtons();
-        int nbEntries = _rightNoteBookPageList.Count*2;
-        for(int i =0; i < nbEntries; i++)
+        for(int i = _allNoteBookPages.Count-1; i > 0; i--)
         {
-            EntryScriptable currentEntry = _entriesList.GetEntry(i);
-            if (currentEntry)
+            _rightNoteBookPageList.Add(_allNoteBookPages[i]);
+            int pageIndex = _rightNoteBookPageList.Count - 1;
+            if (!_allNoteBookPages[i].isTorned)
             {
-                int pageIndex = _rightNoteBookPageList.Count - 1 - ((i - i % 2) / 2);
-                if(i%2 == 0)
-                {
-                    _rightNoteBookPageList[pageIndex].FrontEntry.SetEntry(currentEntry);
-
-                }
-                else
-                {
-                    _rightNoteBookPageList[pageIndex].BackEntry.SetEntry(currentEntry);
-                }
-                _entryButtonList[i].SetSprite(currentEntry.EntryIcon);
+                int entryIndex = pageIndex*2;
+                _rightNoteBookPageList[pageIndex].FrontEntry.SetEntry(_entriesList.GetEntry(entryIndex));
+                _rightNoteBookPageList[pageIndex].BackEntry.SetEntry(_entriesList.GetEntry(entryIndex+1));
+                _entryButtonList[entryIndex].SetSprite(_entriesList.GetEntry(entryIndex).EntryIcon);
+                _entryButtonList[entryIndex+1].SetSprite(_entriesList.GetEntry(entryIndex+1).EntryIcon);
             }
         }
+        ResetAllPages();
     }
 
     void OnEntryAdded(EntryScriptable newEntry, int entryIndex)
     {
         _entryButtonList[entryIndex].SetSprite(newEntry.EntryIcon);
-        int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
+        _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.HideEntry();
+        _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FrontEntry.HideEntry();
 
+        int noteBookPageIndex = (entryIndex - (entryIndex % 2))/2;
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);
         if (result <= _rightNoteBookPageList.Count)
         {
@@ -94,7 +93,7 @@ public class NoteBookManager : MonoBehaviour
         {
             _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.SetEntry(newEntry);
         }
-        OpenNoteBook(new InputAction.CallbackContext());
+        OpenNoteBook();
     }
 
     void SwitchNoteBookPages(int entryIndex)
@@ -138,8 +137,11 @@ public class NoteBookManager : MonoBehaviour
         int entryIndex = frontEntry.EntryIndex;
         _entryButtonList[entryIndex].SetSprite(frontEntry.EntryIcon);
         _entryButtonList[backEntry.EntryIndex].SetSprite(backEntry.EntryIcon);
-        int noteBookPageIndex = (entryIndex - (entryIndex % 2)) / 2;
 
+        _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.HideEntry();
+        _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FrontEntry.HideEntry();
+
+        int noteBookPageIndex = (entryIndex - (entryIndex % 2)) / 2;
         int result = _rightNoteBookPageList.Count + (_leftNoteBookPageList.Count - noteBookPageIndex);
         if (result <= _rightNoteBookPageList.Count)
         {
@@ -165,6 +167,9 @@ public class NoteBookManager : MonoBehaviour
         _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].RepairPage(frontEntry, backEntry);
 
         OpenNoteBook();
+
+        _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.ShowEntry();
+        _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FrontEntry.ShowEntry();
     }
 
     public void ResetAllPages()
@@ -172,11 +177,43 @@ public class NoteBookManager : MonoBehaviour
         for(int i = 0; i< _rightNoteBookPageList.Count; i++)
         {
             _rightNoteBookPageList[i].FlipPage(_pageSpacing * i, _rightPageMaxAngle);
+            _rightNoteBookPageList[i].FrontEntry.HideEntry();
+            _rightNoteBookPageList[i].BackEntry.HideEntry();
         }
         for (int i = 0; i < _leftNoteBookPageList.Count; i++)
         {
             _leftNoteBookPageList[i].FlipPage(_pageSpacing * i, _leftPageMaxAngle);
+            _leftNoteBookPageList[i].FrontEntry.HideEntry();
+            _leftNoteBookPageList[i].BackEntry.HideEntry();
         }
+        _rightNoteBookPageList[_rightNoteBookPageList.Count - 1].FrontEntry.ShowEntry();
+        _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].BackEntry.ShowEntry();
+    }
+
+    public NoteBookPage GetPreviousPage(NoteBookPage currentPage)
+    {
+        if(_allNoteBookPages.Contains(currentPage))
+        {
+            int pageIndex = _allNoteBookPages.IndexOf(currentPage);
+            if (pageIndex !=0)
+            {
+                return _allNoteBookPages[pageIndex - 1];
+            }
+        }
+        return null;
+    }
+
+    public NoteBookPage GetNextPage(NoteBookPage currentPage)
+    {
+        if (_allNoteBookPages.Contains(currentPage))
+        {
+            int pageIndex = _allNoteBookPages.IndexOf(currentPage);
+            if (pageIndex != _allNoteBookPages.Count-1)
+            {
+                return _allNoteBookPages[pageIndex + 1];
+            }
+        }
+        return null;
     }
 
     #region INPUT FUNCTIONS
@@ -249,6 +286,7 @@ public class NoteBookManager : MonoBehaviour
     {
         if (_rightNoteBookPageList.Count != 0)
         {
+            Debug.Log("Left");
             _leftNoteBookPageList.Add(_rightNoteBookPageList[_rightNoteBookPageList.Count - 1]);
             _rightNoteBookPageList.RemoveAt(_rightNoteBookPageList.Count - 1);
             _leftNoteBookPageList[_leftNoteBookPageList.Count - 1].FlipPage(_pageSpacing * (_leftNoteBookPageList.Count - 1), _leftPageMaxAngle, pageFlipSpeed);
@@ -258,7 +296,7 @@ public class NoteBookManager : MonoBehaviour
     private void InitializeEntryButtons()
     {
         _entryButtonList = new List<EntryButton>();
-        int nbButtons = _rightNoteBookPageList.Count * 2;
+        int nbButtons = _allNoteBookPages.Count * 2;
         float buttonSpacing = _buttonLength / nbButtons;
         float buttonStartPos = -buttonSpacing * ((nbButtons - 1) / 2);
         if (nbButtons % 2 == 0)

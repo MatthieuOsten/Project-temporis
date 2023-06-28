@@ -11,3 +11,11 @@ public enum ControlSchemeState
     keyboard, 
     gamepad
 }
+
+public enum PlayerLocation
+{
+    InForest,
+    InDesert,
+    InsideTemple,
+    InNight,
+}

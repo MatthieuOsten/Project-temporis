@@ -14,6 +14,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] List<Sprite> _illustrationStates;
     public Action<int> illustrationEdited;
     [SerializeField] NoteBookManager _noteBookManager;
+    [SerializeField] NoteBookAudio _noteBookAudio;
 
     private void Start()
     {
@@ -52,6 +53,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         illustrationEdited?.Invoke(index);
         illustrationButton.image.sprite = _illustrationStates[index];
+        _noteBookAudio.WritingClip();
         CloseEditIllustrationInterface();
     }
 

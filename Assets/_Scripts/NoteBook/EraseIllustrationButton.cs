@@ -10,6 +10,7 @@ public class EraseIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoi
     public Button illustrationButton;
     public Action illustrationErased;
     [SerializeField] NoteBookManager _noteBookManager;
+    [SerializeField] NoteBookAudio _noteBookAudio;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class EraseIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoi
     void EraseIllustration()
     {
         illustrationErased?.Invoke();
+        _noteBookAudio.EraseClip();
         GameUI.Instance.ShowHandCursor();
         illustrationButton.gameObject.SetActive(false);
     }

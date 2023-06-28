@@ -11,17 +11,20 @@ public class NoteBookPage : MonoBehaviour
     public bool isTorned = false;
     [SerializeField] GameObject _repairedView, _tornedView;
     public NoteBookManager noteBookManager;
+    [SerializeField] NoteBookAudio _noteBookAudio;
 
     public void FlipPage(float posZ, float rotY)
     {
         pagePivot.localPosition = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         pagePivot.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
+        _noteBookAudio.TurnPageClip();
     }
 
     public void FlipPage(float posZ, float rotY, float speed)
     {
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
+        _noteBookAudio.TurnPageClip();
         StartCoroutine(FlipPivot(pos, rot, speed, 0, rotY != -20f));
     }
 
@@ -29,6 +32,7 @@ public class NoteBookPage : MonoBehaviour
     {
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
+        _noteBookAudio.TurnPageClip();
         StartCoroutine(FlipPivot(pos, rot, speed, delay, rotY != -20f));
     }
 

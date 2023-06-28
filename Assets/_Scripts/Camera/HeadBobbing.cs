@@ -33,15 +33,11 @@ public class HeadBobbing : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         _sinTime += Time.deltaTime * _currentEffectSpeed;
         float sinAmountY = -Mathf.Abs(_currentEffectIntensity * Mathf.Sin(_sinTime));
-
-        if(Mathf.Sin(_sinTime) <= 0 && Mathf.Sin(_sinTime) >= -1)
-        {
-
-        }
+        Debug.Log(_isSprinting);
 
         if (isPushing && _isMovingPushing)
         {
@@ -58,6 +54,9 @@ public class HeadBobbing : MonoBehaviour
         _isMoving = true;
         _sinTime = 0;
         StopAllCoroutines();
+
+        StartCoroutine(FootStep());
+
         if (_isSprinting)
         {
             StartCoroutine(Timer(0.5f, _sprintEffectSpeed));
@@ -76,7 +75,7 @@ public class HeadBobbing : MonoBehaviour
         _currentEffectSpeed = _idleEffectSpeed;
         _currentEffectIntensity = _idleEffectIntensity;
     }
-    
+
     public void OnMoveWhilePushingStarted(InputAction.CallbackContext context)
     {
         _isMovingPushing = true;
@@ -95,9 +94,12 @@ public class HeadBobbing : MonoBehaviour
     public void OnSprintStarted(InputAction.CallbackContext context)
     {
         _isSprinting = true;
-        if(_isMoving)
+        if (_isMoving)
         {
             StopAllCoroutines();
+
+            StartCoroutine(FootStep());
+
             StartCoroutine(Timer(0.5f, _sprintEffectSpeed));
             _currentEffectIntensity = _sprintEffectIntensity;
         }
@@ -105,7 +107,7 @@ public class HeadBobbing : MonoBehaviour
 
     private void OnSprintCanceled(InputAction.CallbackContext obj)
     {
-        if(_isMoving)
+        if (_isMoving)
         {
             StopAllCoroutines();
             _currentEffectSpeed = _walkingEffectSpeed;
@@ -123,5 +125,23 @@ public class HeadBobbing : MonoBehaviour
             yield return null;
         }
         _currentEffectSpeed = effectSpeed;
+    }
+
+    IEnumerator FootStep()
+    {
+        while(_isMoving || _isSprinting)
+        {
+            if(_isMoving)
+            {
+                yield return new WaitForSeconds(1);
+                _footStep.PlayFootstep();
+            }
+            else if (_isSprinting)
+            {
+                yield return new WaitForSeconds(0.2f);
+                _footStep.PlayFootstep();
+            }
+        }
+        
     }
 }

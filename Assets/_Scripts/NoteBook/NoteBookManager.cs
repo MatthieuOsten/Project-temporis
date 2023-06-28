@@ -21,6 +21,7 @@ public class NoteBookManager : MonoBehaviour
     [SerializeField] Transform _buttonHolder;
     List<EntryButton> _entryButtonList;
     [SerializeField] GameObject noteBookView;
+    [SerializeField] NoteBookAudio _noteBookAudio;
 
     public Action NoteBookOpened;
     public Action NoteBookClosed;
@@ -226,6 +227,7 @@ public class NoteBookManager : MonoBehaviour
         InputManager.Instance.SwitchCurrentActionMap();
         CameraManager.Instance.SetNoteBookView();
         InputManager.Instance.PointPerformed += CheckLookUp;
+        _noteBookAudio.OpenNoteBookSound();
         NoteBookOpened?.Invoke();
     }
     void OpenNoteBook()

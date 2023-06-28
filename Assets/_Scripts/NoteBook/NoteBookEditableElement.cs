@@ -17,18 +17,13 @@ public abstract class NoteBookEditableElement : MonoBehaviour
         }
     }
 
-    protected virtual void OnNoteBookOpened()
-    {
-        
-    }
-
-    protected abstract void OnNoteBookClosed();
+    /*protected abstract void OnNoteBookOpened();
+    protected abstract void OnNoteBookClosed();*/
 
     protected void Start()
     {
         //_linckedButton.GetIllustrationIndex();
         _linckedButton.illustrationEdited += OnIllustrationEdited;
-        _noteBookManager.NoteBookOpened += OnNoteBookOpened;
     }
 
 }

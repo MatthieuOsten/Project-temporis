@@ -3,26 +3,16 @@ using UnityEngine;
 
 public class RotatingStatuePart : NoteBookEditableElement
 {
-    protected override void OnNoteBookClosed()
+    [SerializeField] RotateManager _rotateManager;
+    [SerializeField] int _partIndex;
+ 
+    protected override void OnIllustrationEdited(int index)
     {
-        /*switch(_currentIndex)
-        {
-            case 0:
-                StartCoroutine(RotateToward(0));
-                break;
-            case 1:
-                StartCoroutine(RotateToward(180));
-                break;
-            case 2:
-                StartCoroutine(RotateToward(90));
-                break;
-            case 3:
-                StartCoroutine(RotateToward(-90));
-                break;
-        }*/
+        base.OnIllustrationEdited(index);
+        _rotateManager.RotatePartTo(_partIndex, index+1);
     }
 
-    public IEnumerator RotateToward(float rotY)
+    /*public IEnumerator RotateToward(float rotY)
     {
         Quaternion rot = Quaternion.Euler(0, rotY, 0);
         while (transform.rotation != rot)
@@ -31,5 +21,5 @@ public class RotatingStatuePart : NoteBookEditableElement
             yield return null;
         }
         transform.rotation = rot;
-    }
+    }*/
 }

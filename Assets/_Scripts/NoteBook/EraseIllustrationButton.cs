@@ -14,7 +14,6 @@ public class EraseIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoi
     private void Start()
     {
         illustrationButton.onClick.AddListener(EraseIllustration);
-        _noteBookManager.LookUp();
     }
 
     void EraseIllustration()

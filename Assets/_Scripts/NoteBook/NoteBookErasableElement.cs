@@ -5,9 +5,8 @@ using UnityEngine;
 public abstract class NoteBookErasableElement : MonoBehaviour
 {
     [SerializeField] protected EraseIllustrationButton _linckedButton;
-    [SerializeField] protected NoteBookManager _notebookManager;
-    [SerializeField] protected Transform _elementToShow;
     [SerializeField] protected NoteBookManager _noteBookManager;
+    [SerializeField] protected Transform _elementToShow;
 
     protected virtual void OnIllustrationErased()
     {

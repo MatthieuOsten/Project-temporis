@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5923846871860151360}
   - component: {fileID: 5923846871860151363}
+  - component: {fileID: 3953016047129744374}
   m_Layer: 0
   m_Name: PFB_RotatingStatue
   m_TagString: Untagged
@@ -48,6 +49,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2.7, z: 0.7}
   m_Center: {x: 0, y: 1.35, z: 0}
+--- !u!114 &3953016047129744374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923846871860151361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c6af15afba8c048b6cf7dea6bc22c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tabInteract:
+  - _element: {fileID: 5862795483662744389}
+    _objectifFace: 3
+  - _element: {fileID: 8912629106062647696}
+    _objectifFace: 1
+  - _element: {fileID: 6803741044262520757}
+    _objectifFace: 1
+  _isFinish: 0
+  _eventCompleted: {fileID: 11400000, guid: 6e257e867c3fea649a82f436bfece8c7, type: 2}
 --- !u!1 &5923846872204364089
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5923846872994840182}
   - component: {fileID: 5923846872994840185}
+  - component: {fileID: 5862795483662744389}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -343,7 +366,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _notebookManager: {fileID: 0}
+  _noteBookManager: {fileID: 0}
+  _elementToShow: {fileID: 5923846871860151360}
+  _rotateManager: {fileID: 3953016047129744374}
+  _partIndex: 0
+--- !u!114 &5862795483662744389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923846872994840183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _rotateDegrees: 0
+  _faces: 4
+  _actualFace: 0
+  _speed: 50
+  _nbrBeenRotate: 0
+  _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}
 --- !u!1 &5923846873124165247
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5923846873124165246}
   - component: {fileID: 5923846873124165217}
+  - component: {fileID: 6803741044262520757}
   m_Layer: 0
   m_Name: Feet
   m_TagString: Untagged
@@ -390,7 +442,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _notebookManager: {fileID: 0}
+  _noteBookManager: {fileID: 0}
+  _elementToShow: {fileID: 5923846871860151360}
+  _rotateManager: {fileID: 3953016047129744374}
+  _partIndex: 2
+--- !u!114 &6803741044262520757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923846873124165247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _rotateDegrees: 0
+  _faces: 4
+  _actualFace: 0
+  _speed: 50
+  _nbrBeenRotate: 0
+  _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}
 --- !u!1 &5923846873500149456
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5923846873500149459}
   - component: {fileID: 5923846873500149458}
+  - component: {fileID: 8912629106062647696}
   m_Layer: 0
   m_Name: Trunk
   m_TagString: Untagged
@@ -437,4 +518,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linckedButton: {fileID: 0}
-  _notebookManager: {fileID: 0}
+  _noteBookManager: {fileID: 0}
+  _elementToShow: {fileID: 5923846871860151360}
+  _rotateManager: {fileID: 3953016047129744374}
+  _partIndex: 1
+--- !u!114 &8912629106062647696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5923846873500149456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e455ce608e99f40926844271d8a8ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nbrBeenUsed: 0
+  _isUsable: 1
+  _rotationAxe: 1
+  _rotationPositive: 1
+  _rotationInstant: 0
+  _rotationIsMove: 0
+  _rotateDegrees: 0
+  _faces: 4
+  _actualFace: 0
+  _speed: 50
+  _nbrBeenRotate: 0
+  _rotationTarget: {x: 0, y: 0, z: 0}
+  eulerAngle: {x: 0, y: 0, z: 0}

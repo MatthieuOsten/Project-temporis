@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class RockSlideEvent : NoteBookErasableElement
 {
     [SerializeField] GameObject[] _rockSlide;
 
@@ -12,4 +12,9 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    protected override void OnIllustrationErased()
+    {
+        base.OnIllustrationErased();
+        DisableRockSlide();
+    }
 }

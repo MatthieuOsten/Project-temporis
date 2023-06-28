@@ -18,9 +18,9 @@ public class EraseIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoi
 
     void EraseIllustration()
     {
-        illustrationButton.gameObject.SetActive(false);
         illustrationErased?.Invoke();
         GameUI.Instance.ShowHandCursor();
+        illustrationButton.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

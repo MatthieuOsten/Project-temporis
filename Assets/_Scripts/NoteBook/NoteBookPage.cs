@@ -47,7 +47,6 @@ public class NoteBookPage : MonoBehaviour
         GameUI.Instance.isLocked = true;
         NoteBookPage previousPage = noteBookManager.GetPreviousPage(this);
         NoteBookPage nextPage = noteBookManager.GetNextPage(this);
-        Debug.Log(turnRight);
         if (turnRight)
         {
             _frontEntry.ShowEntry();

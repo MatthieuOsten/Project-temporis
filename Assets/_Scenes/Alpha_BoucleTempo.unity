@@ -270,8 +270,8 @@ GameObject:
   - component: {fileID: 278738226}
   - component: {fileID: 278738225}
   - component: {fileID: 278738224}
-  - component: {fileID: 278738223}
   - component: {fileID: 278738222}
+  - component: {fileID: 278738227}
   - component: {fileID: 278738221}
   m_Layer: 0
   m_Name: Cube (1)
@@ -434,19 +434,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &278738223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 278738220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a675e0394ac9f04e8cc37171e473ad1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ambiantMusic: {fileID: 343439055}
 --- !u!23 &278738224
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -512,6 +499,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &278738227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278738220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a675e0394ac9f04e8cc37171e473ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ambiantMusic: {fileID: 343439055}
 --- !u!1 &343439052
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d23245f867bffc41bc014807180b966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionTime: 3
   _audioSource: {fileID: 1035025833}
   _audioClips:
   - {fileID: 8300000, guid: c135f310eb2d81646a84fbc139527867, type: 3}

@@ -11,7 +11,15 @@ public class SwitchAmbiantMusic : MonoBehaviour
     {
         Debug.Log(_playerLocation);
     }
-    public void CheckPlayerLocation()
+
+    public void SwitchPlayerLocationState(PlayerLocation playerLocation)
+    {
+        _playerLocation = playerLocation;
+        CheckPlayerLocation();
+
+    }
+
+    private void CheckPlayerLocation()
     {
         switch(_playerLocation)
         {

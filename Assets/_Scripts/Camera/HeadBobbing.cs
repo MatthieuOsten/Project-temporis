@@ -6,16 +6,18 @@ using UnityEngine.InputSystem;
 
 public class HeadBobbing : MonoBehaviour
 {
-    private float _sinTime = 0;
     [SerializeField, Range(0, 10)] private float _walkingEffectSpeed, _idleEffectSpeed, _pushingEffectSpeed, _sprintEffectSpeed;
     [SerializeField, Range(0, 1)] private float _walkingEffectIntensity, _idleEffectIntensity, _pushingEffectIntensity, _sprintEffectIntensity;
+    [SerializeField] AnimationCurve _animationCurve;
+    [SerializeField] FootStepSound _footStep;
+
+    private float _sinTime = 0;
     private float _currentEffectSpeed, _currentEffectIntensity;
     private float _originalOffset;
     private bool _isMoving;
     private bool _isSprinting;
     public bool isPushing;
     private bool _isMovingPushing;
-    [SerializeField] AnimationCurve _animationCurve;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,12 @@ public class HeadBobbing : MonoBehaviour
     {
         _sinTime += Time.deltaTime * _currentEffectSpeed;
         float sinAmountY = -Mathf.Abs(_currentEffectIntensity * Mathf.Sin(_sinTime));
+
+        if(Mathf.Sin(_sinTime) <= 0 && Mathf.Sin(_sinTime) >= -1)
+        {
+
+        }
+
         if (isPushing && _isMovingPushing)
         {
             transform.localPosition = new Vector3(transform.localPosition.x, _originalOffset - _animationCurve.Evaluate(_sinTime) * _currentEffectIntensity, transform.localPosition.z);

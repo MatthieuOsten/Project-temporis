@@ -11,7 +11,7 @@ public class SwitchAmbiantMusic : MonoBehaviour
 
     private void Start()
     {
-        SwitchPlayerLocationState(PlayerLocation.InForest);
+        //SwitchPlayerLocationState(PlayerLocation.InForest);
     }
 
     public void SwitchPlayerLocationState(PlayerLocation playerLocation)

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ReflectingMirrorPuzzle : MonoBehaviour
@@ -56,6 +55,15 @@ public class ReflectingMirrorPuzzle : MonoBehaviour
                         _mirrors.Add(newMirror);
                         newMirror.reflectingMirrorPuzzle = this;
                     }
+                }
+            }
+            if(hit.transform.gameObject.layer == 13)
+            {
+                LightOrb lightOrb;
+                if (hit.collider.TryGetComponent<LightOrb>(out lightOrb))
+                {
+                    lightOrb.ActivateOrb();
+                    _lightRay.SetPosition(_lightRay.positionCount - 1, hit.point);
                 }
             }
             else if (_lightRay.GetPosition(_lightRay.positionCount - 1) != hit.point)

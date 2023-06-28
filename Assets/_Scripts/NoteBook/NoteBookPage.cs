@@ -22,14 +22,14 @@ public class NoteBookPage : MonoBehaviour
     {
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
-        StartCoroutine(FlipPivot(pos, rot, speed, 0, transform.localRotation.eulerAngles.y < rotY));
+        StartCoroutine(FlipPivot(pos, rot, speed, 0, rotY != -20f));
     }
 
     public void FlipPage(float posZ, float rotY, float speed, float delay)
     {
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
-        StartCoroutine(FlipPivot(pos, rot, speed, delay, transform.localRotation.eulerAngles.y < rotY));
+        StartCoroutine(FlipPivot(pos, rot, speed, delay, rotY != -20f));
     }
 
     public void RepairPage(EntryScriptable frontEntryInfo, EntryScriptable backEntryInfo)
@@ -47,6 +47,7 @@ public class NoteBookPage : MonoBehaviour
         GameUI.Instance.isLocked = true;
         NoteBookPage previousPage = noteBookManager.GetPreviousPage(this);
         NoteBookPage nextPage = noteBookManager.GetNextPage(this);
+        Debug.Log(turnRight);
         if (turnRight)
         {
             _frontEntry.ShowEntry();

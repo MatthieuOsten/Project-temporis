@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PlayAudio : MonoBehaviour
 {
+    [SerializeField] AudioPlayManager _audioManager;
+    [SerializeField] AudioClip _clip;
 
-    public void PlayClipAtPoint(AudioSource source, AudioClip clip)
+    public void PlayClip()
     {
-        AudioSource.PlayClipAtPoint(clip, source.gameObject.transform.position); 
+        _audioManager.SetAudioClipOneShot(_clip);
     }
 
-    public void StopPlay(AudioSource source, AudioClip clip)
+    public void StopPlay()
     {
-        source.Stop();
+        _audioManager.Source.Stop();
     }
 }

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class EventNight : MonoBehaviour
 {
-    [SerializeField] GameObject _particulesObjects;
+    [SerializeField] GameObject[] _particulesObjects;
     [SerializeField] SwitchAmbiantMusic _ambiantMusic;
     [SerializeField] SetVisibleConstellations _constellations;
     [SerializeField] TimerBoucle _boucle;
     [SerializeField] EndOfDayAudio _endAudio;
     [SerializeField] private PlayerLocation _playerLocation;
-    private SpawnParticule _particule;
 
     private void Update()
     {
@@ -18,7 +17,10 @@ public class EventNight : MonoBehaviour
         {
             _ambiantMusic.SwitchPlayerLocationState(_playerLocation);
             _constellations.VisibleConstellations();
-            _particulesObjects.SetActive(!_particulesObjects.activeInHierarchy);
+            for (int i = 0; i < _particulesObjects.Length; i++)
+            {
+                _particulesObjects[i].SetActive(!_particulesObjects[i].activeInHierarchy);
+            }
         }
 
         if (_boucle.CurrentTimer >= 520)

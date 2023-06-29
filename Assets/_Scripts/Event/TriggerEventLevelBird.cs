@@ -6,10 +6,10 @@ public class TriggerEventLevelBird : MonoBehaviour
 
     private void Awake()
     {
-        _triggerEvent.Event += TriggerEventBird;
+        _triggerEvent.Event += TriggerEventTest;
     }
 
-    private void TriggerEventBird(Collider obj)
+    private void TriggerEventTest(Collider obj)
     {
         AudioSource.PlayClipAtPoint(_triggerEvent._audio, gameObject.transform.position);
     }

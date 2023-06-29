@@ -5,18 +5,18 @@ public class LakeDamEvent : MonoBehaviour
 {
     [SerializeField] LakeState _lakeState;
     [SerializeField] Animator _animator;
+    [SerializeField] PlayAudio _damAudio;
 
     private void Start()
     {
         _lakeState.IsFlooded = true;
         _lakeState.CheckState();
-        LeverLowPosition();
     }
 
     public void LeverCorrectPosition()
     {
         _animator.SetInteger("Level", 1);
-
+        _damAudio.PlayClip();
         _lakeState.IsCorrect = true;
         _lakeState.CheckState();
     }
@@ -26,12 +26,15 @@ public class LakeDamEvent : MonoBehaviour
         if(_lakeState.IsFlooded)
         {
             _animator.SetInteger("Level", 1);
+            _damAudio.PlayClip();
             StartCoroutine(WaitEndAnimation());
             _animator.SetInteger("Level", 2);
+            _damAudio.PlayClip();
         }
         else
         {
             _animator.SetInteger("Level", 2);
+            _damAudio.PlayClip();
         }
 
         _lakeState.IsLow = true;
@@ -42,6 +45,8 @@ public class LakeDamEvent : MonoBehaviour
     {
 
         _lakeState.IsCorrect = true;
+        _animator.SetInteger("Level", 3);
+        _damAudio.PlayClip();
         _lakeState.CheckState();
     }
 
@@ -50,12 +55,15 @@ public class LakeDamEvent : MonoBehaviour
         if (_lakeState.IsLow)
         {
             _animator.SetInteger("Level", 3);
+            _damAudio.PlayClip();
             StartCoroutine(WaitEndAnimation());
             _animator.SetInteger("Level", 4);
+            _damAudio.PlayClip();
         }
         else
         {
             _animator.SetInteger("Level", 4);
+            _damAudio.PlayClip();
         }
 
         _lakeState.IsFlooded = true;

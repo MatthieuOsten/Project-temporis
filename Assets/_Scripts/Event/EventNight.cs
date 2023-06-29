@@ -8,6 +8,7 @@ public class EventNight : MonoBehaviour
     [SerializeField] SetVisibleConstellations _constellations;
     [SerializeField] TimerBoucle _boucle;
     [SerializeField] EndOfDayAudio _endAudio;
+    [SerializeField] SpawnParticule _particule;
     [SerializeField] private PlayerLocation _playerLocation;
 
     private void Update()
@@ -16,6 +17,7 @@ public class EventNight : MonoBehaviour
         {
             _ambiantMusic.SwitchPlayerLocationState(_playerLocation);
             _constellations.VisibleConstellations();
+            _particule.Particule();
         }
 
         if (_boucle.CurrentTimer >= 520)

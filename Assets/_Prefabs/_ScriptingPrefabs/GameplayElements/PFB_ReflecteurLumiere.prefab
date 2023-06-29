@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 9197928568377067717}
   - component: {fileID: 8943383886221958157}
   - component: {fileID: 1236760668379718488}
+  - component: {fileID: 4969791675824568420}
   m_Layer: 0
   m_Name: PFB_ReflecteurLumiere
   m_TagString: Untagged
@@ -104,6 +105,20 @@ LODGroup:
     - renderer: {fileID: 1775099158824591018}
     - renderer: {fileID: 7515208122571147759}
   m_Enabled: 1
+--- !u!114 &4969791675824568420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464685401514994973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d50801f927304647aecf39a88e91244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioManager: {fileID: 0}
+  _clip: {fileID: 8300000, guid: c86001ba5350bf6448cc7b35ab032011, type: 3}
 --- !u!1 &6570232021551003083
 GameObject:
   m_ObjectHideFlags: 0

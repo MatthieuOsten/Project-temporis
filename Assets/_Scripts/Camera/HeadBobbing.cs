@@ -37,7 +37,6 @@ public class HeadBobbing : MonoBehaviour
     {
         _sinTime += Time.deltaTime * _currentEffectSpeed;
         float sinAmountY = -Mathf.Abs(_currentEffectIntensity * Mathf.Sin(_sinTime));
-        Debug.Log(_isSprinting);
 
         if (isPushing && _isMovingPushing)
         {

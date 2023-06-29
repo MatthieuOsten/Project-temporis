@@ -11,7 +11,6 @@ public class TriggerEventLevelBird : MonoBehaviour
 
     private void TriggerEventTest(Collider obj)
     {
-        Debug.Log("son joue");
         AudioSource.PlayClipAtPoint(_triggerEvent._audio, gameObject.transform.position);
     }
 

@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class SpawnParticule : MonoBehaviour
 {
-    [SerializeField] ParticleSystem _particule;
-
-    private void Start()
+    public void PlayParticule(ParticleSystem particule)
     {
-        _particule.Stop();
+        particule.Play();
     }
 
-    public void Particule()
+    public void StopParticule(ParticleSystem particule)
     {
-        _particule.Play();
+        particule.Stop();
     }
 }

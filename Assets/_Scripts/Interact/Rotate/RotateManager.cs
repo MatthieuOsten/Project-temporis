@@ -13,6 +13,8 @@ public class RotateManager : MonoBehaviour
     };
 
     [SerializeField] private rotateElement[] _tabInteract;
+    [SerializeField] private SpawnParticule _particule;
+    [SerializeField] private ParticleSystem _particuleToSpawn;
     [SerializeField] private bool _isFinish = false;
     [SerializeField] private EventDamScriptable _eventCompleted;
 
@@ -24,6 +26,7 @@ public class RotateManager : MonoBehaviour
         if (IsCompleted() && !_isFinish)
         {
             _isFinish = true;
+            _particule.PlayParticule(_particuleToSpawn); // activ particule fin statue
             _eventCompleted.EventInvoke(_isFinish);
         }
     }

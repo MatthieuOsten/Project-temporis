@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
     #endregion
 
     [SerializeField] PlayerInput _playerInput;
-    ControlSchemeState _currentControlScheme;
+    ControlSchemeState _lastControlScheme;
 
     private void Awake()
     {
@@ -65,9 +65,13 @@ public class InputManager : MonoBehaviour
     public Action<ControlSchemeState> ControlSchemeSwitched;
     public void OnControlSchemeSwitched(PlayerInput input)
     {
-        _currentControlScheme = (ControlSchemeState)Enum.Parse(typeof(ControlSchemeState), _playerInput.currentControlScheme.ToLower());
-        Debug.Log(_currentControlScheme.ToString());
-        ControlSchemeSwitched?.Invoke(_currentControlScheme);
+        ControlSchemeState currentControlScheme = (ControlSchemeState)Enum.Parse(typeof(ControlSchemeState), _playerInput.currentControlScheme.ToLower());
+        if (currentControlScheme != _lastControlScheme)
+        {
+            //Debug.Log(currentControlScheme.ToString());
+            ControlSchemeSwitched?.Invoke(currentControlScheme);
+            _lastControlScheme = currentControlScheme;
+        }
     }
 
     #region GAME

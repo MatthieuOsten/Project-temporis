@@ -30,7 +30,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void OnControlSchemeSwitched(ControlSchemeState currentControlScheme)
     {
-        Debug.Log("Switch");
         switch(currentControlScheme)
         {
             case ControlSchemeState.keyboard:

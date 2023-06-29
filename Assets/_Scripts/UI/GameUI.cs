@@ -66,6 +66,7 @@ public class GameUI : MonoBehaviour
 
     void OnControlSchemeSwitched(ControlSchemeState currentControlScheme)
     {
+        Debug.Log(currentControlScheme.ToString());
         switch(currentControlScheme)
         {
             case ControlSchemeState.gamepad :
@@ -88,9 +89,9 @@ public class GameUI : MonoBehaviour
                             break;
                     }
                 }
-                _currentHandCursor = _mouseHandCursor;
-                _currentPencilCursor = _mousePencilCursor;
-                _currentErasorCursor = _mouseErasorCursor;
+                _currentHandCursor = _gamepadHandCursor;
+                _currentPencilCursor = _gamepadPencilCursor;
+                _currentErasorCursor = _gamepadErasorCursor;
                 break;
             case ControlSchemeState.keyboard:
                 if (_currentCursor != CursorState.none)
@@ -112,9 +113,9 @@ public class GameUI : MonoBehaviour
                             break;
                     }
                 }
-                _currentHandCursor = _gamepadHandCursor;
-                _currentPencilCursor = _gamepadPencilCursor;
-                _currentErasorCursor = _gamepadErasorCursor;
+                _currentHandCursor = _mouseHandCursor;
+                _currentPencilCursor = _mousePencilCursor;
+                _currentErasorCursor = _mouseErasorCursor;
                 break;
         }
         _currentControlScheme = currentControlScheme;
@@ -237,7 +238,7 @@ public class GameUI : MonoBehaviour
                 case CursorState.erasor:
                     return;
             }
-            _currentCursor = CursorState.hand;
+            _currentCursor = CursorState.erasor;
             _currentErasorCursor.SetActive(true);
         }
     }

@@ -46,12 +46,10 @@ public class GamepadCursor : MonoBehaviour
         _currentMouse.WarpCursorPosition(_virtualMouse.position.ReadValue());
         InputSystem.RemoveDevice(_virtualMouse);
         InputSystem.onAfterUpdate -= UpdateMotion;
-        Debug.LogWarning("Disable");
     }
 
     void UpdateMotion()
     {
-        Debug.Log("Update");
         if(_virtualMouse == null || Gamepad.current == null || _deltaValue == Vector2.zero)
         {
             return;

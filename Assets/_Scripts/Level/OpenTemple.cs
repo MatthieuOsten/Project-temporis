@@ -5,10 +5,6 @@ public class OpenTemple : MonoBehaviour
     [SerializeField] Animator _animator;
     private int _damOpen;
 
-    private void Update()
-    {
-        Debug.Log(_damOpen);
-    }
     private void OpenTempleDoor()
     {
         if (_damOpen == 5)

@@ -6,16 +6,18 @@ using UnityEngine.InputSystem;
 
 public class HeadBobbing : MonoBehaviour
 {
-    private float _sinTime = 0;
     [SerializeField, Range(0, 10)] private float _walkingEffectSpeed, _idleEffectSpeed, _pushingEffectSpeed, _sprintEffectSpeed;
     [SerializeField, Range(0, 1)] private float _walkingEffectIntensity, _idleEffectIntensity, _pushingEffectIntensity, _sprintEffectIntensity;
+    [SerializeField] AnimationCurve _animationCurve;
+    [SerializeField] FootStepSound _footStep;
+
+    private float _sinTime = 0;
     private float _currentEffectSpeed, _currentEffectIntensity;
     private float _originalOffset;
     private bool _isMoving;
     private bool _isSprinting;
     public bool isPushing;
     private bool _isMovingPushing;
-    [SerializeField] AnimationCurve _animationCurve;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +33,12 @@ public class HeadBobbing : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         _sinTime += Time.deltaTime * _currentEffectSpeed;
         float sinAmountY = -Mathf.Abs(_currentEffectIntensity * Mathf.Sin(_sinTime));
+        Debug.Log(_isSprinting);
+
         if (isPushing && _isMovingPushing)
         {
             transform.localPosition = new Vector3(transform.localPosition.x, _originalOffset - _animationCurve.Evaluate(_sinTime) * _currentEffectIntensity, transform.localPosition.z);
@@ -50,6 +54,9 @@ public class HeadBobbing : MonoBehaviour
         _isMoving = true;
         _sinTime = 0;
         StopAllCoroutines();
+
+        StartCoroutine(FootStep());
+
         if (_isSprinting)
         {
             StartCoroutine(Timer(0.5f, _sprintEffectSpeed));
@@ -68,7 +75,7 @@ public class HeadBobbing : MonoBehaviour
         _currentEffectSpeed = _idleEffectSpeed;
         _currentEffectIntensity = _idleEffectIntensity;
     }
-    
+
     public void OnMoveWhilePushingStarted(InputAction.CallbackContext context)
     {
         _isMovingPushing = true;
@@ -87,9 +94,12 @@ public class HeadBobbing : MonoBehaviour
     public void OnSprintStarted(InputAction.CallbackContext context)
     {
         _isSprinting = true;
-        if(_isMoving)
+        if (_isMoving)
         {
             StopAllCoroutines();
+
+            StartCoroutine(FootStep());
+
             StartCoroutine(Timer(0.5f, _sprintEffectSpeed));
             _currentEffectIntensity = _sprintEffectIntensity;
         }
@@ -97,7 +107,7 @@ public class HeadBobbing : MonoBehaviour
 
     private void OnSprintCanceled(InputAction.CallbackContext obj)
     {
-        if(_isMoving)
+        if (_isMoving)
         {
             StopAllCoroutines();
             _currentEffectSpeed = _walkingEffectSpeed;
@@ -115,5 +125,23 @@ public class HeadBobbing : MonoBehaviour
             yield return null;
         }
         _currentEffectSpeed = effectSpeed;
+    }
+
+    IEnumerator FootStep()
+    {
+        while(_isMoving || _isSprinting)
+        {
+            if(_isMoving)
+            {
+                yield return new WaitForSeconds(1);
+                _footStep.PlayFootstep();
+            }
+            else if (_isSprinting)
+            {
+                yield return new WaitForSeconds(0.2f);
+                _footStep.PlayFootstep();
+            }
+        }
+        
     }
 }

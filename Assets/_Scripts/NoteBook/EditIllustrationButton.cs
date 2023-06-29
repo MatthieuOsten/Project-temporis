@@ -14,6 +14,7 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] List<Sprite> _illustrationStates;
     public Action<int> illustrationEdited;
     [SerializeField] NoteBookManager _noteBookManager;
+    [SerializeField] NoteBookAudio _noteBookAudio;
 
     private void Start()
     {
@@ -52,13 +53,18 @@ public class EditIllustrationButton : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         illustrationEdited?.Invoke(index);
         illustrationButton.image.sprite = _illustrationStates[index];
+        _noteBookAudio.WritingClip();
         CloseEditIllustrationInterface();
     }
 
     public void CloseEditIllustrationInterface()
     {
+        illustrationButton.interactable = true;
         _editIllustrationInterface.SetActive(false);
+        GameUI.Instance.isLocked = false;
         GameUI.Instance.ShowHandCursor();
+        InputManager.Instance.ClickCanceled = null;
+        InputManager.Instance.CloseNoteBookStarted -= CloseEditIllustrationInterface;
     }
 
     public void CloseEditIllustrationInterface(InputAction.CallbackContext context)

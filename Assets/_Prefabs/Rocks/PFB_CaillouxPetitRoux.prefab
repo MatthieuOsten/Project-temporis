@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5832482755872616410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4934063755945667079}
+  - component: {fileID: 1035685729766955831}
+  m_Layer: 0
+  m_Name: PFB_CaillouxPetitRoux
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4934063755945667079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832482755872616410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8452018002706440264}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &1035685729766955831
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832482755872616410}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.0973019
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8812121115008358107}
+  m_Enabled: 1
+--- !u!1001 &4610472218416757306
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4934063755945667079}
+    m_Modifications:
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6673215738430552195, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+        type: 3}
+      propertyPath: m_Name
+      value: PFB_cailloux petit_color
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc, type: 3}
+--- !u!4 &8452018002706440264 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5381847294348860018, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4610472218416757306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8812121115008358107 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5021867047446080737, guid: 58c1ded0ec1ca5e4bb78bb521351ebdc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4610472218416757306}
+  m_PrefabAsset: {fileID: 0}

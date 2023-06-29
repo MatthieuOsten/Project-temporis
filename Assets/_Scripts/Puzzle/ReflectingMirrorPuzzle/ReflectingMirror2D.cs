@@ -32,11 +32,6 @@ public class ReflectingMirror2D : NoteBookEditableElement
         }
     }
 
-    protected override void OnNoteBookClosed()
-    {
-        
-    }
-
     void RotateMirror(float rotY)
     {
         StartCoroutine(OnRotModified());

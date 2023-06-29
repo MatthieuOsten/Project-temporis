@@ -21,7 +21,7 @@ public class InteractRotate : Interactive
     public int ActualFace
     {
         get { return _actualFace; }
-        set {
+        private set {
             if (value > _faces)
             {
                 _actualFace = 1;
@@ -35,8 +35,12 @@ public class InteractRotate : Interactive
                 _actualFace = value;
             }
 
-            ChangeFace();
         }
+    }
+
+    public float RotateDegrees
+    {
+        get { return 360 / _faces; }
     }
 
     public int Faces
@@ -78,23 +82,62 @@ public class InteractRotate : Interactive
         switch (_rotationAxe)
         {
             case axes.x:
-                _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + _rotateDegrees : _rotationTarget.x - _rotateDegrees;
+                _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + RotateDegrees : _rotationTarget.x - RotateDegrees;
                 _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.y:
-                _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + _rotateDegrees : _rotationTarget.y - _rotateDegrees;
+                _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + RotateDegrees : _rotationTarget.y - RotateDegrees;
                 _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             case axes.z:
-                _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + _rotateDegrees : _rotationTarget.z - _rotateDegrees;
+                _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + RotateDegrees : _rotationTarget.z - RotateDegrees;
                 _nbrBeenRotate++;
                 ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
                 break;
             default:
                 ErrorEnumAxes();
                 break;
+        }
+
+        if (_rotationInstant) { transform.eulerAngles = _rotationTarget; }
+    }
+
+    public void ChangeFace(int targetFace)
+    {
+        if (targetFace > Faces || targetFace < 1)
+        {
+            Debug.LogError("The target face " + targetFace + " is dont exist");
+            return;
+        }
+
+        _rotateDegrees = 360 / _faces;
+
+        while(ActualFace != targetFace)
+        {
+            // En fonction de l'axe de rotation la valeur cibler est differente
+            switch (_rotationAxe)
+            {
+                case axes.x:
+                    _rotationTarget.x = (_rotationPositive) ? _rotationTarget.x + RotateDegrees : _rotationTarget.x - RotateDegrees;
+                    _nbrBeenRotate++;
+                    ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
+                    break;
+                case axes.y:
+                    _rotationTarget.y = (_rotationPositive) ? _rotationTarget.y + RotateDegrees : _rotationTarget.y - RotateDegrees;
+                    _nbrBeenRotate++;
+                    ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
+                    break;
+                case axes.z:
+                    _rotationTarget.z = (_rotationPositive) ? _rotationTarget.z + RotateDegrees : _rotationTarget.z - RotateDegrees;
+                    _nbrBeenRotate++;
+                    ActualFace = (_rotationPositive) ? ActualFace + 1 : ActualFace - 1;
+                    break;
+                default:
+                    ErrorEnumAxes();
+                    break;
+            }
         }
 
         if (_rotationInstant) { transform.eulerAngles = _rotationTarget; }

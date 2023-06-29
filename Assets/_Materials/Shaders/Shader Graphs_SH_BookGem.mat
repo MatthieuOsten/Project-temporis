@@ -55,9 +55,9 @@ Material:
     - _DstBlend: 10
     - _Fresnel_Size: 0.1
     - _Fresnel_Strenght: 0.2
-    - _GlowPower: 2
+    - _GlowPower: 0.15
     - _IsGlow: 1
-    - _Lumiisity: 1.63
+    - _Lumiisity: 1.98
     - _Metallic: 0.563
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -69,10 +69,10 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _alpha: 0.1
+    - _alpha: 1
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 0}
-    - _GlowColor: {r: 1, g: 0.54509807, b: 0.9490196, a: 0}
+    - _GlowColor: {r: 0.088388346, g: 0, b: 0.055112734, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1204690551673219511
 MonoBehaviour:

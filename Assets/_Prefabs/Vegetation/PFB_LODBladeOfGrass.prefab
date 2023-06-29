@@ -52,10 +52,6 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 259957874240821807}
-  - screenRelativeHeight: 0.04790902
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 5847192815974743287}
   m_Enabled: 1
 --- !u!1001 &3356766602899653638
 PrefabInstance:
@@ -64,6 +60,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4983560200394311031}
     m_Modifications:
+    - target: {fileID: 3246584331443510825, guid: 11ee89550b3b9224f980eb124d56c157,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 627ef441e2731924b930a3b53c274e3d, type: 2}
     - target: {fileID: 6746615188622575159, guid: 11ee89550b3b9224f980eb124d56c157,
         type: 3}
       propertyPath: m_RootOrder
@@ -145,6 +146,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4983560200394311031}
     m_Modifications:
+    - target: {fileID: 3246584331443510825, guid: b3d6382b4435dd742bd6bc069f48f549,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0905cf36637a00b448276c352b90bbaa, type: 2}
     - target: {fileID: 6746615188622575159, guid: b3d6382b4435dd742bd6bc069f48f549,
         type: 3}
       propertyPath: m_RootOrder
@@ -210,12 +216,6 @@ PrefabInstance:
 --- !u!4 &2417169771137295593 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6746615188622575159, guid: b3d6382b4435dd742bd6bc069f48f549,
-    type: 3}
-  m_PrefabInstance: {fileID: 8947326300258427614}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &5847192815974743287 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3246584331443510825, guid: b3d6382b4435dd742bd6bc069f48f549,
     type: 3}
   m_PrefabInstance: {fileID: 8947326300258427614}
   m_PrefabAsset: {fileID: 0}

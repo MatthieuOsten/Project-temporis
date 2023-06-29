@@ -21,7 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MTL_SH_GlowingGemSun
-  m_Shader: {fileID: -6465566751694194690, guid: e17c76f95d7c6f04b917893832ebada9, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e17c76f95d7c6f04b917893832ebada9,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -54,7 +55,7 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _GlowPower: 1.59
-    - _InteriorGlowSpread: 1.4
+    - _InteriorGlowSpread: 2.05
     - _Mettalic: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -64,7 +65,7 @@ Material:
     - _TimeOut: 1
     m_Colors:
     - _GlowColor: {r: 3.031433, g: 1.2363492, b: 0, a: 1}
-    - _InteriorGlowColor: {r: 3.937255, g: 1.1607844, b: 0, a: 0}
+    - _InteriorGlowColor: {r: 3.6886053, g: 1.4677173, b: 0, a: 0.9372549}
   m_BuildTextureStacks: []
 --- !u!114 &2104695177409215638
 MonoBehaviour:

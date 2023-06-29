@@ -636,10 +636,10 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "30a08fe0a2e8470389ec00cfc00b5429",
     "m_Id": 1813526348,
-    "m_DisplayName": "tiing",
+    "m_DisplayName": "Tiling",
     "m_SlotType": 0,
     "m_Hidden": false,
-    "m_ShaderOutputName": "_tiing",
+    "m_ShaderOutputName": "_Tiling",
     "m_StageCapability": 2,
     "m_Value": -6.480000019073486,
     "m_DefaultValue": 0.0,
@@ -1572,9 +1572,6 @@
             "m_Id": "8d4a0582ca9747f79d13a94d521b72ba"
         },
         {
-            "m_Id": "b62d44d5b8c74d29a516227145af6a7a"
-        },
-        {
             "m_Id": "30a08fe0a2e8470389ec00cfc00b5429"
         },
         {
@@ -1783,27 +1780,6 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "VertexDescription.Tangent"
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
-    "m_ObjectId": "b62d44d5b8c74d29a516227145af6a7a",
-    "m_Id": -879358389,
-    "m_DisplayName": "tiling",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "_tiling",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.9100000262260437,
-        "y": 1.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
-    },
-    "m_Labels": []
 }
 
 {

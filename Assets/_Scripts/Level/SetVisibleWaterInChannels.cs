@@ -9,7 +9,11 @@ public class SetVisibleWaterInChannels : MonoBehaviour
     {
         for (int i = 0; i < _water.Length; i++)
         {
-            _water[i].SetActive(!_water[i].activeInHierarchy);
+            GameObject planeWater = _water[i].GetComponentInChildren<GetWaterInChanel>().gameObject;
+            GameObject[] water = new GameObject[i];
+            water.SetValue(planeWater, i);
+               
+            water[i].SetActive(!_water[i].activeInHierarchy);
         }
     }
 

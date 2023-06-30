@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class ReflectingMirror : MonoBehaviour
 {
-    [SerializeField] PlayAudio _audio;
+    [SerializeField] AudioSource _source;
+    [SerializeField] AudioClip _clip;
+    private PlayAudio _audio;
+
     public ReflectingMirrorPuzzle reflectingMirrorPuzzle;
     public Action<ReflectingMirror> rotModified;
 
@@ -16,14 +19,14 @@ public class ReflectingMirror : MonoBehaviour
         while (transform.rotation != rot)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 100f * Time.deltaTime);
-            _audio.PlayClip();
+            _audio.PlayClip(_source, _clip);
             rotModified?.Invoke(this);
             yield return null;
         }
         yield return StartCoroutine(CheckRot(rot));
         rotModified?.Invoke(this);
         reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
-        _audio.StopPlay();
+        _audio.StopPlay(_source);
     }
 
     IEnumerator CheckRot(Quaternion rot)

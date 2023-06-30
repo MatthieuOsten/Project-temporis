@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayAudio : MonoBehaviour
 {
-    [SerializeField] AudioPlayManager _audioManager;
-    [SerializeField] AudioClip _clip;
 
-    public void PlayClip()
+    public void PlayClip(AudioSource source, AudioClip clip)
     {
-        _audioManager.SetAudioClipOneShot(_clip);
+        AudioSource.PlayClipAtPoint(clip, source.gameObject.transform.position);
     }
 
-    public void StopPlay()
+    public void StopPlay(AudioSource source)
     {
-        _audioManager.Source.Stop();
+        source.Stop();
     }
 }

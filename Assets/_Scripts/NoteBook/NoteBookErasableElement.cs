@@ -10,10 +10,13 @@ public abstract class NoteBookErasableElement : MonoBehaviour
 
     protected virtual void OnIllustrationErased()
     {
-        if (CameraManager.Instance.CanLookAt(_elementToShow))
+        if(_elementToShow)
         {
-            _noteBookManager.LookUp();
-            CameraManager.Instance.LookAt(_elementToShow, 200f);
+            if (CameraManager.Instance.CanLookAt(_elementToShow))
+            {
+                _noteBookManager.LookUp();
+                CameraManager.Instance.LookAt(_elementToShow, 200f);
+            }
         }
     }
 

@@ -47,7 +47,6 @@ public class NoteBookManager : MonoBehaviour
             int pageIndex = i;
             if (!_allNoteBookPages[i].isTorned)
             {
-                Debug.Log(pageIndex);
                 int entryIndex = pageIndex*2;
                 _allNoteBookPages[pageIndex].FrontEntry.SetEntry(_entriesList.GetEntry(entryIndex));
                 _allNoteBookPages[pageIndex].BackEntry.SetEntry(_entriesList.GetEntry(entryIndex+1));

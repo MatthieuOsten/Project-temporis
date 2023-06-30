@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LakeDamEvent : MonoBehaviour
+public class LakeDamEvent : NoteBookEditableElement
 {
     [SerializeField] LakeState _lakeState;
     [SerializeField] Animator _animator;
@@ -9,8 +9,9 @@ public class LakeDamEvent : MonoBehaviour
     [SerializeField] AudioSource _source;
     [SerializeField] AudioClip _clip;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _lakeState.IsFlooded = true;
         _lakeState.CheckState();
     }
@@ -74,4 +75,28 @@ public class LakeDamEvent : MonoBehaviour
 
     IEnumerator WaitEndAnimation()
     { yield return new WaitForSeconds(2); }
+
+    protected override void OnIllustrationEdited(int index)
+    {
+        base.OnIllustrationEdited(index);
+        switch(index)
+        {
+            case 0:
+                LeverHighPosition();
+                break;
+            case 1:
+                if(_lakeState.IsLow)
+                {
+                    LeverBackToCorrectPosition();
+                }
+                else if(_lakeState.IsFlooded)
+                {
+                    LeverCorrectPosition();
+                }
+                break;
+            case 2:
+                LeverLowPosition();
+                break;
+        }
+    }
 }

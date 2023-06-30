@@ -27,7 +27,7 @@ public class LakeState : MonoBehaviour
 
     public void CheckState()
     {
-        if(IsFlooded)
+        if (IsFlooded)
         {
             IsCorrect = false;
             IsLow = false;

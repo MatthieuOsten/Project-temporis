@@ -20,7 +20,7 @@ public abstract class NoteBookEditableElement : MonoBehaviour
     /*protected abstract void OnNoteBookOpened();
     protected abstract void OnNoteBookClosed();*/
 
-    protected void Start()
+    protected virtual void Start()
     {
         //_linckedButton.GetIllustrationIndex();
         _linckedButton.illustrationEdited += OnIllustrationEdited;

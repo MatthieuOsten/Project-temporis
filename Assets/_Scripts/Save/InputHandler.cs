@@ -377,7 +377,7 @@ public class InputHandler : MonoBehaviour
     /// <summary>
     /// Load the selected entry on Settings
     /// </summary>
-    public bool Load()
+    public bool TryLoad()
     {
         if (VerifyExist(Path))
         {
@@ -419,6 +419,11 @@ public class InputHandler : MonoBehaviour
         return false;
 
         
+    }
+
+    public void Load()
+    {
+        Load();
     }
 
     private void UpdateFixed()

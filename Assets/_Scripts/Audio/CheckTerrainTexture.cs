@@ -50,6 +50,5 @@ public class CheckTerrainTexture : MonoBehaviour
         textureValues[2] = aMap[0, 0, 2];
         textureValues[3] = aMap[0, 0, 3];
         textureValues[3] = aMap[0, 0, 4];
-        textureValues[3] = aMap[0, 0, 5];
     }
 }

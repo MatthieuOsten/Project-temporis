@@ -5,7 +5,9 @@ public class LakeDamEvent : NoteBookEditableElement
 {
     [SerializeField] LakeState _lakeState;
     [SerializeField] Animator _animator;
-    [SerializeField] PlayAudio _damAudio;
+
+    [SerializeField] AudioSource _source;
+    [SerializeField] AudioClip _clip;
 
     protected override void Start()
     {
@@ -17,7 +19,7 @@ public class LakeDamEvent : NoteBookEditableElement
     public void LeverCorrectPosition()
     {
         _animator.SetInteger("Level", 1);
-        _damAudio.PlayClip();
+        PlayAudio.PlayClip(_source, _clip);
         _lakeState.IsCorrect = true;
         _lakeState.CheckState();
     }
@@ -27,15 +29,15 @@ public class LakeDamEvent : NoteBookEditableElement
         if(_lakeState.IsFlooded)
         {
             _animator.SetInteger("Level", 1);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
             StartCoroutine(WaitEndAnimation());
             _animator.SetInteger("Level", 2);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
         }
         else
         {
             _animator.SetInteger("Level", 2);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
         }
 
         _lakeState.IsLow = true;
@@ -47,7 +49,7 @@ public class LakeDamEvent : NoteBookEditableElement
 
         _lakeState.IsCorrect = true;
         _animator.SetInteger("Level", 3);
-        _damAudio.PlayClip();
+        PlayAudio.PlayClip(_source, _clip);
         _lakeState.CheckState();
     }
 
@@ -56,15 +58,15 @@ public class LakeDamEvent : NoteBookEditableElement
         if (_lakeState.IsLow)
         {
             _animator.SetInteger("Level", 3);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
             StartCoroutine(WaitEndAnimation());
             _animator.SetInteger("Level", 4);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
         }
         else
         {
             _animator.SetInteger("Level", 4);
-            _damAudio.PlayClip();
+            PlayAudio.PlayClip(_source, _clip);
         }
 
         _lakeState.IsFlooded = true;

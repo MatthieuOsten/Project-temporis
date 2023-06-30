@@ -25,7 +25,7 @@ public class TriggerEventTeleportation : MonoBehaviour
         }
     }
 
-    private void SetPlayerPosition()
+    public void SetPlayerPosition()
     {
         _player.transform.position = _spawn.position;
         InputManager.Instance.EnableAllInGameActions();
@@ -33,7 +33,7 @@ public class TriggerEventTeleportation : MonoBehaviour
 
     IEnumerator DisableUI()
     {
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(0.5f);
         SetPlayerPosition();
         yield return new WaitForSeconds(1f);
         _teleportationUI.SetActive(!_teleportationUI.activeInHierarchy);

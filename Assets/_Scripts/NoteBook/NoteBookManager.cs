@@ -14,7 +14,7 @@ public class NoteBookManager : MonoBehaviour
     [Header("PAGE PARAMETERS")]
     [SerializeField] float pageFlipSpeed;
     [SerializeField, Range(0, 0.01f)] float _pageSpacing = 0.002f;
-    [SerializeField] float _rightPageMaxAngle = -160f, _leftPageMaxAngle = -20f;
+    [SerializeField] float _rightPageMaxAngle = -150f, _leftPageMaxAngle = -35f;
     [Header("UI")]
     [SerializeField] GameObject _entryButtonPrefab;
     [SerializeField] float _buttonLength;
@@ -47,6 +47,7 @@ public class NoteBookManager : MonoBehaviour
             int pageIndex = i;
             if (!_allNoteBookPages[i].isTorned)
             {
+                Debug.Log(pageIndex);
                 int entryIndex = pageIndex*2;
                 _allNoteBookPages[pageIndex].FrontEntry.SetEntry(_entriesList.GetEntry(entryIndex));
                 _allNoteBookPages[pageIndex].BackEntry.SetEntry(_entriesList.GetEntry(entryIndex+1));

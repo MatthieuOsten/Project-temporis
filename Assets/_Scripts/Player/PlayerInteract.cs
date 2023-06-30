@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 public class PlayerInteract : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] GameUI _gameUI;
     [SerializeField] EntriesListScriptable _entriesList;
 
     [Header("RAYCAST UTILITIES")]
@@ -58,7 +57,7 @@ public class PlayerInteract : MonoBehaviour
     #region RAYCAST UTILITIES
     private void Reset()
     {
-        _gameUI.HideInteractText();
+        GameUI.Instance.HideInteractText();
         InputManager.Instance.InteractStarted = null;
         InputManager.Instance.InteractCancelled = null;
     }
@@ -73,7 +72,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if(hitInfo.collider.TryGetComponent<EntryHolder>(out _entryHolderInfo))
                 {
-                    _gameUI.ShowInteractText("Left click to observe");
+                    GameUI.Instance.ShowInteractText("Left click to observe");
                     InputManager.Instance.InteractStarted = WriteEntry;
                 }
             }
@@ -82,12 +81,12 @@ public class PlayerInteract : MonoBehaviour
                 _itemInfo = hitInfo.transform.GetComponent<PickableItem>();
                 if (!_inventoryScriptable.AlreadyContained(_itemInfo.Info))
                 {
-                    _gameUI.ShowInteractText("Left click to pick");
+                    GameUI.Instance.ShowInteractText("Left click to pick");
                     InputManager.Instance.InteractStarted = OnItemPicked;
                 }
                 else if(_itemInfo.picked)
                 {
-                    _gameUI.ShowInteractText("Left click to pick");
+                    GameUI.Instance.ShowInteractText("Left click to pick");
                     InputManager.Instance.InteractStarted = OnItemPickedFromReceiver;
                 }
             }
@@ -95,7 +94,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if(hitInfo.collider.TryGetComponent<TornPageHolder>(out _tornPageInfo))
                 {
-                    _gameUI.ShowInteractText("Lef click to pick");
+                    GameUI.Instance.ShowInteractText("Lef click to pick");
                     InputManager.Instance.InteractStarted = OnTornPagePicked;
                 }
             }
@@ -112,13 +111,13 @@ public class PlayerInteract : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, _rayDistance, _itemReceiverLayer))
         {
-            _gameUI.ShowInteractText("Left click to use");
+            GameUI.Instance.ShowInteractText("Left click to use");
             _itemReceiverInfo = hitInfo.transform.GetComponent<ItemReceiver>();
             InputManager.Instance.InteractStarted = UseItem;
         }
         else
         {
-            _gameUI.HideInteractText();
+            GameUI.Instance.HideInteractText();
         }
     }
     #endregion
@@ -138,7 +137,7 @@ public class PlayerInteract : MonoBehaviour
         Debug.Log("Pourquoi?");
         Reset();
         _entriesList.AddEntry(_entryHolderInfo.Info);
-        _gameUI.HideInteractText();
+        GameUI.Instance.HideInteractText();
     }
     #endregion
 
@@ -165,13 +164,13 @@ public class PlayerInteract : MonoBehaviour
     {
         isHoldingItem = true;
         _currentHeldItemInfo = item;
-        _gameUI.ShowItem(item.Info.View);
+        GameUI.Instance.ShowItem(item.Info.View);
     }
     public void OnItemStored()
     {
         isHoldingItem = false;
         _currentHeldItemInfo = null;
-        _gameUI.HideItem();
+        GameUI.Instance.HideItem();
     }
     void UseItem(InputAction.CallbackContext context)
     {
@@ -188,7 +187,7 @@ public class PlayerInteract : MonoBehaviour
         _currentHeldItemInfo.itemUsed.Invoke(_itemReceiverInfo.itemPosition);
         _itemReceiverInfo.linckedItemInfo = itemInfo;
         isHoldingItem = false;
-        _gameUI.HideItem();
+        GameUI.Instance.HideItem();
         Reset();
     }
     #endregion

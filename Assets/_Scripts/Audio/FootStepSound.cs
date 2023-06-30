@@ -16,19 +16,23 @@ public class FootStepSound : MonoBehaviour
         _terrainTexture.GetTerrainTexture();
         if (_terrainTexture.TextureValues[0] > 0)
         {
-            source.PlayOneShot(GetClip(stoneClips), _terrainTexture.TextureValues[0]);
+            source.PlayOneShot(GetClip(grassClips), _terrainTexture.TextureValues[0]);
         }
         if (_terrainTexture.TextureValues[1] > 0)
         {
-            source.PlayOneShot(GetClip(dirtClips), _terrainTexture.TextureValues[1]);
+            source.PlayOneShot(GetClip(stoneClips), _terrainTexture.TextureValues[1]);
         }
         if (_terrainTexture.TextureValues[2] > 0)
         {
-            source.PlayOneShot(GetClip(dirtClips), _terrainTexture.TextureValues[2]);
+            source.PlayOneShot(GetClip(sandClips), _terrainTexture.TextureValues[2]);
         }
         if (_terrainTexture.TextureValues[3] > 0)
         {
             source.PlayOneShot(GetClip(dirtClips), _terrainTexture.TextureValues[3]);
+        }
+        if (_terrainTexture.TextureValues[4] > 0)
+        {
+            source.PlayOneShot(GetClip(stoneClips), _terrainTexture.TextureValues[3]);
         }
     }
     AudioClip GetClip(AudioClip[] clipArray)

@@ -114,7 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0cb8f311e3f6844806fc5d42031578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameUI: {fileID: 0}
   _entriesList: {fileID: 11400000, guid: 6eb46967d906aa943abbcccb4c69ab14, type: 2}
   _rayDistance: 2
   _interactLayers:
@@ -938,6 +937,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 54103505623768519, guid: d5a515a1599a05141a5399867dd57ca9,
         type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.057936754
+      objectReference: {fileID: 0}
+    - target: {fileID: 54103505623768519, guid: d5a515a1599a05141a5399867dd57ca9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.04181952
+      objectReference: {fileID: 0}
+    - target: {fileID: 54103505623768519, guid: d5a515a1599a05141a5399867dd57ca9,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 6.922041
       objectReference: {fileID: 0}
@@ -1135,6 +1144,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 12.561137
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020556885794504895, guid: d5a515a1599a05141a5399867dd57ca9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.022490583
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020556885794504895, guid: d5a515a1599a05141a5399867dd57ca9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.062285773
       objectReference: {fileID: 0}
     - target: {fileID: 3020556885794504895, guid: d5a515a1599a05141a5399867dd57ca9,
         type: 3}
@@ -1370,6 +1389,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arms
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006562951916353008, guid: d5a515a1599a05141a5399867dd57ca9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5495987389327833490, guid: d5a515a1599a05141a5399867dd57ca9,
         type: 3}

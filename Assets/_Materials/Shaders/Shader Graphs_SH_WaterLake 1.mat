@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "Shader Graphs_SH_Waterfall_Ma\xEFs"
+  m_Name: Shader Graphs_SH_WaterLake 1
   m_Shader: {fileID: -6465566751694194690, guid: fc36eb67ca35a00469968513fac44324,
     type: 3}
   m_ValidKeywords: []
@@ -35,7 +35,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: 3ddf2d4ed3fddd940a2587e6391d6640, type: 3}
+        m_Texture: {fileID: 2800000, guid: 79a591bf012134d42bceeddb0d63624e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -52,39 +52,41 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0.7
     - _BottomBrightness: 0
     - _Bottomstrength: 14.47
     - _Clarity: 0.52
     - _Erosion: 0
     - _FloatRemap: 0.2
-    - _NoiseScale: 31.96
+    - _NoiseScale: 0
     - _NoiseScale_1: 12.17
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RippleAmount: 28.3
+    - _RippleAmount: 0
     - _Rotate: 0
     - _RotationBottom: 0
     - _Secon_zone: 1
-    - _Second_zone: 1
-    - _SelectionBottom: 0.89
-    - _SelectionBottom_1: 0.78
-    - _SelectionTop: 0.71
-    - _SelectionTop_1: 0.49
-    - _Smoothstep_Edge_1: 9.81
-    - _Smoothstep_Edge_1_1: 0.3
-    - _Smoothstep_Edge_2_1: 8.3
-    - _Smoothstep_Edge_2_2: 0.41
+    - _Second_zone: 0
+    - _SelectionBottom: 0
+    - _SelectionBottom_1: 0
+    - _SelectionTop: 0
+    - _SelectionTop_1: 0
+    - _Smoothstep_Edge_1: 0
+    - _Smoothstep_Edge_1_1: 0
+    - _Smoothstep_Edge_2_1: 0
+    - _Smoothstep_Edge_2_2: 0
     - _TextureSpeed: 0.12
-    - _VertexOffesetAmount: 0.65
+    - _VertexOffesetAmount: 0
     - _VoronoiScale: 49.6
     - _VoronoiSpeed: 2.89
     m_Colors:
     - _BottomColor: {r: 0, g: 0.4162037, b: 0.6132076, a: 0}
     - _BottomNoiseSpeed: {r: 0, g: 0.07, b: 0, a: 0}
-    - _Color: {r: 0, g: 0.28590474, b: 0.5283019, a: 1}
-    - _RippleColor: {r: 0, g: 0.011346649, b: 0.31132078, a: 1}
-    - _RippleSpeed: {r: 0, g: 0.05, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _RippleColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RippleSpeed: {r: 3.92, g: 0.05, b: 0, a: 0}
+    - _Sensdechuted_eau: {r: 0, g: 0.03, b: 0, a: 0}
     - _SpeedVertexdeplacement: {r: 0, g: 0.18, b: 0, a: 0}
-    - _TilingTexture: {r: 5.29, g: 6.26, b: 0, a: 0}
+    - _TilingTexture: {r: 4.87, g: 3.68, b: 0, a: 0}
     - _Vector2: {r: 0, g: 0.48, b: 0, a: 0}
   m_BuildTextureStacks: []

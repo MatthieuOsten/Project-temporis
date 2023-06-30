@@ -85,4 +85,20 @@ public class PlayerMovement : MonoBehaviour
             _currentMoveSpeed = _moveSpeed;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 14)
+        {
+            _characterController.slopeLimit = 100;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 14)
+        {
+            _characterController.slopeLimit = 45;
+        }
+    }
 }

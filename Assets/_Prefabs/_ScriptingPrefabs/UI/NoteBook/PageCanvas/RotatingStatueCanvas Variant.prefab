@@ -688,7 +688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 61321dcb83ffbb14c9dd9db6073218b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2a2668d2509f954ca16fd0e13382f4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -761,11 +761,12 @@ MonoBehaviour:
   - {fileID: 3714971930264984297}
   _editIllustrationInterface: {fileID: 5299998448401951610}
   _illustrationStates:
-  - {fileID: 21300000, guid: 61321dcb83ffbb14c9dd9db6073218b0, type: 3}
-  - {fileID: 21300000, guid: d03ff179090c4fa4ba10b886c0393b0e, type: 3}
-  - {fileID: 21300000, guid: dc6db802ebbb7354ab2058f775c21a5f, type: 3}
-  - {fileID: 21300000, guid: d4eeeeb29f02fe9488ea8e6003ad9e90, type: 3}
+  - {fileID: 21300000, guid: b2a2668d2509f954ca16fd0e13382f4c, type: 3}
+  - {fileID: 21300000, guid: 0ce86965ce076d74ea61ecc1d7756536, type: 3}
+  - {fileID: 21300000, guid: c30199ac66596ef41a54f595c2d51e52, type: 3}
+  - {fileID: 21300000, guid: c943e1dbbf5e4874bbfc736aae3b458c, type: 3}
   _noteBookManager: {fileID: 0}
+  _noteBookAudio: {fileID: 0}
 --- !u!1 &3194339898295737129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,8 +1453,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 100}
+  m_AnchoredPosition: {x: 0, y: -14.6}
+  m_SizeDelta: {x: 80, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8967291481699886633
 CanvasRenderer:
@@ -1483,7 +1484,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d1a6ccd211750744295294967aeba45d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8745ebd1186d5c94b844a20db2016515, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1556,11 +1557,12 @@ MonoBehaviour:
   - {fileID: 1390056330830038397}
   _editIllustrationInterface: {fileID: 3729326853078839451}
   _illustrationStates:
-  - {fileID: 21300000, guid: d1a6ccd211750744295294967aeba45d, type: 3}
-  - {fileID: 21300000, guid: 2665427c2241dcb4386498f9ffd1c868, type: 3}
-  - {fileID: 21300000, guid: 127fbb9fd5639d745b27623a333f0f50, type: 3}
-  - {fileID: 21300000, guid: 127fbb9fd5639d745b27623a333f0f50, type: 3}
+  - {fileID: 21300000, guid: 8745ebd1186d5c94b844a20db2016515, type: 3}
+  - {fileID: 21300000, guid: bf41e42b133a6bc418664923564ee6ec, type: 3}
+  - {fileID: 21300000, guid: ce3622aaf3634dc4a9e919201d798381, type: 3}
+  - {fileID: 21300000, guid: 776c12d26161c424c9ef6b284a116303, type: 3}
   _noteBookManager: {fileID: 0}
+  _noteBookAudio: {fileID: 0}
 --- !u!1 &7468045818714437719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,7 +1722,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3, y: 63}
-  m_SizeDelta: {x: 60, y: 50}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6136940464497083351
 CanvasRenderer:
@@ -1750,7 +1752,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 14de7938e64f89f469e520440e813d39, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9900d58e37038a049bde061d42f025e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1823,11 +1825,12 @@ MonoBehaviour:
   - {fileID: 4878942272503075566}
   _editIllustrationInterface: {fileID: 6160876819126264006}
   _illustrationStates:
-  - {fileID: 21300000, guid: 14de7938e64f89f469e520440e813d39, type: 3}
-  - {fileID: 21300000, guid: e36667a1df2d2824480681131415fff9, type: 3}
-  - {fileID: 21300000, guid: 9d80c53cec2b06945a8a8fb92c2dd72f, type: 3}
-  - {fileID: 21300000, guid: 7e2d20f8797888f4d9d2b09537ccdb48, type: 3}
+  - {fileID: 21300000, guid: 9900d58e37038a049bde061d42f025e3, type: 3}
+  - {fileID: 21300000, guid: e959ef091bc4b2a43845367221a25673, type: 3}
+  - {fileID: 21300000, guid: 076063879fa2b074ab078f5877ade459, type: 3}
+  - {fileID: 21300000, guid: e993553ddf88d214595488b33609f1c1, type: 3}
   _noteBookManager: {fileID: 0}
+  _noteBookAudio: {fileID: 0}
 --- !u!1 &8490203540762873168
 GameObject:
   m_ObjectHideFlags: 0
@@ -2190,7 +2193,7 @@ PrefabInstance:
     - target: {fileID: 4681619672306562878, guid: 960effb6977c783418c2a4ab3f03da3e,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4731137941476549188, guid: 960effb6977c783418c2a4ab3f03da3e,
         type: 3}

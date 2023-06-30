@@ -7,7 +7,6 @@ public class ReflectingMirror : MonoBehaviour
 {
     [SerializeField] AudioSource _source;
     [SerializeField] AudioClip _clip;
-    private PlayAudio _audio;
 
     public ReflectingMirrorPuzzle reflectingMirrorPuzzle;
     public Action<ReflectingMirror> rotModified;
@@ -19,14 +18,14 @@ public class ReflectingMirror : MonoBehaviour
         while (transform.rotation != rot)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, 100f * Time.deltaTime);
-            _audio.PlayClip(_source, _clip);
+            PlayAudio.PlayClip(_source, _clip);
             rotModified?.Invoke(this);
             yield return null;
         }
         yield return StartCoroutine(CheckRot(rot));
         rotModified?.Invoke(this);
         reflectingMirrorPuzzle.UnlockAllMirrorsButtons();
-        _audio.StopPlay(_source);
+        PlayAudio.StopPlay(_source);
     }
 
     IEnumerator CheckRot(Quaternion rot)

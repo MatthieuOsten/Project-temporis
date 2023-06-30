@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class SpawnParticule : MonoBehaviour
+public static class SpawnParticule 
 {
-    public void PlayParticule(ParticleSystem particule)
+    public static void PlayParticule(ParticleSystem particule)
     {
         particule.Play();
     }
 
-    public void StopParticule(ParticleSystem particule)
+    public static void StopParticule(ParticleSystem particule)
     {
         particule.Stop();
     }

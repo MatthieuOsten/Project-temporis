@@ -1,14 +1,13 @@
 using UnityEngine;
 
-public class PlayAudio : MonoBehaviour
+public static class PlayAudio
 {
-
-    public void PlayClip(AudioSource source, AudioClip clip)
+    public static void PlayClip(AudioSource source, AudioClip clip)
     {
         AudioSource.PlayClipAtPoint(clip, source.gameObject.transform.position);
     }
 
-    public void StopPlay(AudioSource source)
+    public static void StopPlay(AudioSource source)
     {
         source.Stop();
     }

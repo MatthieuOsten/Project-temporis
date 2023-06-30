@@ -51,7 +51,7 @@ public class MenuManager : MonoBehaviour
 
     [Header("BACKGROUND")]
     [SerializeField] private Background[] _nameSceneBackground;
-    [SerializeField] private InputHandler _Graphics;
+    [SerializeField] private InputHandler _inputHandlerSettings;
 
     [Header("INTERFACES")]
     [SerializeField] private InterfacesPopUp _popUp = null;
@@ -69,12 +69,18 @@ public class MenuManager : MonoBehaviour
     {
         string nameScene = string.Empty;
         int quality = 0;
+        int backFind = 0;
 
-        if (_Graphics != null)
+        if (_inputHandlerSettings != null)
         {
-            _Graphics.Load();
+            if (!_inputHandlerSettings.Load())
+            {
+                _inputHandlerSettings.entrySettings = new InputEntry.Settings(_inputHandlerSettings.entrySettings.inputs);
 
-            quality = _Graphics.entryGraphics.Quality;
+                _inputHandlerSettings.Save();
+            }
+
+            quality = _inputHandlerSettings.entrySettings.Graphics.Quality;
 
             // If tab is empty dont load scene
             if (_nameSceneBackground == null) {
@@ -91,9 +97,15 @@ public class MenuManager : MonoBehaviour
             {
                 foreach (var detail in back.LevelOfDetails)
                 {
-                    if (quality == detail)
+                    Scene scene = SceneManager.GetSceneByName(back.Name);
+
+                    if (quality == detail && scene != null)
                     {
-                        nameScene = back.Name;
+                        if (SceneUtility.GetBuildIndexByScenePath(scene.path) >= 0)
+                        {
+                            nameScene = back.Name;
+                        }
+
                     }
                 }
 
@@ -103,7 +115,6 @@ public class MenuManager : MonoBehaviour
             // If dont find scene, check if dont exist scene with other details level
             if (nameScene == string.Empty)
             {
-                int backFind = 0;
                 bool find = false;
 
                 // Check if exist scene with moins de details mais qui ce rapproche de la qualiter voulu
@@ -126,17 +137,36 @@ public class MenuManager : MonoBehaviour
 
                     for (int i = 0; i < _nameSceneBackground.Length; i++)
                     {
-                        foreach (var detail in _nameSceneBackground[i].LevelOfDetails)
+                        Scene scene = SceneManager.GetSceneByName(_nameSceneBackground[i].Name);
+
+                        if (scene != null)
                         {
-                            if (quality < detail)
+                            if (SceneUtility.GetBuildIndexByScenePath(scene.path) >= 0)
                             {
-                                if (detailFind > detail)
+                                foreach (var detail in _nameSceneBackground[i].LevelOfDetails)
                                 {
-                                    detailFind = detail;
-                                    backFind = i;
+
+
+                                    if (quality < detail)
+                                    {
+
+
+                                        if (detailFind > detail)
+                                        {
+
+
+                                            detailFind = detail;
+                                            backFind = i;
+                                        }
+
+                                    }
                                 }
+                            
+
                             }
                         }
+
+
                     }
                     Debug.Log("Scene with most quality of graphics but less of all scene is find and is this " + detailFind);
 
@@ -149,7 +179,10 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            if (_nameSceneBackground != null && _nameSceneBackground.Length > 0) { nameScene = _nameSceneBackground[0].Name; }
+            if (_nameSceneBackground != null && _nameSceneBackground.Length > 0) {
+
+                nameScene = _nameSceneBackground[0].Name;
+            }
         }
 
         // Unload all scene and load the selected scene
@@ -165,7 +198,12 @@ public class MenuManager : MonoBehaviour
                 }
             }
 
+            Debug.Log("Name " + nameScene + " index " + backFind);
+
+            Scene scene = SceneManager.GetSceneByName(nameScene);
+
             SceneManager.LoadSceneAsync(nameScene, LoadSceneMode.Additive);
+
         }
         else
         {
@@ -223,12 +261,12 @@ public class MenuManager : MonoBehaviour
 
     public void EnablePanelAndDisableAll(int index)
     {
-        for (int i = 0; i < _panels.Length; i++)
+        foreach (var panel in _panels)
         {
-            DisplayPanel(false, i);
+            DisablePanel(panel);
         }
 
-        DisplayPanel(true, index);
+        EnablePanel(index);
     }
 
     public void EnablePanel(int index) => DisplayPanel(true, index);

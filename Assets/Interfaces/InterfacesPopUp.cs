@@ -41,7 +41,14 @@ public class InterfacesPopUp : MonoBehaviour
 
         public void EnableText(bool enabled)
         {
-            if (_text != null) { _text.gameObject.SetActive(enabled); }
+            if (_text != null) { 
+                _text.gameObject.SetActive(enabled);
+
+                for (int i = 0; i < _text.transform.childCount; i++)
+                {
+                    _text.transform.GetChild(i).gameObject.SetActive(enabled);
+                }
+            }
         }
 
         public Message(string name)

@@ -7,7 +7,6 @@ using UnityEngine;
 [CustomEditor(typeof(InterfacesPopUp))]
 public class InterfacesPopUpEditor : Editor
 {
-    private InterfacesPopUp.MessageType _messageType = InterfacesPopUp.MessageType.AlertBox;
     private int _messageIndex = -1;
 
     private void OnEnable()

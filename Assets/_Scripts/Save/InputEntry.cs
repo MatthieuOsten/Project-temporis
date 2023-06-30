@@ -105,21 +105,42 @@ namespace InputEntry
     [System.Serializable]
     public class Settings : Entry 
     {
-        [SerializeField] private Graphics Graphics;
-        [SerializeField] private Sounds Sounds;
+        [SerializeField] private Graphics _graphics;
+        [SerializeField] private Sounds _sounds;
+        [SerializeField] private Gameplay _gameplay;
+        [SerializeField] private Inputs _inputs;
+
+        public Graphics Graphics { get { return _graphics; } }
+        public Sounds Sounds { get { return _sounds; } }
+        public Gameplay Gameplay { get { return _gameplay; } }
+        public Inputs inputs { get { return _inputs; } }
 
         public Settings() {
             Name = "Default Settings";
 
-            Graphics = new Graphics();
-            Sounds = new Sounds();
+            _graphics = new Graphics();
+            _sounds = new Sounds();
+            _inputs = new Inputs();
+            _gameplay = new Gameplay();
         }
 
-        public Settings(Graphics graphics, Sounds sounds) {
+        public Settings(Inputs input)
+        {
             Name = "Custom Settings";
 
-            Graphics = graphics;
-            Sounds = sounds;
+            _graphics = new Graphics();
+            _sounds = new Sounds();
+            _inputs = input;
+            _gameplay = new Gameplay();
+        }
+
+        public Settings(Graphics graphics, Sounds sounds, Gameplay gameplay, Inputs input) {
+            Name = "Custom Settings";
+
+            _graphics = graphics;
+            _sounds = sounds;
+            _inputs = input;
+            _gameplay = gameplay;
         }
     }
 
@@ -172,13 +193,6 @@ namespace InputEntry
         {
             get
             {
-                if (_quality < 0) {
-                    Quality = 0;
-                }
-                else if (Quality > QualitySettings.names.Length - 1) {
-                    Quality = QualitySettings.names.Length - 1;
-                }
-
                 return _quality;
             }
 
@@ -188,9 +202,9 @@ namespace InputEntry
                 {
                     Quality = 0;
                 }
-                else if (value > QualitySettings.names.Length - 1)
+                else if (value > QualitySettings.names.Length)
                 {
-                    Quality = QualitySettings.names.Length - 1;
+                    Quality = QualitySettings.names.Length;
                 }
                 else
                 {

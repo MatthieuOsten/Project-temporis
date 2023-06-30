@@ -313,6 +313,11 @@ public class InputHandler : MonoBehaviour
             return true;
     }
 
+    public bool VerifyExist(string path)
+    {
+        return System.IO.File.Exists(path);
+    }
+
     /// <summary>
     /// Save the selected entry on Settings
     /// </summary>
@@ -372,39 +377,46 @@ public class InputHandler : MonoBehaviour
     /// <summary>
     /// Load the selected entry on Settings
     /// </summary>
-    public void Load()
+    public bool Load()
     {
-        /// Check the used entry and load data from file
-        switch (_entrySettings)
+        if (VerifyExist(Path))
         {
-            case EntryOptions.Default:
-                entry = FileHandler.ReadFromJSON<InputEntry.Entry>(Path);
-                break;
-            case EntryOptions.Tracker:
-                entry = FileHandler.ReadFromJSON<InputEntry.Tracker>(Path);
-                break;
-            case EntryOptions.Settings:
-                entry = FileHandler.ReadFromJSON<InputEntry.Settings>(Path);
-                break;
-            case EntryOptions.Sounds:
-                entry = FileHandler.ReadFromJSON<InputEntry.Sounds>(Path);
-                break;
-            case EntryOptions.Graphics:
-                entry = FileHandler.ReadFromJSON<InputEntry.Graphics>(Path);
-                break;
-            case EntryOptions.Gameplay:
-                entry = FileHandler.ReadFromJSON<InputEntry.Gameplay>(Path);
-                break;
-            case EntryOptions.Inputs:
-                entry = FileHandler.ReadFromJSON<InputEntry.Inputs> (Path);
-                break;
-            case EntryOptions.Notebook:
-                entry = FileHandler.ReadFromJSON<InputEntry.Notebook> (Path);
-                break;
-            default:
-                entry = FileHandler.ReadFromJSON<InputEntry.Entry>(Path);
-                break;
+            /// Check the used entry and load data from file
+            switch (_entrySettings)
+            {
+                case EntryOptions.Default:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Entry>(Path);
+                    break;
+                case EntryOptions.Tracker:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Tracker>(Path);
+                    break;
+                case EntryOptions.Settings:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Settings>(Path);
+                    break;
+                case EntryOptions.Sounds:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Sounds>(Path);
+                    break;
+                case EntryOptions.Graphics:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Graphics>(Path);
+                    break;
+                case EntryOptions.Gameplay:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Gameplay>(Path);
+                    break;
+                case EntryOptions.Inputs:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Inputs>(Path);
+                    break;
+                case EntryOptions.Notebook:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Notebook>(Path);
+                    break;
+                default:
+                    entry = FileHandler.ReadFromJSON<InputEntry.Entry>(Path);
+                    break;
+            }
+
+            return true;
         }
+
+        return false;
 
         
     }

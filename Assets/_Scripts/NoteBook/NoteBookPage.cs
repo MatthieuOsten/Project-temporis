@@ -25,7 +25,7 @@ public class NoteBookPage : MonoBehaviour
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         _noteBookAudio.TurnPageClip();
-        StartCoroutine(FlipPivot(pos, rot, speed, 0, rotY != -20f));
+        StartCoroutine(FlipPivot(pos, rot, speed, 0, rotY != -30f));
     }
 
     public void FlipPage(float posZ, float rotY, float speed, float delay)
@@ -33,7 +33,7 @@ public class NoteBookPage : MonoBehaviour
         Vector3 pos = new Vector3(pagePivot.localPosition.x, pagePivot.localPosition.y, posZ);
         Quaternion rot = Quaternion.Euler(transform.localRotation.eulerAngles.x, rotY, transform.localRotation.eulerAngles.z);
         _noteBookAudio.TurnPageClip();
-        StartCoroutine(FlipPivot(pos, rot, speed, delay, rotY != -20f));
+        StartCoroutine(FlipPivot(pos, rot, speed, delay, rotY != -30f));
     }
 
     public void RepairPage(EntryScriptable frontEntryInfo, EntryScriptable backEntryInfo)

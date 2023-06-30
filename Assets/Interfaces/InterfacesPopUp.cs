@@ -7,12 +7,15 @@ public class InterfacesPopUp : MonoBehaviour
 {
     [SerializeField] private Button[] _tabButtons = new Button[3];
 
-    [SerializeField] private Message[] tabMessages = new Message[0];
+    [SerializeField] private Message[] _tabMessages = new Message[0];
+
+    [SerializeField] private int _indexActualMessage = -1;
 
     public enum MessageType
     {
         AlertBox,
-        ConfirmBox
+        ConfirmBox,
+        TimeBox
     }
 
     [System.Serializable]
@@ -21,11 +24,14 @@ public class InterfacesPopUp : MonoBehaviour
         [SerializeField] private string _name;
         [SerializeField] private GameObject _text;
         [SerializeField] private MessageType _messageType;
-        [SerializeField] private UnityEvent _confirm, _ok, _cancel;
+        [SerializeField] private int _timer;
+        [SerializeField] private UnityEvent _confirm, _ok, _cancel, _endTime;
 
         public string Name { get { return _name; } }
 
         public MessageType MessageType { get { return _messageType; } }
+
+        public int Timer { get { return _timer; } }
 
         public UnityEvent[] UnityEvent { 
             get {
@@ -38,6 +44,8 @@ public class InterfacesPopUp : MonoBehaviour
                 return events; 
             } 
         }
+
+        public UnityEvent EventEndTimer { get { return _endTime; } }
 
         public void EnableText(bool enabled)
         {
@@ -57,9 +65,12 @@ public class InterfacesPopUp : MonoBehaviour
             _text = null;
             _messageType = MessageType.AlertBox;
 
+            _timer = 10;
+
             _confirm = new UnityEvent();
             _ok = new UnityEvent();
             _cancel = new UnityEvent();
+            _endTime = new UnityEvent();
         }
 
         public Message(string name, MessageType type, GameObject text)
@@ -68,17 +79,55 @@ public class InterfacesPopUp : MonoBehaviour
             _text = text;
             _messageType = type;
 
+            _timer = 10;
+
             _confirm = new UnityEvent();
             _ok = new UnityEvent();
             _cancel = new UnityEvent();
+            _endTime = new UnityEvent();
+        }
+
+        public Message(string name, MessageType type, GameObject text, int timer)
+        {
+            _name = name;
+            _text = text;
+            _messageType = type;
+
+            _timer = timer;
+
+            _confirm = new UnityEvent();
+            _ok = new UnityEvent();
+            _cancel = new UnityEvent();
+            _endTime = new UnityEvent();
         }
     }
 
-    public Message[] Messages { get { return tabMessages; } }
+    public Message[] Messages { get { return _tabMessages; } }
+
+    [SerializeField] private const int _Timer = 5;
+    [SerializeField] private float _actualTime = 0;
 
     private void Awake()
     {
         CheckButtons();
+    }
+
+    private void FixedUpdate()
+    {
+        if (_actualTime > 0)
+        {
+            _actualTime -= Time.deltaTime;
+            _actualTime = (_actualTime == 0) ? -1 : _actualTime;
+        }
+        else if (_actualTime < 0)
+        {
+            _actualTime = 0;
+            if (_indexActualMessage >= 0 && _indexActualMessage < _tabMessages.Length)
+            {
+                _tabMessages[_indexActualMessage].EventEndTimer.Invoke();
+                _indexActualMessage = -1;
+            }
+        }
     }
 
     /// <summary>
@@ -123,6 +172,9 @@ public class InterfacesPopUp : MonoBehaviour
         {
             switch (type)
             {
+                case MessageType.TimeBox:
+                    _actualTime = _Timer;
+                    goto case MessageType.ConfirmBox;
                 case MessageType.ConfirmBox:
                     EnabledComposants(_tabButtons[0].gameObject, true);
                     EnabledComposants(_tabButtons[1].gameObject, false);
@@ -181,16 +233,17 @@ public class InterfacesPopUp : MonoBehaviour
     /// <param name="index">Index of the Message</param>
     public bool DisplayPopUp(int index)
     {
-        if (index < 0 || index > tabMessages.Length) { return false; }
+        if (index < 0 || index > _tabMessages.Length) { return false; }
 
-        foreach (var message in tabMessages)
+        foreach (var message in _tabMessages)
         {
             message.EnableText(false);
         }
 
-        DisplayButtons(tabMessages[index].MessageType);
-        SettingsButtons(tabMessages[index].UnityEvent.ToArray());
-        tabMessages[index].EnableText(true);
+        _indexActualMessage = index;
+        DisplayButtons(_tabMessages[index].MessageType);
+        SettingsButtons(_tabMessages[index].UnityEvent.ToArray());
+        _tabMessages[index].EnableText(true);
 
         return true;
     }
@@ -199,9 +252,9 @@ public class InterfacesPopUp : MonoBehaviour
     {
         int indexPopUp = -1;
 
-        for (int i = 0; i < tabMessages.Length; i++)
+        for (int i = 0; i < _tabMessages.Length; i++)
         {
-            if (tabMessages[i].Name == nameMessage)
+            if (_tabMessages[i].Name == nameMessage)
             {
                 indexPopUp = i; break;
             }

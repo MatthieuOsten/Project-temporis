@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MenuManager : MonoBehaviour
 {
@@ -52,17 +58,93 @@ public class MenuManager : MonoBehaviour
     [Header("BACKGROUND")]
     [SerializeField] private Background[] _nameSceneBackground;
     [SerializeField] private InputHandler _inputHandlerSettings;
+    [SerializeField] private InputHandler _inputHandlerSave;
 
     [Header("INTERFACES")]
+    [SerializeField] private bool _firstGame = false;
     [SerializeField] private InterfacesPopUp _popUp = null;
     [SerializeField] private GameObject[] _panels = new GameObject[0];
     [SerializeField] private int _indexMainPanel;
+
+    [Header("SAVE")]
+    [SerializeField] private Button _buttonNewGame;
+    [SerializeField] private Button _buttonContinueGame;
+    [SerializeField] private UnityEvent _eventNewGame, _eventFirstGame;
+
+    public GameObject[] Panels { get { return _panels; } }
 
     private void Awake()
     {
         LoadBackground();
         _popUp.gameObject.SetActive(false);
         EnablePanelAndDisableAll(_indexMainPanel);
+
+        if (_inputHandlerSave != null)
+        {
+            if (!_inputHandlerSave.TryLoad())
+            {
+                _inputHandlerSave.entryNotebook = new InputEntry.Notebook(new bool[0]);
+                _inputHandlerSave.Save();
+            }
+
+            if (_inputHandlerSave.entryNotebook.TabPages.Length == 0)
+            {
+                _firstGame = true;
+            }
+
+            if (_buttonContinueGame != null)
+            {
+                if (_eventFirstGame == null) { _eventFirstGame = new UnityEvent(); }
+                SettingButton(_buttonContinueGame, _eventFirstGame);
+            }
+
+            if (_firstGame)
+            {
+                if (_buttonNewGame != null)
+                {
+                    if (_eventFirstGame == null) { _eventFirstGame = new UnityEvent(); }
+                    SettingButton(_buttonNewGame, _eventFirstGame);
+                }
+
+                if (_buttonNewGame != null) { _buttonNewGame.gameObject.SetActive(true); }
+                if (_buttonContinueGame != null) { _buttonContinueGame.gameObject.SetActive(false); }
+            }
+            else
+            {
+                if (_buttonNewGame != null)
+                {
+                    if (_eventNewGame == null) { _eventNewGame = new UnityEvent(); }
+                    SettingButton(_buttonNewGame, _eventNewGame);
+                }
+
+                if (_buttonNewGame != null) { _buttonNewGame.gameObject.SetActive(true); }
+                if (_buttonContinueGame != null) { _buttonContinueGame.gameObject.SetActive(true); }
+            }
+
+        }
+        else
+        {
+            if (_buttonNewGame != null) { _buttonNewGame.gameObject.SetActive(false); }
+            if (_buttonContinueGame != null) { _buttonContinueGame.gameObject.SetActive(true); }
+        }
+
+
+
+    }
+
+    /// <summary>
+    /// Set buttons of popup
+    /// </summary>
+    /// <param name="events"></param>
+    private void SettingButton(Button buttonObject, UnityEvent events)
+    {
+        if (buttonObject != null)
+        {
+            buttonObject.onClick.RemoveAllListeners();
+
+            // Use the local variables inside the lambda expression
+            buttonObject.onClick.AddListener(() => events.Invoke());
+        }
     }
 
     private void LoadBackground()
@@ -73,7 +155,7 @@ public class MenuManager : MonoBehaviour
 
         if (_inputHandlerSettings != null)
         {
-            if (!_inputHandlerSettings.Load())
+            if (!_inputHandlerSettings.TryLoad())
             {
                 _inputHandlerSettings.entrySettings = new InputEntry.Settings(_inputHandlerSettings.entrySettings.inputs);
 
@@ -227,7 +309,7 @@ public class MenuManager : MonoBehaviour
 
     private void DisplayPanel(bool enabled, int index)
     {
-        if (index < 0 || index > _panels.Length) { return; }
+        if (index < 0 && index > _panels.Length) { return; }
 
         _panels[index].SetActive(enabled);
     }
@@ -241,22 +323,16 @@ public class MenuManager : MonoBehaviour
 
     public void EnablePanelAndDisableAll(string name)
     {
-        int index = -1;
 
         for (int i = 0; i < _panels.Length; i++)
         {
             if (_panels[i].gameObject.name == name)
             {
-                index = i; break;
+                EnablePanelAndDisableAll(i);
+                break;
             }
         }
 
-        if (index == -1)
-        {
-            return;
-        }
-
-        DisplayPanel(true, name);
     }
 
     public void EnablePanelAndDisableAll(int index)
@@ -299,8 +375,68 @@ public class MenuManager : MonoBehaviour
         _popUp.gameObject.SetActive(false);
     }
 
+    public void ChangeScene(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
     }
 }
+
+#if UNITY_EDITOR
+
+[CustomEditor(typeof(MenuManager))]
+public class MenuManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        MenuManager menuManager = (MenuManager)target;
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Panel Buttons", EditorStyles.boldLabel);
+
+        // Afficher les boutons pour chaque objet dans la liste _panels
+        for (int i = 0; i < menuManager.Panels.Length; i++)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.ObjectField(menuManager.Panels[i], typeof(GameObject), true);
+
+
+            GUI.color = (menuManager.Panels[i].gameObject.activeSelf) ? Color.red : Color.green;
+            if (GUILayout.Button("Button " + i))
+            {
+                if (menuManager.Panels[i].gameObject.activeSelf)
+                {
+                    menuManager.DisablePanel(i);
+                }
+                else
+                {
+                    menuManager.EnablePanel(i);
+                }
+
+                // Action à effectuer lors du clic sur le bouton
+                Debug.Log("Button " + i + " clicked!");
+            }
+            GUI.color = Color.white;
+
+            GUI.color = Color.red;
+            if (GUILayout.Button("Button " + i, GUILayout.MaxWidth(30)))
+            {
+                menuManager.EnablePanelAndDisableAll(i);
+
+                // Action à effectuer lors du clic sur le bouton
+                Debug.Log("Button " + i + " clicked!");
+            }
+            GUI.color = Color.white;
+
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+}
+#endif

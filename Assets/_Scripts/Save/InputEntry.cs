@@ -152,6 +152,8 @@ namespace InputEntry
     {
         [SerializeField] private bool[] _tabPages;
 
+        public bool[] TabPages { get { return _tabPages; } }
+
         public Notebook()
         {
             Name = "Default Notebook";
